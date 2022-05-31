@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='steps2.jpg') }}">
+		<div class="parallax-flex-container d-flex flex-column" >
+			<h2 class="page-header-text">Careers</h2>
+		</div>
+	</div>
+
+	<div class="page-container employee-section d-flex flex-column section1">
+		<div class="inner-section" data-editable data-name="careers">
+			<!-- editable careers -->
+			<h3 class="center animate-left">
+				Wise Law Firm, PLC is looking for leaders in the legal community to join in building one of the most
+				prominent litigation law firms in the Washington D.C. metropolitan area. </h3>
+			<p>
+				 Our firm is interested in talking to experienced attorneys in the following areas:
+				<hr>
+				<ul>
+					<li>Contruction Law</li>
+					<li>Construction Litigation</li>
+					<li>Class Actions</li>
+					<li>Wrongful Death and Personal Litigation</li>
+					<li>Mold and Environmental Litigation</li>
+					<li>Commercial and Business Litigation</li>
+					<li>Government Contracts</li>
+					<li>Insurance Coverage</li>
+				</ul>
+			</p>
+			<!-- endeditable careers -->
+		</div>
+	</div>
+{% endblock %}

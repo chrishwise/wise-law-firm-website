@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="pimg3" data-parallax="scroll" data-image-src="{{ url_for('static', filename='commercial.jpg') }}">
+		<div class="parallax-flex-container d-flex flex-column" >
+			<h2 class="page-header-text">Commercial and Business Litigation</h2>
+		</div>
+	</div>
+
+	<div class="page-container employee-section section1 d-flex flex-column" data-editable data-name="commercial">
+		<!-- editable commercial -->
+		<p>
+			Very often, litigation can be avoided through effective representation.  Wise Law Firm, PLC represents numerous large and small businesses, company executives, and principals in a wide variety of complex and general commercial litigation. It is a core strength of the firm and we handle matters for both plaintiffs and defendants. We handle disputes between businesses and disputes among business owners. We represent clients in contract, negligence, fraud, breach of fiduciary duty, and similar claims. We handle difficult cases from investigation through discovery and trial when necessary.
+		</p>
+		<p>
+			Our firm also provides a broad range of services to small businesses, from formation to winding down or closing. We provide advice on the various entities and the advantages of each, whether a corporation, limited liability company or partnership, prepare organizational documents, file the necessary documents to create an entity in Maryland, Virginia, or the District of Columbia, and obtain a federal identification number. We also prepare trade name filings and changes of registered agents for filing with the state. We prepare and review contracts for businesses including employment and buy/sell agreements.
+		</p>
+		<!-- endeditable commercial -->
+	</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--<div class="pimg3" data-parallax="scroll" data-image-src="{{ url_for('static', filename='grouppic.jpg') }}">
+	
+	<div class="parallax-flex-container d-flex flex-column" >	
+		<div class="page-header-text">Our Team</div>	
+	</div>
+</div>-->
+
+<div class="page-container section d-flex flex-column section1">
+	
+	<div class="section">
+		<h1 class="animate-left">Attorneys</h1>
+		<hr>
+		<section class="p-a-cards">
+			<a class="a-card" href="/david-wise">
+				<div class="a-card-image"><img src="{{ url_for('static', filename='david-wise.png') }}" alt="David Wise" height = "350" width = "240"></div>
+			</a>
+			<a class="a-card" href="/joe-langone">
+				<div class="a-card-image"><img src="{{ url_for('static', filename='joe-langone.png') }}" alt="Joe Langone" height = "350" width = "217"></div>
+			</a>
+			<a class="a-card" href="/pat-donahue">
+				<div class="a-card-image"><img src="{{ url_for('static', filename='pat-donahue.png') }}" alt="Pat Donahue" height = "350" width = "245"></div>
+			</a>
+			<a class="a-card" href="/david-reese">
+				<div class="a-card-image"><img src="{{ url_for('static', filename='david-reese.png') }}" alt="David Reese" height = "350" width = "237"></div>
+			</a>
+		</section>
+	</div>
+</div>
+{% endblock %}
+

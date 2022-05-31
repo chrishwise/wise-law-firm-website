@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+        .sidebar {
+            position: sticky;
+        }
+
+        .article-container {
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 0 8px #d3d3d3;
+            border-radius: 15px;
+
+            overflow: hidden;
+        }
+            .article-container:hover {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+                cursor: pointer;
+            }
+
+
+        .article-title {
+
+        }
+
+        .title-card {
+            position: relative;
+            margin-top:10px;
+            padding: 20px;
+
+            width: 100%;
+            display: inline-flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+
+            background-color: white;
+            box-shadow: 0 0 8px #d3d3d3;
+            border-radius: 15px;
+            overflow-wrap: break-word;
+        }
+            .title-card:hover {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+                cursor: pointer;
+            }
+
+        .new-card {
+            padding:10px;
+            width: 100%;
+            color: #A15A22;
+            background-color: white;
+            border-radius: 15px;
+            border-color: #A15A22;
+            border: 2px solid #A15A22;
+        }
+            .new-card:hover {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+                cursor: pointer;
+                background-color: #A15A22;
+                color: #FFFFFF
+            }
+
+        .delete-button{
+            height: 40px;
+            width: 40px;
+        }
+
+    </style>
+    <div class="container-fluid section1" style="padding:0 40px 40px 40px">
+        <div class="row">
+            <div class="col-12">
+                <h1 style="text-align:center">{% block title %}News & Articles{% endblock %}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 sidebar">
+                {% if logged_in %}
+                <a href="{{ url_for('views.new_article') }}"><button class="new-card">
+                    New Article
+                </button></a>
+                {% endif %}
+
+                {% for article in articles %}
+                <div class="title-card">
+                    <h6><a class="wlfblue" href="{{ url_for('views.articles', id=article[0] ) }}">{{ article[1] }}</a></h6>
+                    {% if logged_in %}
+                        <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article[0]) }}">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+            </div>
+            <div id="content" class="col-8">
+                <!-- Content goes here -->
+                    <div class="article-container">
+                        <div class="article-body">
+                            <div class="article-title">
+                                <h1><a class="wlfblue" href="#">{{ article[1] }}</a></h1>
+                                <p class="article-date">{{ article[3] }}</p>
+                            </div>
+                            {% if logged_in %}
+                                <span>
+                                    <a class="action btn btn-outline-gold" href="{{ url_for('views.update_article', id=article[0]) }}">Edit</a>
+                                </span>
+
+                                <span>
+                                    <a href="{{ url_for('views.delete_article', id=article[0]) }}" role="button" class="btn btn-outline-gold" >Delete</a>
+                                </span>
+                            {% endif %}
+                            <div class="article-summary">
+                                <p class="article-body">{{ article[2] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
