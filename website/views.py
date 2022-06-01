@@ -2,11 +2,8 @@ import base64
 import os
 import re
 import sqlite3
-
-from antipool import Error
-# from bs4 import BeautifulSoup
-from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, abort, request, flash, g, url_for
+from flask_login import current_user
 from flask_mail import Message
 from werkzeug.utils import redirect
 

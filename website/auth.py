@@ -1,11 +1,8 @@
-from Lib.is_safe_url import is_safe_url
-
-import flask
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from flask_login import login_user, login_required, logout_user, current_user
+from flask_login import login_user, login_required, logout_user
 
 
 auth = Blueprint('auth', __name__)
