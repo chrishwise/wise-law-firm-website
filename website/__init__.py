@@ -13,9 +13,18 @@ mail = Mail()
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    POSTGRES = {
+        'user': 'postgres',
+        'pw': 'password',
+        'db': 'my_database',
+        'host': 'localhost',
+        'port': '5432',
+    }
+
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI=f'sqlite:///{DB_NAME}',
+        SQLALCHEMY_DATABASE_URI='postgres://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o',
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT='465',
@@ -24,6 +33,10 @@ def create_app(test_config=None):
         MAIL_USERNAME="chriswise118@gmail.com",
         MAIL_PASSWORD="GwWGAMsnRY8!"
     )
+
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+    %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
     # initialize app with Sqlite database and Flask-Mail
     db.init_app(app)
