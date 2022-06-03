@@ -1,8 +1,12 @@
 from . import db
 from flask_login import UserMixin
+from sqlalchemy.ext.declarative import declarative_base
+
+# Base = declarative_base()
 
 
 class Admin(db.Model, UserMixin):
+    # __tablename__ = 'admins'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
@@ -20,6 +24,7 @@ class Admin(db.Model, UserMixin):
 
 
 class Article(db.Model):
+    # __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1000))
     text = db.Column(db.String(10000))

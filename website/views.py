@@ -2,12 +2,13 @@ import base64
 import os
 import re
 import sqlite3
+
 from flask import Blueprint, render_template, abort, request, flash, g, url_for
 from flask_login import current_user
 from flask_mail import Message
 from werkzeug.utils import redirect
 
-from . import db, DB_NAME, mail
+from . import db, mail, DB_NAME
 from .models import Article
 
 views = Blueprint('views', __name__)
@@ -113,6 +114,11 @@ def reviews():
 
 def get_db():
     conn = getattr(g, '_database', None)
+    # if conn is None:
+        # s = Session()
+
+        #conn = g._database =
+
     if conn is None:
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(BASE_DIR, DB_NAME)
