@@ -220,7 +220,7 @@ def contact_us():
         msg = Message(title,
                       body=body,
                       sender=request.form.get('email'),
-                      recipients=['cwise@wiselaw.pro'])
+                      recipients=['cwise@wiselaw.pro', 'dwise@wiselaw.pro'])
         print(msg)
         mail.send(msg)
         flash("Message was successfully sent!")
