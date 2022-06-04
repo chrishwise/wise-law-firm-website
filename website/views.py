@@ -226,7 +226,7 @@ def contact_us():
         # html = render_template("email.html")
         msg = Message(subject=title,
                       body=body,
-                      sender=request.form.get('email'),
+                      sender="no-reply-wiselawfirm@outlook.com",
                       recipients=['cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
         mail.send(msg)
         flash("Message was successfully sent!")
