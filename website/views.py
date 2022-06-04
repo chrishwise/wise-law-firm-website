@@ -223,11 +223,11 @@ def contact_us():
     if request.method == 'POST':
         body = "Contact Email: " + request.form.get('email') + "\n\nMessage: \n\n" + request.form.get('message')
         title = "WLF website: New Message from " + request.form.get('name')
-        msg = Message(title,
+        # html = render_template("email.html")
+        msg = Message(subject=title,
                       body=body,
                       sender=request.form.get('email'),
-                      recipients=['cwise@wiselaw.pro'])
-        print(msg)
+                      recipients=['cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
         mail.send(msg)
         flash("Message was successfully sent!")
         return redirect(url_for('views.home'))

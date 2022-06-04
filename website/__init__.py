@@ -23,12 +23,12 @@ def create_app(test_config=None):
 
         # 'postgres://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o',
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        MAIL_SERVER='smtp.gmail.com',
-        MAIL_PORT='465',
-        MAIL_USE_TLS=False,
-        MAIL_USE_SSL=True,
-        MAIL_USERNAME="chriswise118@gmail.com",
-        MAIL_PASSWORD="GwWGAMsnRY8!"
+        MAIL_SERVER='smtp.office365.com',
+        MAIL_PORT='587',
+        MAIL_USE_TLS=True,
+        MAIL_USE_SSL=False,
+        MAIL_USERNAME="no-reply-wiselawfirm@outlook.com",
+        MAIL_PASSWORD="MwWGAMsnRY8!"
     )
 
     # initialize app with database and Flask-Mail
