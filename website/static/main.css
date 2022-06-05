@@ -392,7 +392,7 @@ p{
 }
 
 .carousel-container {
-	height: 600px;
+	height: 650px;
 }
 
 .carousel-caption {
@@ -410,7 +410,7 @@ p{
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-size: cover;
-	min-height: 600px;
+	min-height: 650px;
 	overflow: visible;
 }
 
@@ -420,7 +420,7 @@ p{
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-size: cover;
-	min-height: 600px;
+	min-height: 650px;
 	overflow: visible;
 }
 
@@ -431,7 +431,7 @@ p{
 	background-size: 100%;
 	background-size: cover;
 	background-position: 50%;
-	min-height: 600px;
+	min-height: 650px;
 	overflow: visible;
 }
 
