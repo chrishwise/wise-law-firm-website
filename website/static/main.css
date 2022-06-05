@@ -30,7 +30,7 @@ p{
 	}
 
 	.car-text-large {
-		font-size: 2rem;
+		font-size: calc(18px + 1.4vw);
 		font-weight: 400;
 		text-shadow: 0px 0px 10px #000000;
 		font-variant: small-caps;
@@ -39,7 +39,7 @@ p{
 	.car-text-sm {
 		text-shadow: 0px 0px 8px #000000;
 		font-weight: 400;
-		font-size: 1.2rem;
+		font-size: calc(10px + .8vw);
 	}
 	.page-header-text{
 		font-family: 'Roboto';
@@ -400,7 +400,7 @@ p{
 	width: 98%;
 	position: relative;
 	left: 1%;
-	top: 350px;
+	top: 280px;
 	padding: 15px;
 }
 
