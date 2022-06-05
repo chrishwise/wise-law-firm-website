@@ -217,7 +217,7 @@ p{
 
 	.section{
 		text-align: center;
-		padding: 40px; 
+		padding: 60px 20px;
 	}
 
 	.section-light{
@@ -260,11 +260,6 @@ p{
 	/*background-image: url("../website/images/office.jpg");*/
 	width: 100%;
 	height: auto;
-}
-
-.firm-overview{
-    height: 100vh;
-    padding-top: 60px;
 }
 
 .banner-2 {
