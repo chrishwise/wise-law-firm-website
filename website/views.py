@@ -1,35 +1,19 @@
-import base64
-import os
-import re
-import sqlite3
-
 from flask import Blueprint, render_template, abort, request, flash, g, url_for
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_mail import Message
+from sqlalchemy import desc
 from werkzeug.utils import redirect
 
-from . import db, mail, DB_NAME
+from . import db, mail
+from .forms import ContactForm, ArticleForm
 from .models import Article
 
 views = Blueprint('views', __name__)
 
 
-def render_picture(data):
-    render_pic = base64.b64encode(data).decode('ascii')
-    return render_pic
-
-
 @views.route('/')
 def home():
-    edit_mode = False
-    print(current_user.is_authenticated)
-    if current_user.is_authenticated:
-        if current_user.is_authenticated():
-            # Admin is signed in
-            edit_mode = True
-    print(edit_mode)
-
-    return render_template("home.html", edit_mode=edit_mode)
+    return render_template("home.html", edit_mode=current_user.is_authenticated)
 
 
 @views.route('/firm-overview')
@@ -112,95 +96,40 @@ def reviews():
     return render_template("reviews.html")
 
 
-def get_db():
-    conn = getattr(g, '_database', None)
-    # if conn is None:
-        # s = Session()
-
-        #conn = g._database =
-
-    if conn is None:
-        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(BASE_DIR, DB_NAME)
-        conn = g._database = sqlite3.connect(db_path)
-    return conn
-
-
 @views.route('/articles/<int:id>')
-def articles(id):
-    if id == 0:
-        id = get_first_article()
-    db = get_db()
-    articles = db.execute(
-        'SELECT a.id, title, text, date, user_id'
-        ' FROM article a'
-        ' ORDER BY date DESC'       #  articles = Article.query.order_by(Article.date.desc())
-    ).fetchall()
-    article = db.execute(
-        'SELECT * FROM article WHERE id = ?', [id]
-    ).fetchall()[0]
-    print("Article to be displayed:")
-    print(article)
-    print(current_user.is_authenticated)
+def articles(id=None):
+    if id is None:
+        article = get_first_article()
+    else:
+        article = Article.query.get_or_404(id)
+    articles = Article.query.all()
     return render_template("articles.html", articles=articles, article=article, logged_in=current_user.is_authenticated)
 
 
-def create_article(conn, article):
-    """
-    Create a new article into the articles table
-    :param conn:
-    :param article:
-    :return: article id
-    """
-    sql = ''' INSERT INTO article(title, date, text, user_id)
-              VALUES(?,?,?,?) '''
-    cur = conn.cursor()
-    print(article.text)
-    cur.execute(sql, (article.title, article.date, article.text, article.user_id))
-    conn.commit()
-    return cur.lastrowid
+def get_first_article():
+    return Article.query.order_by(desc(Article.date)).first()
 
 
 @views.route('/create', methods=['GET', 'POST'])
+@login_required
 def new_article():
+    form = ArticleForm(request.form)
     if request.method == 'GET':
         return render_template("new-article.html")
     else:
-        conn = get_db()
-        with conn:
-            print(request.form)
-            article = Article(title=request.form.get('title'), text=request.form.get('text'),
-                              date=request.form.get('date'), user_id=current_user.id)
-            print(article.title)
-            article.id = create_article(conn, article)
-            return redirect(url_for('views.articles', id=article.id))
+        article = Article(title=form.title.data, text=form.text.data, date=form.date_created, user_id=current_user.id)
+        db.session.add(article)
+        db.session.commit()
+        return redirect(url_for('views.articles', id=article.id))
 
 
 @views.route('/delete-article/<int:id>', methods=['GET', 'POST'])
 def delete_article(id):
     article = Article.query.get_or_404(id)
-    print("Article to Delete:")
-    print(article)
-    #try:
     db.session.delete(article)
     db.session.commit()
     flash("Article was successfully deleted!")
-    return redirect(url_for('views.articles', id=get_first_article()))
-
-    #except:
-     #   flash("Whoops! There was a problem deleting the post.")
-      #  return redirect(url_for('views.articles', id=1))
-
-
-def get_first_article():
-    # article = Article.query.order_by(Article.date.desc()).first()
-    db = get_db()
-    article = db.execute(
-        'SELECT *'
-        ' FROM article a'
-        ' ORDER BY date DESC'  # articles = Article.query.order_by(Article.date.desc())
-    ).fetchall()[0]
-    return article[0]
+    return redirect(url_for('views.articles'))
 
 
 @views.route('articles/update')
@@ -223,65 +152,12 @@ def contact_us():
     if request.method == 'POST':
         body = "Contact Email: " + request.form.get('email') + "\n\nMessage: \n\n" + request.form.get('message')
         title = "WLF website: New Message from " + request.form.get('name')
-        # html = render_template("email.html")
         msg = Message(subject=title,
                       body=body,
                       sender="no-reply-wiselawfirm@outlook.com",
-                      recipients=['cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
+                      recipients=['ltanous@wiselaw.pro', 'cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
+        msg.html = render_template("email.html", email=msg)
         mail.send(msg)
         flash("Message was successfully sent!")
         return redirect(url_for('views.home'))
     return render_template("contact-us.html")
-
-
-@views.route('/x/save-page', methods=['POST'])
-def save_page():
-    """Save changes to a page"""
-    html_root = os.path.abspath('website\\templates')
-    # Find the page
-    filename = request.form['__page__']
-    if filename == '/':
-        filename = 'home'  # The home page will appear as ''
-    elif filename.startswith('/'):
-        # remove leading '/'
-        filename = filename[1:]
-    filename = 'website\\templates\\' + filename + '.html'
-
-    print(html_root)
-    print(filename)
-    # Is the filename safe to access?
-    if not os.path.abspath(filename).startswith(html_root):
-        print("FAILED 1")
-        abort(404)
-
-    # Do we have an HTML file to match the URL?
-    if not os.path.exists(filename.strip()):
-        print("FAILED 2")
-        abort(404)
-
-    # Read the contents of the HTML file and update it
-    with open(filename, 'r', encoding='cp1252') as f:
-        html = f.read()
-
-        # For each parameter in the request attempt to match and replace the
-        # value in the HTML.
-        for name, value in request.form.items():
-
-            # Escape backslashes in the value for regular expression use
-            value = value.replace('\\', '\\\\')
-
-            # Match and replace editable regions
-            start_tag = '<!--\s*editable\s+' + re.escape(name) + '\s*-->'
-            end_tag = '<!--\s*endeditable\s+' + re.escape(name) + '\s*-->'
-            html = re.sub(
-                '({0}\s*)(.*?)(\s*{1})'.format(start_tag, end_tag),
-                r'\1' + value + r'\3',
-                html,                           # template_html????
-                flags=re.DOTALL
-                )
-
-    # Save changes to the HTML file
-    with open(filename, 'w', encoding='cp1252') as f:
-        f.write(html)
-
-    return 'saved'

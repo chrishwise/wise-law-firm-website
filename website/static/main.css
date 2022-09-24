@@ -73,7 +73,7 @@ p{
 	}
 
 	.white-text {
-		font-family: 'Montserrat';
+		font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
 		font-size: x-large;
 		font-weight: 300;
 		color: #FFFFFF;
@@ -129,7 +129,7 @@ p{
 .admin-navbar {
     background: #464657;
     width: 100%;
-    border-radius: 30;
+    /*border-radius: 30;*/
     padding: 2px;
     display: flex;
     justify-content: space-around;
@@ -139,7 +139,6 @@ p{
 
 .navbar {
 	width: 100%;
-	border-radius: 30;
 	background: transparent;
 	/*background-color: #FFFFFF;*/
 	color: #2C1753;
@@ -193,7 +192,7 @@ p{
 .pimg1, .pimg2, .pimg3 {
 	position: relative;
 	background-position: center;
-	background-size: cover;
+	background-size: auto;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	text-align: center;

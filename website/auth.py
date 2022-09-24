@@ -8,21 +8,11 @@ from flask_login import login_user, login_required, logout_user
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/login')
-def login():
-    return "<p>Login</p>"
-
-
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.admin'))
-
-
-@auth.route('/sign-up')
-def sign_up():
-    return "<p>Sign Up</p>"
 
 
 @auth.route('/admin', methods=['GET', 'POST'])
@@ -32,7 +22,6 @@ def admin():
         if request.method == 'POST':
             email = request.form.get('email')
             password = request.form.get('password')
-
             user = Admin.query.filter_by(email=email).first()
             if user:
                 if check_password_hash(user.password, password):
@@ -41,12 +30,6 @@ def admin():
                     db.session.add(user)
                     db.session.commit()
                     login_user(user, remember=True)
-
-                    next_url = request.args.get('next')
-                    # is_safe_url should check if the url is safe for redirects.
-                    # See http://flask.pocoo.org/snippets/62/ for an example.
-                    #if not is_safe_url(next_url):
-                     #   return flask.abort(400)
 
                     return redirect(url_for('views.home'))
                 else:

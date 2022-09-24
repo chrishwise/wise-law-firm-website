@@ -2,26 +2,17 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
-
-#DATABASE_URI = 'postgres://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o'
 db = SQLAlchemy()
-DB_NAME = "database.db"
 mail = Mail()
-#engine = create_engine(DATABASE_URI)
-#Session = sessionmaker(bind=engine)
 
 
-def create_app(test_config=None):
-    # create and configure the app
+def create_app():
+    """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI=f'sqlite:///{DB_NAME}' ,
-
-        # 'postgres://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o',
+        SQLALCHEMY_DATABASE_URI="postgresql://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o",
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.office365.com',
         MAIL_PORT='587',
