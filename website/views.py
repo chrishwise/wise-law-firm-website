@@ -132,9 +132,18 @@ def delete_article(id):
     return redirect(url_for('views.articles'))
 
 
-@views.route('articles/update')
-def update_article():
-    return articles()
+@views.route('articles/<int:id>/edit', method=['GET', 'POST'])
+@login_required
+def edit_article(id):
+    form = ArticleForm(request.form)
+    article = Article.query.get_or_404(id)
+    if request.method == 'POST':
+        article.title = form.title.data
+        article.text = form.text.data
+        article.date = form.publishing_date.data
+        db.session.commit()
+        return redirect(url_for('views.articles', id=id))
+    return render_template('edit-article.html', form=form, article=article)
 
 
 @views.route('careers')
@@ -149,15 +158,16 @@ def maps():
 
 @views.route('/contact-us', methods=['GET', 'POST'])
 def contact_us():
+    form = ContactForm(request.form)
     if request.method == 'POST':
-        body = "Contact Email: " + request.form.get('email') + "\n\nMessage: \n\n" + request.form.get('message')
+        body = "Contact Email: " + form.email.data + "\n\nMessage: \n\n" + form.message.data
         title = "WLF website: New Message from " + request.form.get('name')
         msg = Message(subject=title,
                       body=body,
                       sender="no-reply-wiselawfirm@outlook.com",
-                      recipients=['ltanous@wiselaw.pro', 'cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
+                      recipients=['chris@wisertech.pro', 'ltanous@wiselaw.pro', 'cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
         msg.html = render_template("email.html", email=msg)
         mail.send(msg)
         flash("Message was successfully sent!")
         return redirect(url_for('views.home'))
-    return render_template("contact-us.html")
+    return render_template("contact-us.html", form=form)

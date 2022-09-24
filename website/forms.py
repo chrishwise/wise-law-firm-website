@@ -15,5 +15,5 @@ class ContactForm(FlaskForm):
 class ArticleForm(FlaskForm):
     title = StringField('Article Title', [validators.InputRequired()])
     text = TextAreaField('Article Content', [validators.InputRequired()])
-    date_created = datetime.datetime.now()
     publishing_date = DateField('Date of Publishing')
+    date_created = datetime.datetime.now()
