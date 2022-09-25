@@ -16,4 +16,5 @@ class ArticleForm(FlaskForm):
     title = StringField('Article Title', [validators.InputRequired()])
     text = TextAreaField('Article Content', [validators.InputRequired()])
     publishing_date = DateField('Date of Publishing')
+    url = StringField('Article URL')
     date_created = datetime.datetime.now()
