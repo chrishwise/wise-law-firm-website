@@ -730,7 +730,7 @@ span.swiper-pagination-bullet {
     width: 100%;
 }
 
-.contact-page-container {
+.page-container, .contact-page-container {
     display: flex;
     flex-direction: column;
     align-content: center;
