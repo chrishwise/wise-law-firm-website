@@ -732,6 +732,10 @@ span.swiper-pagination-bullet {
 .form-container input{
     width: 100%;
 }
+.form-container textarea{
+    width: 100%;
+    resize: vertical;   /* Bootstrap does this */
+}
 
 .page-container, .contact-page-container {
     display: flex;
