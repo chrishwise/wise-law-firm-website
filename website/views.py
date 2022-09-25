@@ -98,7 +98,7 @@ def reviews():
 
 @views.route('/articles/<int:id>')
 def articles(id=0):
-    if id is 0:
+    if id == 0:
         article = get_first_article()
     else:
         article = Article.query.get_or_404(id)
@@ -115,7 +115,7 @@ def get_first_article():
 def new_article():
     form = ArticleForm(request.form)
     if request.method == 'GET':
-        return render_template("new-article.html")
+        return render_template("new-article.html", form=form)
     else:
         article = Article(title=form.title.data, text=form.text.data, date=form.date_created,
                           published_date=form.publishing_date.data, user_id=current_user.id)
@@ -133,7 +133,7 @@ def delete_article(id):
     return redirect(url_for('views.articles'))
 
 
-@views.route('articles/<int:id>/edit', methods=['GET', 'POST'])
+@views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_article(id):
     form = ArticleForm(request.form)

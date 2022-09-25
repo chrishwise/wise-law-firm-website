@@ -61,7 +61,7 @@ def admin():
                 db.session.add(new_admin)
                 db.session.commit()
                 flash('Admin account created!', category='success')
-                return redirect(url_for('views.admin'))
+                return redirect(url_for('auth.admin'))
         return render_template("admin_signup.html")
 
 

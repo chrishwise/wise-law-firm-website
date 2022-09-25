@@ -98,11 +98,11 @@
                             </div>
                             {% if logged_in %}
                                 <span>
-                                    <a class="action btn btn-outline-gold" href="{{ url_for('views.update_article', id=article[0]) }}">Edit</a>
+                                    <a class="action btn btn-outline-gold" href="{{ url_for('views.edit_article', id=article.id) }}">Edit</a>
                                 </span>
 
                                 <span>
-                                    <a href="{{ url_for('views.delete_article', id=article[0]) }}" role="button" class="btn btn-outline-gold" >Delete</a>
+                                    <a href="{{ url_for('views.delete_article', id=article.id) }}" role="button" class="btn btn-outline-gold" >Delete</a>
                                 </span>
                             {% endif %}
                             <div class="article-summary">
