@@ -78,9 +78,9 @@
 
                 {% for article in articles %}
                 <div class="title-card">
-                    <h6><a class="wlfblue" href="{{ url_for('views.articles', id=article[0] ) }}">{{ article[1] }}</a></h6>
+                    <h6><a class="wlfblue" href="{{ url_for('views.articles', id=article.id ) }}">{{ article.title }}</a></h6>
                     {% if logged_in %}
-                        <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article[0]) }}">
+                        <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article.id) }}">
                             <span aria-hidden="true">&times;</span>
                         </a>
                     {% endif %}
@@ -93,8 +93,8 @@
                     <div class="article-container">
                         <div class="article-body">
                             <div class="article-title">
-                                <h1><a class="wlfblue" href="#">{{ article[1] }}</a></h1>
-                                <p class="article-date">{{ article[3] }}</p>
+                                <h1><a class="wlfblue" href="#">{{ article.title }}</a></h1>
+                                <p class="article-date">{{ article.published_date }}</p>
                             </div>
                             {% if logged_in %}
                                 <span>
