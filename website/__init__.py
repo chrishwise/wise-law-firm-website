@@ -34,7 +34,7 @@ def create_app():
 
     from .models import Admin, Article
 
-    # db.create_all(app=app)
+    db.create_all(app=app)
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.admin'
@@ -43,6 +43,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return Admin.query.get(int(id))
+
     return app
 
 

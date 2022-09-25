@@ -132,7 +132,7 @@ def delete_article(id):
     return redirect(url_for('views.articles'))
 
 
-@views.route('articles/<int:id>/edit', method=['GET', 'POST'])
+@views.route('articles/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_article(id):
     form = ArticleForm(request.form)
