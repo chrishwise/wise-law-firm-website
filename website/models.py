@@ -18,6 +18,7 @@ class Article(db.Model):
     text = db.Column(db.Text)
     date = db.Column(db.Date)
     published_date = db.Column(db.Date)
+    url = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
 
 
