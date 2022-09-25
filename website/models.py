@@ -15,7 +15,7 @@ class Admin(db.Model, UserMixin):
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1000))
-    text = db.Column(db.String(10000))
+    text = db.Column(db.Text)
     date = db.Column(db.Date)
     published_date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('admin.id'))

@@ -114,14 +114,13 @@ def get_first_article():
 @login_required
 def new_article():
     form = ArticleForm(request.form)
-    if request.method == 'GET':
-        return render_template("new-article.html", form=form)
-    else:
+    if request.method == 'POST' and form.validate():
         article = Article(title=form.title.data, text=form.text.data, date=form.date_created,
                           published_date=form.publishing_date.data, user_id=current_user.id)
         db.session.add(article)
         db.session.commit()
         return redirect(url_for('views.articles', id=article.id))
+    return render_template("new-article.html", form=form)
 
 
 @views.route('/delete-article/<int:id>', methods=['GET', 'POST'])
@@ -138,12 +137,14 @@ def delete_article(id):
 def edit_article(id):
     form = ArticleForm(request.form)
     article = Article.query.get_or_404(id)
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         article.title = form.title.data
         article.text = form.text.data
         article.date = form.publishing_date.data
         db.session.commit()
         return redirect(url_for('views.articles', id=id))
+    elif request.method == 'GET':
+        form.text.data = article.text
     return render_template('edit-article.html', form=form, article=article)
 
 
@@ -160,7 +161,7 @@ def maps():
 @views.route('/contact-us', methods=['GET', 'POST'])
 def contact_us():
     form = ContactForm(request.form)
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         body = "Contact Email: " + form.email.data + "\n\nMessage: \n\n" + form.message.data
         title = "WLF website: New Message from " + request.form.get('name')
         msg = Message(subject=title,

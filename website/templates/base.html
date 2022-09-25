@@ -162,7 +162,7 @@
                 </div>
                 <div class="col-lg-4" style="margin-bottom:15px">
                     <h5 class="fnav-header">Contact Us</h5>
-                    <form>
+                    <form >
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input name="name" class="form-control" id="name" placeholder="Enter first and last name">
@@ -234,5 +234,12 @@
         <!-- Delete Article -->
         <script src="{{ url_for('static', filename='delete-article.js') }}"></script>
 
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $('.alert').fadeOut('slow');
+                }, 2000); // <-- time in milliseconds
+            });
+        </script>
     </body>
 </html>

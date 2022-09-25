@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -19,7 +21,9 @@ def create_app():
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
         MAIL_USERNAME="no-reply-wiselawfirm@outlook.com",
-        MAIL_PASSWORD="MwWGAMsnRY8!"
+        MAIL_PASSWORD="MwWGAMsnRY8!",
+        RECAPTCHA_PUBLIC_KEY=os.environ.get('RECAPTCHA_PUBLIC_KEY'),
+        RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
     )
 
     # initialize app with database and Flask-Mail

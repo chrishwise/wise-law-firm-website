@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% block content %}
+
+    <div class="contact-page-container section1">
+        <h1 style="text-align:center">Edit Article</h1>
+        <form method="POST" class="form-container">
+            <dl>
+                {{ render_field(form.title, value=article.title) }}
+                {{ render_field(form.publishing_date, value=article.publishing_date) }}
+                {{ render_field(form.text) }}
+                {{ form.csrf_token }}
+            </dl>
+            <button type="submit" class="btn btn-outline-gold">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
