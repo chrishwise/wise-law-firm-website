@@ -12,9 +12,16 @@ mail = Mail()
 def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
+    # In Heroku, the Postgres database is stored in DATABASE_URL config var
+    # Heroku has not updated their naming convention for postgres and is currently using a deprecated name.
+    # In the DATABASE_URL, postgres:// should be postgresql:// (note the additional "ql" after postgres)
+    incorrectURL = os.environ.get('DATABASE_URL')
+    fixedDatabaseURL = incorrectURL[:8] + "ql" + incorrectURL[8:]
+    print('DATABASE_URL config variable, as stored on Heroku:', incorrectURL)
+    print('Correct config variable,: ', fixedDatabaseURL)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI="postgresql://wjaehhgjglwidl:af553f7e379ca0bc017eed1ca195478f62c64f6b368e341319050c283c721545@ec2-52-204-195-41.compute-1.amazonaws.com:5432/d6p2k5p1mmqh7o",
+        SQLALCHEMY_DATABASE_URI=fixedDatabaseURL,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.office365.com',
         MAIL_PORT='587',
