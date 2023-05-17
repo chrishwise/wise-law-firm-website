@@ -15,13 +15,20 @@ def create_app():
     # In Heroku, the Postgres database is stored in DATABASE_URL config var
     # Heroku has not updated their naming convention for postgres and is currently using a deprecated name.
     # In the DATABASE_URL, postgres:// should be postgresql:// (note the additional "ql" after postgres)
-    incorrectURL = os.environ.get('DATABASE_URL')
-    fixedDatabaseURL = incorrectURL[:8] + "ql" + incorrectURL[8:]
-    print('DATABASE_URL config variable, as stored on Heroku:', incorrectURL)
-    print('Correct config variable,: ', fixedDatabaseURL)
+    #incorrectURL = os.environ.get('DATABASE_URL')
+    #fixedDatabaseURL = incorrectURL[:8] + "ql" + incorrectURL[8:]
+    #print('DATABASE_URL config variable, as stored on Heroku:', incorrectURL)
+    #print('Correct config variable,: ', fixedDatabaseURL)
+
+    # Programatically create databaseURL from env variables
+    databaseURL = "postgresql://" + os.environ.get('RDS_USERNAME') + ":" + \
+                                    os.environ.get('RDS_PASSWORD') + "@" + \
+                                    os.environ.get('RDS_HOSTNAME') + ":" + \
+                                    os.environ.get('RDS_PORT') + '/' + os.environ.get('RDS_DB_NAME')
+
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI=fixedDatabaseURL,
+        SQLALCHEMY_DATABASE_URI=databaseURL,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.office365.com',
         MAIL_PORT='587',
