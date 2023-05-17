@@ -24,7 +24,7 @@ def create_app():
     databaseURL = "postgresql://" + os.environ.get('RDS_USERNAME') + ":" + \
                                     os.environ.get('RDS_PASSWORD') + "@" + \
                                     os.environ.get('RDS_HOSTNAME') + ":" + \
-                                    os.environ.get('RDS_PORT') + '/' + os.environ.get('RDS_DB_NAME')
+                                    os.environ.get('RDS_PORT') + '/' + "awseb-e-s4fjj93nzr-stack-awsebrdsdatabase-x1cayjrpdghl"
 
     app.config.from_mapping(
         SECRET_KEY='dev',
