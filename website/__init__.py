@@ -21,7 +21,7 @@ def create_app():
     #print('Correct config variable,: ', fixedDatabaseURL)
 
     # Programatically create databaseURL from env variables
-    databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/awseb-e-s4fjj93nzr-stack-awsebrdsdatabase-x1cayjrpdghl"
+    databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/ebdb"
 
     app.config.from_mapping(
         SECRET_KEY='dev',
