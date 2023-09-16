@@ -1,76 +1,17 @@
 {% extends 'base.html' %}
+{% from 'macros.html' import admin_navbar %}
 
 {% block content %}
+    {% if admin_editable %}
+    {{ admin_navbar('articles') }}
+    {% endif %}
+    <div class="section1">
 
-    <style>
-        .sidebar {
-            position: sticky;
-        }
+        <h1 style="text-align:center">{% block title %}News & Articles{% endblock %}</h1>
 
-        .article-container {
-            padding: 40px;
-            background-color: white;
-            box-shadow: 0 0 8px #d3d3d3;
-            border-radius: 15px;
-
-            overflow: hidden;
-        }
-
-        .article-summary {
-            white-space: pre-wrap;
-        }
-
-        .title-card {
-            position: relative;
-            margin-top:10px;
-            padding: 20px;
-
-            width: 100%;
-            display: inline-flex;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-
-            background-color: white;
-            box-shadow: 0 0 8px #d3d3d3;
-            border-radius: 15px;
-            overflow-wrap: break-word;
-        }
-            .title-card:hover {
-                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-                cursor: pointer;
-            }
-
-        .new-card {
-            padding:10px;
-            width: 100%;
-            color: #A15A22;
-            background-color: white;
-            border-radius: 15px;
-            border-color: #A15A22;
-            border: 2px solid #A15A22;
-        }
-            .new-card:hover {
-                box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-                cursor: pointer;
-                background-color: #A15A22;
-                color: #FFFFFF
-            }
-
-        .delete-button{
-            height: 40px;
-            width: 40px;
-        }
-
-    </style>
-    <div class="container-fluid section1" style="padding:0 40px 40px 40px">
-        <div class="row">
-            <div class="col-12">
-                <h1 style="text-align:center">{% block title %}News & Articles{% endblock %}</h1>
-            </div>
-        </div>
         <div class="row">
             <div class="col-4 sidebar">
-                {% if logged_in %}
+                {% if admin_editable %}
                 <a href="{{ url_for('views.new_article') }}"><button class="new-card">
                     New Article
                 </button></a>
@@ -79,7 +20,7 @@
                 {% for article in articles %}
                 <div class="title-card">
                     <h6><a class="wlfblue" href="{{ url_for('views.articles', id=article.id ) }}">{{ article.title }}</a></h6>
-                    {% if logged_in %}
+                    {% if admin_editable %}
                         <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article.id) }}">
                             <span aria-hidden="true">&times;</span>
                         </a>
@@ -96,7 +37,7 @@
                                 <h1><a class="wlfblue" href="#">{{ article.title }}</a></h1>
                                 <p class="article-date">{{ article.published_date }}</p>
                             </div>
-                            {% if logged_in %}
+                            {% if admin_editable %}
                                 <span>
                                     <a class="action btn btn-outline-gold" href="{{ url_for('views.edit_article', id=article.id) }}">Edit</a>
                                 </span>

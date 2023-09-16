@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
+
+{% block content %}
+    {{ admin_navbar('employees') }}
+    <div class="page-container section1">
+    <h3>Manage Employees</h3>
+        <div class="form-container">
+            <table style="width: 100%">
+                    <tr>
+                        <th style="width: 35%">Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for a in admins %}
+                    <tr>
+                        <td>{{ a.first_name }}</td>
+                        <td><a class="btn" href={{ url_for('views.edit_employee', adminId=a.id) }}>Edit</a></td>
+                        <td><a class="btn" href={{ url_for('views.delete_employee', adminId=a.id) }}>Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            <div class="centered-abs-btn">
+                <a class='btn green-admin-btn centered-abs-btn' id='create-admin'
+                  href="{{ url_for('auth.admin_signup') }}">Create New Admin</a></div>
+        </div>
+    </div>
+{% endblock %}

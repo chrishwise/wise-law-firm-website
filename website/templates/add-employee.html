@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+
+{% block content %}
+    {{ admin_navbar('employees') }}
+    <div class="page-container section1">
+        <h3>Create Employee</h3>
+        <form class="form-container" id=admin style="overflow-x: auto" method="POST">
+            <dl>
+                {{ form.csrf_token }}
+                {{ render_field(form.name) }}
+                {{ render_field(form.title) }}
+                {{ render_field(form.email) }}
+                {{ render_field(form.phone_number) }}
+                {{ render_field(form.about) }}
+            </dl>
+        </form>
+    </div>
+
+{% endblock %}

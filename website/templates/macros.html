@@ -1,0 +1,62 @@
+{% macro help_dialog(message, alreadyVisible=False) %}
+    <div class="dialog-container" id="help">
+        <div id="dialogTrigger">?</div>
+        <div id=helpContent class="dialog-content">
+            {{ message }}
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    {% if alreadyVisible %}
+        <script>
+        (function(){
+           document.getElementById('help').style.visibility = 'visible';
+           gsap.from( document.getElementById('help'), {opacity:0, duration:0.7});
+        }())
+        </script>
+    {% else %}
+        <script>
+            const trigger = document.getElementById('dialogTrigger');
+            trigger.addEventListener('click', (ev) => document.getElementsByClassName('dialog-container')[0].classList.add('active'))
+        </script>
+    {% endif %}
+
+{% endmacro %}
+
+{% macro admin_navbar(activeId) %}
+    <div class="absolute-center-banner">Admin Portal</div>
+    <div class="flex-align-center">
+        <a id='employees' href="{{ url_for('views.manage_employees')}}" class="btn admin-nav-link">Manage Employees</a>
+        <a id='articles' href="{{ url_for('views.articles', admin_editable=True)}}" class="btn admin-nav-link">Manage Articles</a>
+        <a id='reviews' href="{{ url_for('views.manage_reviews')}}" class="btn admin-nav-link">Manage Reviews</a>
+        <a id='admins' href="{{ url_for('views.manage_admins')}}" class="btn admin-nav-link">Manage Admins</a>
+        <a id='contact' href="{{  url_for('views.contact_submissions') }}" class="btn admin-nav-link">Contact Submissions</a>
+        <a id='account' href="{{  url_for('views.admin_portal') }}" class="btn admin-nav-link">Account</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+    <script>
+        (function(){
+            const activeButton = document.getElementById('{{ activeId }}');
+            activeButton.classList.add('active');
+        })();
+    </script>
+{% endmacro %}
+
+{% macro local_flashed_message() %}
+     <!-- Small local message flashing that doesn't interfere with the admin navbar. It should be called under a form !-->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'local' %}
+                <div class="alert alert-local alter-dismissable show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close close-btn" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <!-- This concludes the local message flashing -->
+{% endmacro %}

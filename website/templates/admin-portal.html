@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
+
+{% block content %}
+    {{ admin_navbar('account') }}
+    <div class="page-container section1">
+        <h3>Admin Account</h3>
+        <form class="form-container" id=admin method="POST">
+            <dl>
+                {{ form.csrf_token }}
+                {{ render_field(form.first_name, value=current_user.first_name) }}
+                {{ render_field(form.email, value=current_user.email) }}
+                <div id="flexRow" class="flex-row-start responsive">
+                    <div style="width: 30%">
+                        {{ render_field(form.notifications, value=current_user.receives_notifications) }}
+                    </div>
+                    <p id="pCall" class="callout" hidden style="margin:10px;">This will send notification of contact us submissions to your email</p>
+                </div>
+            </dl>
+
+            {# originally hidden button that is displayed after edit info is clicked #}
+            <button class='btn' id='submit' type="submit" hidden>Save</button>
+
+            {# buttons at bottom disappear after edit info is clicked #}
+            <div id='btn-container' class="btn-container">
+                <button class='btn' id='edit' onclick="makeEditable()">Edit Info</button>
+                <a class='btn' href="{{ url_for('views.change_password') }}">Change Password</a>
+            </div>
+        </form>
+    </div>
+
+    <script >
+        const firstNameButton = document.getElementById('first_name');
+        const emailButton = document.getElementById('email');
+        const notificationInput = document.getElementById('notifications');
+        const flexRow = document.getElementById('flexRow');
+        const pCall = document.getElementById('pCall');
+        const adminNav = document.getElementById('adminNav');
+
+
+        (function(){
+            firstNameButton.setAttribute('disabled', '');
+            emailButton.setAttribute('disabled', '');
+            notificationInput.setAttribute('disabled', '');
+            adminNav.setAttribute('hidden', '')
+        })();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
+    <script>
+        function makeEditable(){
+            /**
+             * Removes the disabled attribute from the HTML Input elements, hides the edit button, and shows the
+             * submit button.
+             *
+             * @type {HTMLElement}
+             */
+            const firstNameButton = document.getElementById('first_name');
+            const emailButton = document.getElementById('email');
+            const submitButton = document.getElementById('submit');
+            const btnContainer = document.getElementById('btn-container');
+            const notificationInput = document.getElementById('notifications');
+            firstNameButton.removeAttribute('disabled');
+            emailButton.removeAttribute('disabled');
+            /* Notification Input enabled and help dialog becomes visible */
+            notificationInput.removeAttribute('disabled');
+
+            /* Animates the buttons to highlight the fact that their state has been changed
+            *
+            * Each element has 2 stages, changing it to the highlighted mode and then back to regular
+            * */
+            gsap.to(firstNameButton, {fontSize: '20px', duration: 0.2});
+            gsap.to(firstNameButton, {fontSize: '16px', delay: 0.3, duration: 0.2});
+            gsap.to(emailButton, {fontSize: '20px', duration: 0.2});
+            gsap.to(emailButton, {fontSize: '16px', delay: 0.3, duration: 0.2});
+            gsap.to(notificationInput, {fontSize: '20px', duration: 0.2});
+            gsap.to(notificationInput, {fontSize: '16px', delay: 0.3, duration: 0.2});
+            /* This hides all the buttons except the submit button */
+            btnContainer.setAttribute('hidden', '');
+            submitButton.removeAttribute('hidden');
+            pCall.removeAttribute('hidden');
+            event.preventDefault(); //This prevents the page from reloading, which would revert these changes
+        }
+    </script>
+    </div>
+{% endblock %}

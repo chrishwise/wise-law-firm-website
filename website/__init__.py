@@ -12,15 +12,7 @@ mail = Mail()
 def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
-    # In Heroku, the Postgres database is stored in DATABASE_URL config var
-    # Heroku has not updated their naming convention for postgres and is currently using a deprecated name.
-    # In the DATABASE_URL, postgres:// should be postgresql:// (note the additional "ql" after postgres)
-    #incorrectURL = os.environ.get('DATABASE_URL')
-    #fixedDatabaseURL = incorrectURL[:8] + "ql" + incorrectURL[8:]
-    #print('DATABASE_URL config variable, as stored on Heroku:', incorrectURL)
-    #print('Correct config variable,: ', fixedDatabaseURL)
-
-    # Programatically create databaseURL from env variables
+    # Programatically create databaseURL from env variables for AWS RDS database
     databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/ebdb"  #ebdb is RDS_DB_NAME environ variable in AWS environment
 
     app.config.from_mapping(
@@ -32,6 +24,7 @@ def create_app():
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
         MAIL_USERNAME="no-reply-wiselawfirm@outlook.com",
+        MAIL_DEFAULT_SENDER="no-reply-wiselawfirm@outlook.com",
         MAIL_PASSWORD="MwWGAMsnRY8!",
         RECAPTCHA_PUBLIC_KEY=os.environ.get('RECAPTCHA_PUBLIC_KEY'),
         RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
@@ -47,12 +40,14 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Admin, Article
+    from .models import Admin, Article   # Employee, ProfessionalLicense, ProfessionalActivity, Education, Publication, Admission, EmployeeAreaOfPractice, Membership
 
-    db.create_all(app=app)
+    with app.app_context():
+        #db.drop_all()
+        db.create_all()
 
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.admin'
+    login_manager.login_view = 'auth.admin_login'
     login_manager.init_app(app)
 
     @login_manager.user_loader

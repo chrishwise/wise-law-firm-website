@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+
+{% block content %}
+    {{ admin_navbar('admins') }}
+    <div class="page-container section1">
+        <h3>Manage Admins</h3>
+        <form class="form-container" id=admin style="overflow-x: auto" method="POST">
+            {% if not editable %}
+                <div class="callout flex">To delete an admin, first enter master password
+                    <a id='editAdmins' class="btn" href="{{ url_for('views.master_privileges') }}">Enter Master Password</a>
+                </div>
+
+                <table style="width: 100%">
+                    <tr>
+                        <th style="width:30%">Name</th>
+                        <th>Email</th>
+                        <th>Receives Emails</th>
+                    </tr>
+                    {% for a in admins %}
+                    <tr>
+                        <td>{{ a.first_name }}</td>
+                        <td>{{ a.email }}</td>
+                        <td>{{ a.receives_notifications }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            {% else %}
+                <div class="callout flex">
+                    Your master clearance is turned on, enabling you to delete admins. You may also edit their notifications.
+                    <a class="btn" href="{{ url_for('views.toggle_master') }}" style="width: 100px">Turn Off</a>
+                </div>
+                <table style="width: 100%">
+                    <tr>
+                        <th style="width: 80px">Name</th>
+                        <th>Email</th>
+                        <th>Receives Emails</th>
+                        <th></th>
+                    </tr>
+                    {% for a in admins %}
+                    <tr>
+                        <td>{{ a.first_name }}</td>
+                        <td>{{ a.email }}</td>
+                        <td>{{ a.receives_notifications }}</td>
+                        <td><a class="btn" href={{ url_for('views.edit_admin', adminId=a.id) }}>Edit</a>
+                        <a class="btn" href={{ url_for('views.delete_admin', adminId=a.id) }}>Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+             <div class="centered-abs-btn">
+                        <a class='btn green-admin-btn centered-abs-btn' id='create-admin'
+                          href="{{ url_for('auth.admin_signup') }}">Create New Admin</a></div>
+        </form>
+    </div>
+
+    <div id="foreground-viewer">
+        <div id="admin" class="list-container">
+            <h5>Current Recipients</h5>
+            <label>These Emails Get Notifications</label>
+            <input disabled value="{{ notified_admins }}">
+        </div>
+        <span class="close" style="margin-top:100px">&times;</span>
+    </div>
+
+
+{% endblock %}

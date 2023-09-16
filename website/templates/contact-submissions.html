@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
+
+{% block content %}
+    {{ admin_navbar('contact') }}
+    <div class="page-container section1">
+        <h3 style="text-align: center">Contact Us Form Submissions</h3>
+        {% if not contacts %}
+            <div class="callout gold">
+                <h5>There are no new contact submissions</h5>
+            </div>
+        {% endif %}
+        {% for contact in contacts %}
+            <div id="popup{{ contact.id }}" class="popup">
+                <div class="close-btn">&times;</div>
+                <h5>Contact Form Email Response</h5>
+                <form id="respond" method="post">
+                    {{ render_field(form.recipients, value=contact.email, multiple="true") }}
+                    <label>Recipient Name</label>
+                    <p>{{ contact.name }}</p>
+                    <label>In Response To</label>
+                    <p class="db-text bordered-content" style="margin:5px 0">{{ contact.message }}</p>
+                    {{ render_field(form.message, class="inset-text-area") }}
+                    <input type="hidden" name="contactId" value="{{ contact.id }}">
+                    <button type="submit" class="btn tr-darkgrey updateResponded" style="width: 100%">Send</button>
+                </form>
+            </div>
+            <div class="entry-container">
+                <div class="flex-row-baseline">
+                    <div class="flex-row-baseline">
+                        <div class="row-item">
+                            <h6><b>Name: </b></h6>
+                        </div>
+                        <div class="row-item">
+                            <p>{{ contact.name }}</p>
+                        </div>
+                    </div>
+                    <div class="flex-row-baseline">
+                        <div class="row-item">
+                            <h6><b>Email: </b></h6>
+                        </div>
+                        <div class="row-item">
+                            <p>{{ contact.email }}</p>
+                        </div>
+                    </div>
+                    {% if contact.responded %}
+                        <div class="flex-row-baseline">
+                            <div class="row-item">
+                                <h6 class="blue-grey darken-1 white-text roundLabel">Responded</h6>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="flex-column-start">
+                    <div class="row-item">
+                        <h6><b>Message: </b></h6>
+                    </div>
+                    <div class="bordered-content fullwidth">
+                        <p class="db-text">{{ contact.message }}</p>
+                    </div>
+                </div>
+                <div class="flex-row-gap">
+                    <a href="{{ url_for('views.toggle_responded', id=contact.id) }}" class="btn tr-lightgrey white-text">Toggle Responded</a>
+                    <button id="{{ contact.id }}" class="btn blue-grey darken-1 respondPopup">Respond</button>
+                    <a href="{{ url_for('views.toggle_archive', id=contact.id) }}" class="btn tr-red white-text">Archive</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        let buttons = document.querySelectorAll(".respondPopup");
+        buttons.forEach(
+            function (currentValue, currentIndex, listObj) {
+                let identifier = "#popup" + currentValue.id;
+                console.log(identifier)
+                currentValue.addEventListener("click", function () {
+                    document.querySelector(identifier).classList.add("active")
+                })
+            });
+
+        let closeButtons = document.querySelectorAll(".close-btn")
+        closeButtons.forEach(
+            function (closeButton) {
+                closeButton.addEventListener("click", function () {
+                    closeButton.parentElement.classList.remove("active")
+                })
+            });
+    </script>
+
+{% endblock %}

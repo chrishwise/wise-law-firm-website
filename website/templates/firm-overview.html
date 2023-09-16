@@ -1,39 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="pimg3" data-parallax="scroll" data-image-src="{{ url_for('static', filename='dcpanorama2.jpg') }}">
-	
-	<div class="parallax-flex-container d-flex flex-column" >	
-		<div class="page-header-text">Firm Overview</div>	
-	</div>
-</div>
+    <div class="pimg3" data-parallax="scroll" data-image-src="{{ url_for('static', filename='dcpanorama2.jpg') }}">
+        <div class="parallax-flex-container d-flex flex-column" >
+            <div class="page-header-text">Firm Overview</div>
+        </div>
+    </div>
 
-<div class="section section1">
-	<div class="page-container">
-		<div class="flex-row">	
-			<span class="inner-section col-7" data-editable data-name="firm-philosophy">
-				<!-- editable firm-philosophy -->
-				<h1 class="animate-left" style="opacity: 1; transform: translate(0px, 0px);">
+    <div class="section1">
+        <div class="flex-row">
+            <div class="container-left">
+                <h1 class="animate-left">Firm Philosophy</h1>
+                <hr>
+                <p style="text-align: left">This trial practice is founded on the premise that known superior courtroom performance is the greatest facilitator of pretrial resolution. The firm prides itself on its courtroom reputation and specializes in matters that are trial bound. The firm is committed to assuring that our clients are satisfied. We believe that aggressive preparation is essential to ensure that each client's expectations and objectives are met, whether we are prosecuting or defending. <br><br> Wise Law Firm PLC is founded on traditional values. We practice with a commitment to the ideas of dignity, uncompromised ethics, and fairness, while giving our client's interests and well-being our top priority. We are dedicated to providing the highest quality service on a personal, timely, and cost-effective basis</p>
+            </div>
+            <div class="container-right">
+                <img style="width: 100%;
+    min-width: 490px;
+    position: relative;
+    max-width: 650px;" src="{{ url_for('static', filename='courtroom.jpg') }}" alt="courtroom">
+            </div>
+        </div>
+    </div>
 
-    Firm Philosophy
-
-</h1>
-
-<hr>
-
-<p style="text-align: left">
-
-    This trial practice is founded on the premise that known superior courtroom performance is the greatest facilitator of pretrial resolution. The firm prides itself on its courtroom reputation and specializes in matters that are trial bound. The firm is committed to assuring that our clients are satisfied. We believe that aggressive preparation is essential to ensure that each client's expectations and objectives are met, whether we are prosecuting or defending. <br><br> Wise Law Firm PLC is founded on traditional values. We practice with a commitment to the ideas of dignity, uncompromised ethics, and fairness, while giving our client's interests and well-being our top priority. We are dedicated to providing the highest quality service on a personal, timely, and cost-effective basis.
-
-</p>
-				<!-- endeditable firm-philosophy -->
-			</span>
-			<span class ="col-5" style="padding-left: 20px; padding-right: 0px">
-				<img style="width: 100%; min-width: 200px; position: relative; top: 100px" src="{{ url_for('static', filename='courtroom.jpg') }}">
-			</span>
-		</div>
-	</div>
-</div>
 <div class="section section-dark">
 	<div class="page-container">	
 		<div class="flex-row">

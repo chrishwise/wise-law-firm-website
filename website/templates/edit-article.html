@@ -7,6 +7,7 @@
             <dl>
                 {{ render_field(form.title, value=article.title) }}
                 {{ render_field(form.publishing_date, value=article.publishing_date) }}
+                {{ render_field(form.date_added, value=article.date)}}
                 {{ render_field(form.text) }}
                 {{ form.csrf_token }}
             </dl>

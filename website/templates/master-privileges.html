@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+
+{% block content %}
+    {{ admin_navbar('admins') }}
+    <div class="page-container section1">
+        <h3>Master Password</h3>
+        <p>Enter the master password to allow admin accounts to be deleted</p>
+        <form class="form-container" id=admin method="POST">
+            {{ local_flashed_message() }}
+            <dl>
+                {{ form.csrf_token }}
+                {{ render_field(form.master_password) }}
+            </dl>
+            <button type="submit" class="btn blue-grey darken-1" style="margin-top: 30px">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
