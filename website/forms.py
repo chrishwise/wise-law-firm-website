@@ -4,7 +4,7 @@ from flask_login import current_user
 from flask_wtf import RecaptchaField, FlaskForm
 from werkzeug.security import check_password_hash
 from wtforms import StringField, validators, EmailField, TextAreaField, DateField, SelectField, PasswordField, \
-    ValidationError
+    ValidationError, HiddenField
 
 from website.models import Admin
 
@@ -83,8 +83,19 @@ class AdminSignUpForm(FlaskForm):
             raise ValidationError('Passwords must match')
 
 
-class NewEmployeeForm(FlaskForm):
-    first_name = StringField('First Name', [validators.InputRequired()])
+class CreateAttorneyForm(FlaskForm):
+    name = StringField('First and Last Name', [validators.InputRequired()])
+    title = StringField('Title', [validators.InputRequired()])
     email = EmailField('Email', [validators.Email()])
     phone_number = StringField('Phone Number')
     about = TextAreaField('About')
+    picture_url = HiddenField(id='image-url', validators=[validators.InputRequired()])
+
+    professional_licenses = HiddenField()
+    professional_activities = HiddenField()
+    education = HiddenField()
+    publications = HiddenField()
+    areas_of_practice = HiddenField()
+    admissions = HiddenField()
+    memberships = HiddenField()
+

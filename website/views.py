@@ -1,6 +1,8 @@
 import datetime
-
-from flask import Blueprint, render_template, abort, request, flash, g, url_for
+import threading
+import os
+import boto3
+from flask import Blueprint, render_template, abort, request, flash, g, url_for, json
 from flask_login import current_user, login_required
 from flask_mail import Message
 from sqlalchemy import desc
@@ -9,8 +11,10 @@ from werkzeug.utils import redirect
 
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    NewEmployeeForm
-from .models import Article, Admin, Attorney
+    CreateAttorneyForm
+from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
+AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice
+
 
 views = Blueprint('views', __name__)
 
@@ -212,24 +216,121 @@ def admin_portal():
 def manage_employees():
     form = None
     employees = Attorney.query.all()
-    return render_template('manage-employees.html', logged_in=current_user.is_authenticated, form=form, employees=employees,
+    return render_template('manage-employees.html', logged_in=False, form=form, employees=employees,
                            current_user=current_user)
 
 
-@views.route('admin-portal/manage-employees/add', methods=['GET', 'POST'])
+@views.route('/create-attorney', methods=['GET', 'POST'])
 @login_required
-def add_employee():
-    form = NewEmployeeForm(request.form)
-    return render_template('add-employee.html', logged_in=current_user.is_authenticated, form=form,
+def create_attorney():
+    form = CreateAttorneyForm(request.form)
+    local_placeholder = "../static/images/avatar-placeholder.png"
+    if request.method == 'POST' and form.validate():
+        name = form.name.data
+        title = form.title.data
+        email = form.email.data
+        phone = form.phone_number.data
+        about = form.about.data
+
+        professional_licenses = form.professional_licenses.data
+        professional_activities = form.professional_activities.data
+        education = form.education.data
+        publications = form.publications.data
+        areas_of_practice = form.areas_of_practice.data
+        admissions = form.admissions.data
+        memberships = form.memberships.data
+
+        new_attorney = Attorney(name=name, title=title, email=email, phone=phone, about=about)
+        db.session.add(new_attorney)
+        db.session.commit()
+
+        list_of_licenses = professional_licenses.split('\n')
+        for l in list_of_licenses:
+            new_license = AttorneyProfessionalLicense(title=l, attorney=new_attorney)
+            db.session.add(new_license)
+        db.session.commit()
+
+        list_of_activities = professional_activities.split('\n')
+        for l in list_of_activities:
+            new_activity = AttorneyProfessionalActivity(title=l, attorney=new_attorney)
+            db.session.add(new_activity)
+        db.session.commit()
+
+        list_of_education = education.split('\n')
+        for e in list_of_education:
+            list_of_fields = e.split(', ')
+            degree = list_of_fields[0]
+            school = list_of_fields[1]
+            year = list_of_fields[2]
+            if len(list_of_fields > 3):
+                accolades = list_of_fields[3]
+            else:
+                accolades = ''
+            new_attorney_education = AttorneyEducation(degree=degree, school=school, year=year, accolades=accolades,
+                                                       attorney=new_attorney)
+            print(new_attorney_education.to_string())
+            db.session.add(new_attorney_education)
+        db.session.commit()
+
+        list_of_publications = publications.split('\n')
+        for l in list_of_publications:
+            list_of_fields = l.split(', ')
+            title = list_of_fields[0]
+            details = list_of_fields[1]
+            publication = list_of_fields[2]
+            year = list_of_fields[3]
+            new_publication = AttorneyPublication(title=title, details=details, publication=publication, year=year,
+                                                  attorney=new_attorney)
+            db.session.add(new_publication)
+        db.session.commit()
+
+        list_of_aop = areas_of_practice.split('\n')
+        for l in list_of_aop:
+            new_aop = AttorneyAreaOfPractice(name=l, attorney=new_attorney)
+            db.session.add(new_aop)
+        db.session.commit()
+
+        list_of_admissions = admissions.split('\n')
+        for l in list_of_admissions:
+            list_of_fields = l.split(', ')
+            court = list_of_fields[0]
+            year = list_of_fields[1]
+            new_admission = AttorneyAdmission(court=court, year=year, attorney=new_attorney)
+            db.session.add(new_admission)
+        db.session.commit()
+
+        list_of_memberships = memberships.split('\n')
+        for l in list_of_memberships:
+            new_membership = AttorneyMembership(name=l, attorney=new_attorney)
+            db.session.add(new_membership)
+        db.session.commit()
+
+        flash('New Attorney Has Been Created', category='success')
+        return redirect(url_for('views.manage_employees'))
+    return render_template('create-attorney.html', logged_in=False, form=form, picture_url=local_placeholder,
                            current_user=current_user)
 
 
-@views.route('/delete/<int:eId>')
+@views.route('/edit-attorney/<int:aId>', methods=['GET', 'POST'])
 @login_required
-def delete_employee(eId):
-    db.session.delete(Admin.query.get(eId))
+def edit_attorney(aId):
+    form = CreateAttorneyForm(request.form)
+    current_attorney = Attorney.query.get(aId)
+    if request.method == 'POST' and form.validate():
+
+        db.session.commit()
+        flash('Attorney details saved', category='success')
+        return redirect(url_for('views.manage_employees'))
+    return render_template('edit-attorney.html', logged_in=False, form=form,
+                           current_user=current_user, current_attorney=current_attorney)
+
+
+@views.route('/delete_attorney/<int:aId>')
+@login_required
+def delete_attorney(aId):
+    db.session.delete(Attorney.query.get(aId))
     db.session.commit()
-    flash('Employee was successfully deleted', category='success')
+    flash('Attorney was successfully deleted', category='success')
     return redirect(url_for('views.manage_employees'))
 
 
@@ -339,3 +440,42 @@ def toggle_master():
     db.session.commit()
     flash('Master clearance has been turned off for the logged-in admin', category='success')
     return redirect(url_for('views.manage_admins'))
+
+
+
+
+
+
+boto3_client_lock = threading.Lock()
+
+
+def create_client():
+    '''Uses a threading Lock to prevent multi-threading related errors'''
+    with boto3_client_lock:
+        return boto3.client('s3', aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
+                            aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'))
+
+
+@views.route('/sign_s3/')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET_NAME')
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    s3 = create_client()
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[
+            {"acl": "public-read"},
+            {"Content-Type": file_type}
+        ],
+        ExpiresIn=3600
+    )
+
+    return json.dumps({
+        'data': presigned_post,
+        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    })

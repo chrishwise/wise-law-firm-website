@@ -93,13 +93,20 @@ class AttorneyEducation(db.Model):
     """Helper Table for attorneys"""
     __tablename__ = 'education'
     id = db.Column(db.Integer, primary_key=True)
-    # Many-to-one Relationships
-    attorney_id = db.Column(db.Integer(), db.ForeignKey('attorney.id', ondelete='CASCADE'))
-    attorney = relationship('Attorney', backref=backref('education', passive_deletes=True))
     degree = db.Column(db.String(200))
     school = db.Column(db.String(200))
     year = db.Column(db.String(10))
     accolades = db.Column(db.String(200), default="")
+    # Many-to-one Relationships
+    attorney_id = db.Column(db.Integer(), db.ForeignKey('attorney.id', ondelete='CASCADE'))
+    attorney = relationship('Attorney', backref=backref('education', passive_deletes=True))
+
+    def __init__(self, degree, school, year, accolades, attorney):
+        self.degree = degree
+        self.school = school
+        self.year = year
+        self.accolades = accolades
+        self.attorney = attorney
 
     def to_string(self):
         if self.accolades != "":
@@ -172,6 +179,14 @@ class Attorney(db.Model):
     email = db.Column(db.String(200))
     phone_number = db.Column(db.String(15))
     about = db.Column(db.Text())
+    picture_url = db.Column(db.String(200))
+
+    def __init__(self, name, title, email, phone, about):
+        self.name = name
+        self.title = title
+        self.email = email
+        self.phone_number = phone
+        self.about = about
 
 
 class Contact(db.Model):

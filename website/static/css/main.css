@@ -706,7 +706,11 @@ select{
 }
 .form-container textarea{
     width: 100%;
-    resize: vertical;   /* Bootstrap does this */
+    resize: vertical;
+    border: 1px solid var(--gold);
+    border-radius: 15px;
+    box-shadow: 1px 1px 8px 6px inset var(--gold-opaque);
+    padding: 10px;
 }
 
 .g-recaptcha{
@@ -1019,10 +1023,12 @@ a.dropdown-toggle:hover .dropdown-menu {
 form.form-container input, form.form-container select{
     border: 1px solid var(--gold);
     box-shadow: 1px 1px 6px 6px inset var(--gold-opaque);
+    padding: 10px;
 }
 
 /* The Modal (background) */
-#image-viewer, #foreground-viewer {
+#image-viewer, #foreground-viewer, #education-modal, #paField-modal, #plField-modal, #publicationField-modal,
+#aopField-modal, #activityField-modal, #admissionField-modal, #membershipField-modal{
     display: none;
     position: fixed;
     z-index: 100000;
@@ -1041,4 +1047,46 @@ form.form-container input, form.form-container select{
     justify-content: space-between;
     align-items: center;
     width: 100%;
+}
+
+.input-field{
+    position: relative;
+    min-height: 40px;
+    height: auto;
+    border: 1px solid var(--gold);
+    border-radius: 15px;
+    width: 100%;
+}
+
+.input-field textarea {
+    height: 100%;
+    border: transparent;    /* the border is already set in the input field that wraps the textarea */
+    position: relative;
+}
+
+.modal-container label{
+    width: 90%;
+    margin: auto;
+}
+
+.form-container .close{
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+.add-button{
+    padding: 3px;
+    border: 1px solid var(--purple);
+    color: var(--purple);
+    width: 50px;
+    border-radius: 15px;
+    background: var(--gold-opaque);
+    text-align: center;
+}
+
+.flex-wrap{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
 }

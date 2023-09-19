@@ -5,7 +5,7 @@
 {% block content %}
     {{ admin_navbar('employees') }}
     <div class="page-container section1">
-    <h3>Manage Employees</h3>
+    <h3>Manage Attorneys</h3>
         <div class="form-container">
             <table style="width: 100%">
                     <tr>
@@ -13,18 +13,18 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
-                    {% for a in admins %}
+                    {% for a in attorneys %}
                     <tr>
                         <td>{{ a.first_name }}</td>
-                        <td><a class="btn" href={{ url_for('views.edit_employee', adminId=a.id) }}>Edit</a></td>
-                        <td><a class="btn" href={{ url_for('views.delete_employee', adminId=a.id) }}>Delete</a></td>
+                        <td><a class="btn" href={{ url_for('views.edit_attorney', aId=a.id) }}>Edit</a></td>
+                        <td><a class="btn" href={{ url_for('views.delete_attorney', aId=a.id) }}>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </table>
 
             <div class="centered-abs-btn">
-                <a class='btn green-admin-btn centered-abs-btn' id='create-admin'
-                  href="{{ url_for('auth.admin_signup') }}">Create New Admin</a></div>
+                <a class='btn green-admin-btn centered-abs-btn'
+                  href="{{ url_for('views.create_attorney') }}">Create New Attorney</a></div>
         </div>
     </div>
 {% endblock %}
