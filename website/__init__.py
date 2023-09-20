@@ -14,7 +14,7 @@ def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
     # Programatically create databaseURL from env variables for AWS RDS database
-    databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/ebdb"  #ebdb is RDS_DB_NAME environ variable in AWS environment
+    databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/{os.environ.get('RDS_DB_NAME')}"  #ebdb is RDS_DB_NAME environ variable in AWS environment
 
     app.config.from_mapping(
         SECRET_KEY='dev',
