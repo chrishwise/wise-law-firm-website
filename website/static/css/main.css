@@ -1090,3 +1090,8 @@ form.form-container input, form.form-container select{
     flex-flow: row wrap;
     gap: 10px;
 }
+
+#uploadStatus {
+    min-height: 40px;
+    height: auto;
+}
