@@ -1,6 +1,7 @@
 antiorm==1.2.1
 BareNecessities==0.2.8
 blinker==1.4
+boto3>=1.26.156
 click==8.0.4
 colorama==0.4.4
 db==0.1.1
