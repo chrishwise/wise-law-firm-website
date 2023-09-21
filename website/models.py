@@ -17,7 +17,7 @@ class Admin(db.Model, UserMixin):
 
     def __init__(self, email, password, first_name, receives_notifications):
         self.email = email
-        self.password = generate_password_hash(password, method='scrypt')
+        self.password = generate_password_hash(password)
         self.first_name = first_name
         self.receives_notifications = receives_notifications
 

@@ -405,7 +405,7 @@ def delete_admin(adminId):
 def change_password():
     form = AdminChangePasswordForm(request.form)
     if request.method == 'POST' and form.validate():
-        new_password = generate_password_hash(form.new_password.data, method='scrypt')
+        new_password = generate_password_hash(form.new_password.data)
         current_user.change_password(new_password)
         db.session.commit()
         flash("Admins password has successfully been changed", category='success')
