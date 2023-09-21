@@ -120,7 +120,7 @@ def articles(admin_editable=False, id=0):
         db.session.add(no_articles)
         db.session.commit()
         article = no_articles
-    return render_template("articles.html", articles=articles, article=article, logged_in=False,
+    return render_template("articles.html", articles=articles, article=article, logged_in=current_user.is_authenticated,
                            admin_editable=admin_editable)
 
 
@@ -138,7 +138,7 @@ def new_article():
         db.session.add(article)
         db.session.commit()
         return redirect(url_for('views.articles', id=article.id))
-    return render_template("new-article.html", form=form, logged_in=False)
+    return render_template("new-article.html", form=form, logged_in=current_user.is_authenticated)
 
 
 @views.route('/delete-article/<int:id>', methods=['GET', 'POST'])
@@ -146,7 +146,7 @@ def delete_article(id):
     article = Article.query.get_or_404(id)
     db.session.delete(article)
     db.session.commit()
-    flash("Article was successfully deleted!")
+    flash("Article was successfully deleted!", category='success')
     return redirect(url_for('views.articles'))
 
 
@@ -164,7 +164,7 @@ def edit_article(id):
         return redirect(url_for('views.articles', id=id))
     elif request.method == 'GET':
         form.text.data = article.text
-    return render_template('edit-article.html', form=form, article=article, logged_in=False)
+    return render_template('edit-article.html', form=form, article=article, logged_in=current_user.is_authenticated)
 
 
 @views.route('careers')
@@ -183,13 +183,18 @@ def contact_us():
     if request.method == 'POST' and form.validate():
         body = "Contact Email: " + form.email.data + "\n\nMessage: \n\n" + form.message.data
         title = "WLF website: New Message from " + request.form.get('name')
+        admins_receiving_notifications = Admin.query.filter_by(receives_notifications=True).all()
+        recipient_list = []
+        for admin in admins_receiving_notifications:
+            recipient_list.append(admin.email)
+        print('recipient list: ', recipient_list)
         msg = Message(subject=title,
                       body=body,
                       sender="no-reply-wiselawfirm@outlook.com",
-                      recipients=['chris@wisertech.pro', 'ltanous@wiselaw.pro', 'cwise@wiselaw.pro', 'dwise@wiselaw.pro', 'jwise@wiselaw.pro', 'mhumphreys@wiselaw.pro', 'jlangone@wiselaw.pro'])
+                      recipients=recipient_list)
         msg.html = render_template("email.html", email=msg)
         mail.send(msg)
-        flash("Message was successfully sent!")
+        flash("Message was successfully sent!", category='success')
         return redirect(url_for('views.home'))
     return render_template("contact-us.html", form=form, logged_in=current_user.is_authenticated)
 
@@ -430,7 +435,7 @@ def master_privileges():
         flash('Master Privileges Granted', category='success')
         return redirect(url_for('views.manage_admins'))
     return render_template('master-privileges.html', form=form,
-                           logged_in=current_user.is_authenticated,
+                           logged_in=False,
                            current_user=current_user)
 
 
