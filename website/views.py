@@ -11,10 +11,10 @@ from werkzeug.utils import redirect
 
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    CreateAttorneyForm
+    CreateAttorneyForm, RespondEmailForm
 from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
-AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice
-
+    AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
+    Contact
 
 views = Blueprint('views', __name__)
 
@@ -195,6 +195,16 @@ def contact_us():
         msg.html = render_template("email.html", email=msg)
         mail.send(msg)
         flash("Message was successfully sent!", category='success')
+
+        # create Contact object and add it to the database
+        contact_us_submission = Contact(name=form.name.data,
+                                        email=form.email.data,
+                                        message=form.message.data,
+                                        date_time=datetime.datetime.now(),
+                                        responded=False)
+        db.session.add(contact_us_submission)
+        db.session.commit()
+
         return redirect(url_for('views.home'))
     return render_template("contact-us.html", form=form, logged_in=current_user.is_authenticated)
 
@@ -419,10 +429,61 @@ def change_password():
                            current_user=current_user)
 
 
-@views.route('/contact-submissions', methods=['GET'])
+@views.route('/contact-submissions', methods=['GET', 'POST'])
 @login_required
 def contact_submissions():
-    return render_template('contact-submissions.html', logged_in=False, contact_submissions=contact_submissions)
+    contacts = Contact.query.all()
+    print(contacts)
+
+    # The following is for responding to contact submissions from within the admin portal
+    respondForm = RespondEmailForm(request.form)
+    if request.method == 'POST' and respondForm.validate():
+        recipients = respondForm.recipients.data
+        # This ensures that recipients is a list
+        if type(recipients) is not list:
+            recipients = recipients.split()
+
+        # get contact by id from hidden input in form
+        contactId = request.form.get('contactId')
+        contact = Contact.query.get(contactId)
+        contact.responded = True
+        db.session.commit()
+
+        email = Message(subject="Response from your Wise Law Firm contact us submission",
+                        body=respondForm.message.data,
+                        recipients=recipients)
+        email.html = render_template('email-response.html', email=email)
+        mail.send(email)
+        flash('Response email has been sent', category='success')
+    return render_template('contact-submissions.html', logged_in=False, form=respondForm, contacts=contacts)
+
+
+@views.route('/toggle-responded/<int:id>', methods=['GET'])
+@login_required
+def toggle_responded(id):
+    contact = Contact.query.get(id)
+    if contact.responded:
+        contact.responded = False
+    else:
+        contact.responded = True
+    db.session.commit()
+    flash("The responded field has been updated.", category='success')
+    return redirect(url_for('views.contact_submissions'))
+
+
+@views.route('/toggle-archive/<int:id>', methods=['GET'])
+@login_required
+def toggle_archive(id):
+    contact = Contact.query.get(id)
+    # If already archived, set as false to negate this
+    if contact.archived:
+        contact.archived = False
+    # Otherwise set as true to archive this submission
+    else:
+        contact.archived = True
+    db.session.commit()
+    flash("Contact Submission has been archived.", category='success')
+    return redirect(url_for('views.contact_submissions'))
 
 
 @views.route('/master_password', methods=['GET', 'POST'])

@@ -14,7 +14,12 @@ class ContactForm(FlaskForm):
                        description="Enter your first and last name")
     email = EmailField('Email Address', [validators.InputRequired()])
     message = TextAreaField('Message', [validators.InputRequired()])
-    recaptcha = RecaptchaField()
+    #recaptcha = RecaptchaField()
+
+
+class RespondEmailForm(FlaskForm):
+    message = TextAreaField('Email Body', [validators.DataRequired()])
+    recipients = EmailField("Send To", [validators.InputRequired(), validators.Email()])
 
 
 class ArticleForm(FlaskForm):
