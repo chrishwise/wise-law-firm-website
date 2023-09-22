@@ -18,7 +18,7 @@ class ContactForm(FlaskForm):
 
 
 class RespondEmailForm(FlaskForm):
-    message = TextAreaField('Email Body', [validators.DataRequired()])
+    message = TextAreaField('Email Body', [validators.InputRequired()])
     recipients = EmailField("Send To", [validators.InputRequired(), validators.Email()])
 
 
@@ -27,7 +27,7 @@ class ArticleForm(FlaskForm):
     text = TextAreaField('Article Content', [validators.InputRequired()])
     publishing_date = DateField('Date of Publishing')
     url = StringField('Article URL')
-    date_added = DateField('Date Added', default=datetime.datetime.now())
+    date_created = DateField('Date Added', default=datetime.datetime.now())
 
 
 class AdminAccountForm(FlaskForm):

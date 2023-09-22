@@ -225,6 +225,7 @@ p {
 }
 
 .page-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -234,7 +235,7 @@ p {
 
 .section1, .section2, .section3 {
     background-color: #F8F8F8;
-    padding: 20px 20px 40px 20px;
+    padding: 40px 20px;
     width: 100%;
 }
 
@@ -759,7 +760,6 @@ select{
     overflow-wrap: break-word;
 }
     .title-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
         cursor: pointer;
     }
 
@@ -769,14 +769,12 @@ select{
     color: #A15A22;
     background-color: white;
     border-radius: 15px;
-    border-color: #A15A22;
     border: 2px solid #A15A22;
 }
-    .new-card:hover {
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    .new-card:hover, .btn-outline-gold:hover {
         cursor: pointer;
-        background-color: #A15A22;
-        color: #FFFFFF
+        background-color: #A15A22 !important;
+        color: #FFFFFF !important;
     }
 
 .delete-button{
@@ -791,7 +789,7 @@ select{
 }
 
 a.admin-nav-link{
-    padding:5px;
+    padding:5px 10px;
     border-radius: 5px;
     margin:2px;
     border: 2px solid transparent;
@@ -1132,15 +1130,19 @@ form.form-container input, form.form-container select{
     width: 25px;
     height: 25px;
     position: absolute;
-    top: 10px;
+    top: 25px;
     right: 10px;
     background-color: var(--light-grey);
     border-radius: 30px;
-    color: white;
+    color: var(--purple);
     text-align: center;
     font-size: 20px;
-    line-height: 0;
+    line-height: 25px;
     cursor: pointer;
+}
+.close-btn:hover {
+    color:white;
+    background-color: var(--purple);
 }
 
 .flex-row-start {
@@ -1204,4 +1206,55 @@ form.form-container input, form.form-container select{
     background-color: var(--purple);
     color: white;
     border-radius: 30px;
+}
+
+a.abs-corner-btn{
+    position: absolute;
+    top:20px;
+    right:20px;
+    color: white;
+    border-color: var(--purple);
+    background-color: var(--purple);
+    transition: all 0.2s;
+}
+a.abs-corner-btn:hover{
+    background-color: white;
+    border-color: var(--purple);
+}
+
+@media screen and (max-width: 650px) {
+    a.abs-corner-btn{
+        position: relative;
+        background-color: white;
+    }
+}
+
+.inset-text-area{
+    border: 1px solid var(--gold);
+    box-shadow: 1px 1px 6px 6px inset var(--gold-opaque);
+    padding: 10px;
+    width: 100%;
+    min-height: 300px;
+    border-radius: 15px;
+}
+
+#recipients{
+    border: 1px solid var(--gold);
+    box-shadow: 1px 1px 6px 6px inset var(--gold-opaque);
+    padding: 10px;
+    width: 100%;
+    border-radius: 15px;
+}
+
+button.purple-bg {
+    background-color:  var(--purple);
+    color: white;
+    transition: all 0.2s;
+    border-color: var(--purple);
+}
+
+button.purple-bg:hover {
+    color:  var(--purple);
+    background-color: white;
+    border-color: var(--purple);
 }

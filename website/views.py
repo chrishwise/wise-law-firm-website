@@ -133,8 +133,8 @@ def get_first_article():
 def new_article():
     form = ArticleForm(request.form)
     if request.method == 'POST' and form.validate():
-        article = Article(title=form.title.data, text=form.text.data, date=form.date_created,
-                          published_date=form.publishing_date.data, user_id=current_user.id)
+        article = Article(title=form.title.data, text=form.text.data, date=form.date_created.data,
+                          published_date=form.publishing_date.data)
         db.session.add(article)
         db.session.commit()
         return redirect(url_for('views.articles', id=article.id))
@@ -147,7 +147,7 @@ def delete_article(id):
     db.session.delete(article)
     db.session.commit()
     flash("Article was successfully deleted!", category='success')
-    return redirect(url_for('views.articles'))
+    return redirect(url_for('views.articles', id=id, admin_editable=True))
 
 
 @views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
@@ -158,7 +158,7 @@ def edit_article(id):
     if request.method == 'POST' and form.validate():
         article.title = form.title.data
         article.text = form.text.data
-        article.date = form.date_added.data
+        article.date = form.date_created.data
         article.publishing_date = form.publishing_date.data
         db.session.commit()
         return redirect(url_for('views.articles', id=id))
@@ -432,7 +432,7 @@ def change_password():
 @views.route('/contact-submissions', methods=['GET', 'POST'])
 @login_required
 def contact_submissions():
-    contacts = Contact.query.all()
+    contacts = Contact.query.filter_by(archived=False).all()
     print(contacts)
 
     # The following is for responding to contact submissions from within the admin portal
@@ -478,11 +478,13 @@ def toggle_archive(id):
     # If already archived, set as false to negate this
     if contact.archived:
         contact.archived = False
+        flash("Contact Submission has been unarchived.", category='success')
     # Otherwise set as true to archive this submission
     else:
         contact.archived = True
+        flash("Contact Submission has been archived.", category='success')
     db.session.commit()
-    flash("Contact Submission has been archived.", category='success')
+
     return redirect(url_for('views.contact_submissions'))
 
 
@@ -507,6 +509,13 @@ def toggle_master():
     flash('Master clearance has been turned off for the logged-in admin', category='success')
     return redirect(url_for('views.manage_admins'))
 
+
+@views.route('/contact-archive', methods=['GET', 'POST'])
+def contact_archive():
+    archived_contacts = Contact.query.filter_by(archived=True).all()
+    print(archived_contacts)
+    return render_template('contact-archive.html', logged_in=False, contacts=archived_contacts,
+                           current_user=current_user)
 
 
 

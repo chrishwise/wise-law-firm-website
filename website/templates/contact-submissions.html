@@ -6,6 +6,7 @@
     {{ admin_navbar('contact') }}
     <div class="page-container section1">
         <h3 style="text-align: center">Contact Us Form Submissions</h3>
+        <a href="{{ url_for('views.contact_archive')}}" class="abs-corner-btn btn">Archive</a>
         {% if not contacts %}
             <div class="callout gold">
                 <h5>There are no new contact submissions</h5>
@@ -14,16 +15,25 @@
         {% for contact in contacts %}
             <div id="popup{{ contact.id }}" class="popup">
                 <div class="close-btn">&times;</div>
-                <h5>Contact Form Email Response</h5>
+                <h5 style="width: 100%; text-align: center;">Contact Form Email Response</h5>
                 <form id="respond" method="post">
                     {{ render_field(form.recipients, value=contact.email, multiple="true") }}
-                    <label>Recipient Name</label>
-                    <p>{{ contact.name }}</p>
-                    <label>In Response To</label>
-                    <p class="db-text opaque-bg">{{ contact.message }}</p>
+                    <dt>
+                        <label>Recipient Name</label>
+                    </dt>
+                    <dd>
+                        <p>{{ contact.name }}</p>
+                    </dd>
+                    <dt>
+                        <label>In Response To</label>
+                    </dt>
+                    <dd>
+                        <p class="db-text opaque-bg">{{ contact.message }}</p>
+                    </dd>
                     {{ render_field(form.message, class="inset-text-area") }}
+                    {{ form.csrf_token }}
                     <input type="hidden" name="contactId" value="{{ contact.id }}">
-                    <button type="submit" class="btn tr-darkgrey updateResponded" style="width: 100%">Send</button>
+                    <button type="submit" class="btn purple-bg updateResponded" style="width: 100%">Send</button>
                 </form>
             </div>
             <div class="form-container">

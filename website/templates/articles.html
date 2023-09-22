@@ -21,7 +21,7 @@
                 <div class="title-card">
                     <h6><a class="wlfblue" href="{{ url_for('views.articles', id=article.id ) }}">{{ article.title }}</a></h6>
                     {% if admin_editable %}
-                        <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article.id) }}">
+                        <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article.id) }}" style="margin:0;">
                             <span aria-hidden="true">&times;</span>
                         </a>
                     {% endif %}
