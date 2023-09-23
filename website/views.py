@@ -484,7 +484,16 @@ def toggle_archive(id):
         contact.archived = True
         flash("Contact Submission has been archived.", category='success')
     db.session.commit()
+    return redirect(url_for('views.contact_submissions'))
 
+
+@views.route('/delete-contact/<int:id>', methods=['GET'])
+@login_required
+def delete_contact(id):
+    to_delete = Contact.query.get(id)
+    db.session.delete(to_delete)
+    flash("Contact Submission has been deleted", category='success')
+    db.session.commit()
     return redirect(url_for('views.contact_submissions'))
 
 

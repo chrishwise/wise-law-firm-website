@@ -72,6 +72,7 @@
                     <a href="{{ url_for('views.toggle_responded', id=contact.id) }}" class="btn">Toggle Responded</a>
                     <button id="{{ contact.id }}" class="btn respondPopup">Respond</button>
                     <a href="{{ url_for('views.toggle_archive', id=contact.id) }}" class="btn">Archive</a>
+                    <a href="{{ url_for('views.delete_contact', id=contact.id) }}" class="btn">Delete</a>
                 </div>
             </div>
         {% endfor %}
