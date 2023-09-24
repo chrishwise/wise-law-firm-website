@@ -559,6 +559,12 @@ def sign_s3():
         ExpiresIn=3600
     )
 
+    json_output = json.dumps({
+        'data': presigned_post,
+        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    })
+    print("when signing s3 requrest: ", json_output)
+
     return json.dumps({
         'data': presigned_post,
         'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)

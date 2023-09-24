@@ -15,7 +15,7 @@
                 <div class="form-group">
                     {{ render_field(form.message, class="form-control") }}
                 </div>
-                {#{{ form.recaptcha }#}}
+                {{ form.recaptcha }}
                 {{ form.csrf_token}}
             </dl>
             <button type="submit" class="btn btn-outline-gold">Submit</button>
