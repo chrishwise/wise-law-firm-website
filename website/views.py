@@ -527,7 +527,7 @@ def contact_archive():
                            current_user=current_user)
 
 
-
+# This is for uploading pictures to Amazon S3 Bucket
 
 
 boto3_client_lock = threading.Lock()
@@ -563,7 +563,7 @@ def sign_s3():
         'data': presigned_post,
         'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
     })
-    print("when signing s3 requrest: ", json_output)
+    print("when signing s3 request: ", json_output)
 
     return json.dumps({
         'data': presigned_post,
