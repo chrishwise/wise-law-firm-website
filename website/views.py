@@ -116,7 +116,7 @@ def articles(admin_editable=False, id=0):
             article = Article.query.get_or_404(id)
     else:
         print("there are no current articles")
-        no_articles = Article(title="There is no new articles posted at the moment", text="Come back soon!")
+        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
         db.session.add(no_articles)
         db.session.commit()
         article = no_articles
@@ -147,7 +147,7 @@ def delete_article(id):
     db.session.delete(article)
     db.session.commit()
     flash("Article was successfully deleted!", category='success')
-    return redirect(url_for('views.articles', id=id, admin_editable=True))
+    return redirect(url_for('views.articles', admin_editable=True))
 
 
 @views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
