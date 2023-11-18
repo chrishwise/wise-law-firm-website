@@ -1,6 +1,8 @@
 import datetime
 import threading
 import os
+import time
+
 import boto3
 from flask import Blueprint, render_template, abort, request, flash, g, url_for, json
 from flask_login import current_user, login_required
@@ -54,6 +56,11 @@ def david_reese():
     return render_template("david-reese.html", logged_in=current_user.is_authenticated)
 
 
+@views.route('evan-williams')
+def evan_williams():
+    return render_template("evan-williams.html", logged_in=current_user.is_authenticated)
+
+
 @views.route('/class-actions')
 def class_actions():
     return render_template("class-actions.html", logged_in=current_user.is_authenticated)
@@ -105,9 +112,7 @@ def reviews():
 
 
 @views.route('/articles/<int:id>')
-@views.route('/articles/<int:id>/<admin_editable>')
-@views.route('/articles/<admin_editable>')
-def articles(admin_editable=False, id=0):
+def articles(id=0):
     articles = Article.query.all()
     if articles:
         if id == 0:
@@ -120,8 +125,25 @@ def articles(admin_editable=False, id=0):
         db.session.add(no_articles)
         db.session.commit()
         article = no_articles
-    return render_template("articles.html", articles=articles, article=article, logged_in=current_user.is_authenticated,
-                           admin_editable=admin_editable)
+    return render_template("articles.html", articles=articles, article=article, logged_in=current_user.is_authenticated)
+
+
+@views.route('/admin-portal/manage-articles/<int:id>', methods=['GET', 'POST'])
+@login_required
+def manage_articles(id=0):
+    articles = Article.query.all()
+    if articles:
+        if id == 0:
+            article = get_first_article()
+        else:
+            article = Article.query.get_or_404(id)
+    else:
+        print("there are no current articles")
+        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
+        db.session.add(no_articles)
+        db.session.commit()
+        article = no_articles
+    return render_template('manage-articles.html', logged_in=False, article=article, articles=articles)
 
 
 def get_first_article():
@@ -133,8 +155,8 @@ def get_first_article():
 def new_article():
     form = ArticleForm(request.form)
     if request.method == 'POST' and form.validate():
-        article = Article(title=form.title.data, text=form.text.data, date=form.date_created.data,
-                          published_date=form.publishing_date.data)
+        article = Article(title=form.title.data, text=form.text.data, date=datetime.date.today(),
+                          published_date=form.publishing_date.data, url=form.url.data)
         db.session.add(article)
         db.session.commit()
         return redirect(url_for('views.articles', id=article.id))
@@ -147,7 +169,7 @@ def delete_article(id):
     db.session.delete(article)
     db.session.commit()
     flash("Article was successfully deleted!", category='success')
-    return redirect(url_for('views.articles', admin_editable=True))
+    return redirect(url_for('views.articles', id=0))
 
 
 @views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
@@ -157,17 +179,19 @@ def edit_article(id):
     article = Article.query.get_or_404(id)
     if request.method == 'POST' and form.validate():
         article.title = form.title.data
-        article.text = form.text.data
+        article.published_date = form.publishing_date.data
         article.date = form.date_created.data
-        article.publishing_date = form.publishing_date.data
+        article.url = form.url.data
+        article.text = form.text.data
         db.session.commit()
-        return redirect(url_for('views.articles', id=id))
+        flash("Article has been updated successfully!", category='success')
+        return redirect(url_for('views.manage_articles', id=id))
     elif request.method == 'GET':
-        form.text.data = article.text
+        form.text.data = article.text       # Using the the render field value parameter in the html template didn't work so I set the value here
     return render_template('edit-article.html', form=form, article=article, logged_in=current_user.is_authenticated)
 
 
-@views.route('careers')
+@views.route('/careers')
 def careers():
     return render_template("careers.html", logged_in=current_user.is_authenticated)
 
@@ -209,7 +233,7 @@ def contact_us():
     return render_template("contact-us.html", form=form, logged_in=current_user.is_authenticated)
 
 
-@views.route('admin-portal/', methods=['GET', 'POST'])
+@views.route('/admin-portal/', methods=['GET', 'POST'])
 @login_required
 def admin_portal():
     form = AdminAccountForm(request.form)
@@ -226,7 +250,7 @@ def admin_portal():
                            current_user=current_user)
 
 
-@views.route('admin-portal/manage-employees', methods=['GET', 'POST'])
+@views.route('/admin-portal/manage-employees', methods=['GET', 'POST'])
 @login_required
 def manage_employees():
     form = None
@@ -349,7 +373,7 @@ def delete_attorney(aId):
     return redirect(url_for('views.manage_employees'))
 
 
-@views.route('admin-portal/manage-reviews', methods=['GET', 'POST'])
+@views.route('/admin-portal/manage-reviews', methods=['GET', 'POST'])
 @login_required
 def manage_reviews():
     form = None
@@ -357,15 +381,7 @@ def manage_reviews():
                            current_user=current_user)
 
 
-@views.route('admin-portal/manage-articles', methods=['GET', 'POST'])
-@login_required
-def manage_articles():
-    form = None
-    return render_template('manage-articles.html', logged_in=False, form=form,
-                           current_user=current_user)
-
-
-@views.route('admin-portal/manage-admins', methods=['GET', 'POST'])
+@views.route('/admin-portal/manage-admins', methods=['GET', 'POST'])
 @login_required
 def manage_admins():
     admins = Admin.query.all()

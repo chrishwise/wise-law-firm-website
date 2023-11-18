@@ -293,6 +293,12 @@ p {
     align-items: baseline;
 }
 
+@media screen and (max-width: 1374px){
+    .p-a-cards{
+        gap:100px;
+    }
+}
+
 .p-a-card {
     display: flex;
     flex-direction: column;
@@ -597,7 +603,13 @@ span.swiper-pagination-bullet {
     margin-left: 10%;
     margin-right: 10%;
 }
+@media screen and (max-width: 900px) {
+     .review-page-container{
+         margin: 0;
+         width: 100%;
+     }
 
+}
 .swiper-container {
     width: 300px;
     height: 400px;
@@ -608,12 +620,12 @@ span.swiper-pagination-bullet {
 .swiper-slide {
     padding: 5px;
     background-color: #FFFFFF; /*#EBDBCA;*/
-    background-image: url("{{url_for('static', filename='review-card2.svg') }}");
     background-position: center;
     background-size: cover;
     width: 300px;
     height: 300px;
     -webkit-box-reflect: below 0 linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+
 }
 
 .swiper-slide img {
@@ -626,6 +638,7 @@ span.swiper-pagination-bullet {
     font-weight: 500;
     font-family: "Taviraj";
     padding-top: 30px;
+    text-align: center;
 }
 
 .award {
