@@ -61,6 +61,11 @@ def evan_williams():
     return render_template("evan-williams.html", logged_in=current_user.is_authenticated)
 
 
+@views.route('dylan-graham')
+def dylan_graham():
+    return render_template("dylan-graham.html", logged_in=current_user.is_authenticated)
+
+
 @views.route('/class-actions')
 def class_actions():
     return render_template("class-actions.html", logged_in=current_user.is_authenticated)
