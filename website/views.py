@@ -45,12 +45,6 @@ def david_wise():
 def joe_langone():
     return render_template("joe-langone.html", logged_in=current_user.is_authenticated)
 
-
-@views.route('pat-donahue')
-def pat_donahue():
-    return render_template("pat-donahue.html", logged_in=current_user.is_authenticated)
-
-
 @views.route('david-reese')
 def david_reese():
     return render_template("david-reese.html", logged_in=current_user.is_authenticated)
