@@ -56,9 +56,9 @@ def david_reese():
     return render_template("david-reese.html", logged_in=current_user.is_authenticated)
 
 
-@views.route('evan-williams')
+@views.route('william-evans')
 def evan_williams():
-    return render_template("evan-williams.html", logged_in=current_user.is_authenticated)
+    return render_template("william-evans.html", logged_in=current_user.is_authenticated)
 
 
 @views.route('dylan-graham')
