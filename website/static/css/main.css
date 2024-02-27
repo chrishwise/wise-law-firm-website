@@ -524,15 +524,14 @@ h1, h2, h3, h4, h5, h6 {
     display: flex !important;
     flex-direction: column !important;
     width: 45%;
-    padding-top: 20px;
     padding-left: 20px;
 }
 
-@media screen and (min-width: 422px){
+/*@media screen and (min-width: 422px){
     .employee-header-text-wrapper {
         padding-top: 130px;
     }
-}
+}*/
 
 .employee-header-text {
     color: #636363;
@@ -543,19 +542,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .employee-header-text2 {
     color: #A15A22;
-    padding-bottom: 20px;
+    padding-bottom: 0;
+}
+
+.align-center{
+    align-items: center;
 }
 
 .attorney-contact-info {
     padding-top: 10px;
     padding-left: 0;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    gap:8px;
 }
-@media screen and (min-width: 737px) {
+/*@media screen and (min-width: 737px) {
     .attorney-contact-info {
         padding-top: 130px;
         padding-left: 0;
     }
-}
+}*/
 
 .employee-section {
     padding: 40px;
@@ -572,13 +578,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 175%;
     height: 5px;
     margin-bottom: 20px;
+    margin-top:10px;
 }
-@media screen and (max-width: 900px) {
-    .gold-bar{
-        width: 130%;
-    }
-}
-
 
 .gold {
     color: #A15A22;
