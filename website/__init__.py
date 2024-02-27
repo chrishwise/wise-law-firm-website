@@ -13,14 +13,16 @@ mail = Mail()
 def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
-    # Programatically create databaseURL from env variables for AWS RDS database
-    # databaseURL = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/{os.environ.get('RDS_DB_NAME')}"  #ebdb is RDS_DB_NAME environ variable in AWS environment
-    herokuURL = os.environ.get('DATABASE_URL')
-    databaseURL = herokuURL
+    # Programatically create database_url from env variables for AWS RDS database
+    # database_url = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/{os.environ.get('RDS_DB_NAME')}"  #ebdb is RDS_DB_NAME environ variable in AWS environment
+    heroku_url = os.environ.get('DATABASE_URL')
+    # postgres:// in the heroku_url should be "postgresql://"
+    heroku_fixed_url = str(heroku_url).replace("postgres://", "postgresql://", 1)
+    database_url = heroku_fixed_url
 
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI=databaseURL,
+        SQLALCHEMY_DATABASE_URI=database_url,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.office365.com',
         MAIL_PORT='587',
