@@ -10,14 +10,14 @@
             <table style="width: 100%">
                     <tr>
                         <th style="width: 35%">Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th style="padding-left: 16px">Edit</th>
+                        <th style="padding-left: 16px">Delete</th>
                     </tr>
                     {% for a in attorneys %}
                     <tr>
-                        <td>{{ a.first_name }}</td>
-                        <td><a class="btn" href={{ url_for('views.edit_attorney', aId=a.id) }}>Edit</a></td>
-                        <td><a class="btn" href={{ url_for('views.delete_attorney', aId=a.id) }}>Delete</a></td>
+                        <td>{{ a.name }}</td>
+                        <td><a class="btn" style="margin:2px" href={{ url_for('views.edit_attorney', aId=a.id) }}>Edit</a></td>
+                        <td><a class="btn" style="margin:2px" href={{ url_for('views.delete_attorney', aId=a.id) }}>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </table>

@@ -13,7 +13,7 @@
                 <div class="row" style="padding-top: 10px">
                     <div class="col-sm-6 col-12">
                         <label for="picture">Attorney Picture:</label>
-                        <input class="inset-item" type="file" id="picture" name="picture" accept="image/*">
+                        <input id="picture" class="inset-item" type="file" name="picture" accept="image/*">
                         <progress id="progressBar" value="0" max="100" style="width: 100%"></progress>
                         <label>Upload Status:</label>
                         <p id="uploadStatus" class="input-field"></p>
@@ -23,6 +23,7 @@
                         <img id="picturePreview" src="{{ picture_url }}" alt="attorney picture preview">
                     </div>
                 </div>
+                {{ form.picture_url }}
                 <div class="row">
                     <div class="col-sm-6 col-12">
                         {{ render_field(form.name) }}
@@ -34,9 +35,7 @@
                     </div>
                 </div>
 
-
                 {{ render_field(form.about) }}
-
                 {{ form.professional_licenses }}
                 {{ form.professional_activities }}
                 {{ form.education }}
@@ -93,6 +92,42 @@
         </form>
     </div>
 
+    <div class="modal-container" id="plField-modal">
+        <div class="form-container">
+            <h3>Add Professional License for Attorney</h3>
+            <label for="pl-title">Title
+                <input name="pl-title" id="pl-title" type="text">
+            </label>
+            <button class="btn" onclick="function addLicense() {
+                const titleInput = document.getElementById('pl-title');
+                const plField = document.getElementById('plField');
+                const plInput = document.getElementById('professional_licenses')
+                plField.innerHTML += titleInput.value.concat('\n');
+                plInput.value += titleInput.value.concat('\n');
+                closeModal();
+            }addLicense()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="paField-modal">
+        <div class="form-container">
+            <h3>Add Professional Activity for Attorney</h3>
+            <label for="pa-title">Title
+                <input name="pa-title" id="pa-title" type="text">
+            </label>
+            <button class="btn" onclick="function addProfessionalActivity() {
+                const titleInput = document.getElementById('pa-title');
+                const paField = document.getElementById('paField');
+                const paInput = document.getElementById('professional_activities')
+                paField.innerHTML += titleInput.value.concat('\n');
+                paInput.value += titleInput.value.concat('\n');
+                closeModal();
+            }addProfessionalActivity()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
     <div class="modal-container" id="education-modal">
         <div class="form-container">
             <h3>Add Education for Attorney</h3>
@@ -126,42 +161,6 @@
                 }
                 closeModal();
             }addEducation()">Add</button>
-            <span class="close" onclick="closeModal()">&times;</span>
-        </div>
-    </div>
-
-    <div class="modal-container" id="plField-modal">
-        <div class="form-container">
-            <h3>Add Professional License for Attorney</h3>
-            <label for="pl-title">Title
-                <input name="pl-title" id="pl-title" type="text">
-            </label>
-            <button class="btn" onclick="function addLicense() {
-                const titleInput = document.getElementById('pl-title');
-                const plField = document.getElementById('plField');
-                const plInput = document.getElementById('professional_licenses')
-                plField.innerHTML += titleInput.value.concat('\n');
-                plInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addLicense()">Add</button>
-            <span class="close" onclick="closeModal()">&times;</span>
-        </div>
-    </div>
-
-    <div class="modal-container" id="paField-modal">
-        <div class="form-container">
-            <h3>Add Professional Activity for Attorney</h3>
-            <label for="pa-title">Title
-                <input name="pa-title" id="pa-title" type="text">
-            </label>
-            <button class="btn" onclick="function addProfessionalActivity() {
-                const titleInput = document.getElementById('pa-title');
-                const paField = document.getElementById('paField');
-                const paInput = document.getElementById('professional_activities')
-                paField.innerHTML += titleInput.value.concat('\n');
-                paInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addProfessionalActivity()">Add</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
@@ -269,14 +268,6 @@
             $('#membershipField-modal').hide();
         }
 
-        function showEducation() {
-            $('#education-modal').show();
-            document.getElementById('degree').value = '';
-            document.getElementById('school').value = '';
-            document.getElementById('year').value = '';
-            document.getElementById('accolades').value = '';
-        }
-
         function showLicense() {
             $('#plField-modal').show();
             document.getElementById('pl-title').value = '';
@@ -285,6 +276,14 @@
         function showActivity() {
             $('#paField-modal').show();
             document.getElementById('pa-title').value = '';
+        }
+
+        function showEducation() {
+            $('#education-modal').show();
+            document.getElementById('degree').value = '';
+            document.getElementById('school').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('accolades').value = '';
         }
 
         function showPublication() {

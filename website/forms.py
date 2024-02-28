@@ -94,7 +94,7 @@ class CreateAttorneyForm(FlaskForm):
     email = EmailField('Email', [validators.Email()])
     phone_number = StringField('Phone Number')
     about = TextAreaField('About')
-    picture_url = HiddenField(id='image-url', validators=[validators.InputRequired()])
+    picture_url = HiddenField(id='image-url')
 
     professional_licenses = HiddenField()
     professional_activities = HiddenField()

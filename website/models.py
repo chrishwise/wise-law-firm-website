@@ -110,9 +110,9 @@ class AttorneyEducation(db.Model):
 
     def to_string(self):
         if self.accolades != "":
-            return self.school + " " + self.year + ", " + self.degree + ", " + self.accolades
+            return self.degree + ", " + self.school + ", " + self.year + ". " + self.accolades
         else:
-            return self.school + " " + self.year + ", " + self.degree
+            return self.degree + ", " + self.school + ", " + self.year
 
 
 class AttorneyPublication(db.Model):
@@ -181,12 +181,13 @@ class Attorney(db.Model):
     about = db.Column(db.Text())
     picture_url = db.Column(db.String(200))
 
-    def __init__(self, name, title, email, phone, about):
+    def __init__(self, name, title, email, phone, about, picture_url="../static/images/avatar-placeholder.png"):
         self.name = name
         self.title = title
         self.email = email
         self.phone_number = phone
         self.about = about
+        self.picture_url = picture_url
 
 
 class Contact(db.Model):

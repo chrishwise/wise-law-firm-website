@@ -45,7 +45,7 @@ def admin_login():
 
 
 @auth.route('/admin-signup', methods=['GET', 'POST'])
-#@login_required
+@login_required
 def admin_signup():
     form = AdminSignUpForm(request.form)
     if request.method == 'POST' and form.validate():

@@ -254,7 +254,8 @@ def admin_portal():
 def manage_employees():
     form = None
     employees = Attorney.query.all()
-    return render_template('manage-employees.html', logged_in=False, form=form, employees=employees,
+    print(employees)
+    return render_template('manage-employees.html', logged_in=False, form=form, attorneys=employees,
                            current_user=current_user)
 
 
@@ -294,57 +295,67 @@ def create_attorney():
             db.session.add(new_activity)
         db.session.commit()
 
-        list_of_education = education.split('\n')
-        for e in list_of_education:
-            list_of_fields = e.split(', ')
-            degree = list_of_fields[0]
-            school = list_of_fields[1]
-            year = list_of_fields[2]
-            if len(list_of_fields > 3):
-                accolades = list_of_fields[3]
-            else:
-                accolades = ''
-            new_attorney_education = AttorneyEducation(degree=degree, school=school, year=year, accolades=accolades,
-                                                       attorney=new_attorney)
-            print(new_attorney_education.to_string())
-            db.session.add(new_attorney_education)
-        db.session.commit()
+        if education:
+            list_of_education = education.split('\r\n')
+            list_of_education = list_of_education[:-1]
+            print(f"list of education: < {list_of_education} >")
+            for e in list_of_education:
+                list_of_fields = e.split(', ')
+                print(f"list of fields: < {list_of_fields} >")
+                degree = list_of_fields[0]
+                school = list_of_fields[1]
+                year = list_of_fields[2]
+                if len(list_of_fields) > 3:
+                    accolades = list_of_fields[3]
+                else:
+                    accolades = ''
+                new_attorney_education = AttorneyEducation(degree=degree, school=school, year=year, accolades=accolades,
+                                                           attorney=new_attorney)
+                print(f"toString() returns: {new_attorney_education.to_string()}")
+                db.session.add(new_attorney_education)
+            db.session.commit()
 
-        list_of_publications = publications.split('\n')
-        for l in list_of_publications:
-            list_of_fields = l.split(', ')
-            title = list_of_fields[0]
-            details = list_of_fields[1]
-            publication = list_of_fields[2]
-            year = list_of_fields[3]
-            new_publication = AttorneyPublication(title=title, details=details, publication=publication, year=year,
-                                                  attorney=new_attorney)
-            db.session.add(new_publication)
-        db.session.commit()
+        if publications:
+            list_of_publications = publications.split('\n')
+            for l in list_of_publications:
+                list_of_fields = l.split(', ')
+                title = list_of_fields[0]
+                details = list_of_fields[1]
+                publication = list_of_fields[2]
+                year = list_of_fields[3]
+                new_publication = AttorneyPublication(title=title, details=details, publication=publication, year=year,
+                                                      attorney=new_attorney)
+                db.session.add(new_publication)
+            db.session.commit()
 
-        list_of_aop = areas_of_practice.split('\n')
-        for l in list_of_aop:
-            new_aop = AttorneyAreaOfPractice(name=l, attorney=new_attorney)
-            db.session.add(new_aop)
-        db.session.commit()
+        if areas_of_practice:
+            list_of_aop = areas_of_practice.split('\n')
+            for l in list_of_aop:
+                new_aop = AttorneyAreaOfPractice(name=l, attorney=new_attorney)
+                db.session.add(new_aop)
+            db.session.commit()
 
-        list_of_admissions = admissions.split('\n')
-        for l in list_of_admissions:
-            list_of_fields = l.split(', ')
-            court = list_of_fields[0]
-            year = list_of_fields[1]
-            new_admission = AttorneyAdmission(court=court, year=year, attorney=new_attorney)
-            db.session.add(new_admission)
-        db.session.commit()
+        if admissions:
+            list_of_admissions = admissions.split('\n')
+            for l in list_of_admissions:
+                list_of_fields = l.split(', ')
+                court = list_of_fields[0]
+                year = list_of_fields[1]
+                new_admission = AttorneyAdmission(court=court, year=year, attorney=new_attorney)
+                db.session.add(new_admission)
+            db.session.commit()
 
-        list_of_memberships = memberships.split('\n')
-        for l in list_of_memberships:
-            new_membership = AttorneyMembership(name=l, attorney=new_attorney)
-            db.session.add(new_membership)
-        db.session.commit()
+        if memberships:
+            list_of_memberships = memberships.split('\n')
+            for l in list_of_memberships:
+                new_membership = AttorneyMembership(name=l, attorney=new_attorney)
+                db.session.add(new_membership)
+            db.session.commit()
 
         flash('New Attorney Has Been Created', category='success')
         return redirect(url_for('views.manage_employees'))
+    elif request.method == 'POST':
+        flash('Failed to Create New Attorney', category='error')
     return render_template('create-attorney.html', logged_in=False, form=form, picture_url=local_placeholder,
                            current_user=current_user)
 
