@@ -477,7 +477,7 @@ def change_password():
         current_user.change_password(new_password)
         db.session.commit()
         flash("Admins password has successfully been changed", category='success')
-        return redirect(url_for('views.admin_account'))
+        return redirect(url_for('views.admin_portal'))
     return render_template('change-password.html', form=form, logged_in=False,
                            current_user=current_user)
 
