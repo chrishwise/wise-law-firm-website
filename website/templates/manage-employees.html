@@ -15,7 +15,7 @@
                     </tr>
                     {% for a in attorneys %}
                     <tr>
-                        <td>{{ a.name }}</td>
+                        <td><a class='text-link' href="{{ url_for('views.employee', id=a.id) }}">{{ a.name }}</a></td>
                         <td><a class="btn" style="margin:2px" href={{ url_for('views.edit_attorney', aId=a.id) }}>Edit</a></td>
                         <td><a class="btn" style="margin:2px" href={{ url_for('views.delete_attorney', aId=a.id) }}>Delete</a></td>
                     </tr>

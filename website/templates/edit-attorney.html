@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% from '_formhelpers.html' import render_field %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+
+{% block content %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    {{ admin_navbar('employees') }}
+    <div class="page-container section1">
+        <h3>Edit Attorney</h3>
+        <form class="form-container" style="overflow-x: auto" method="POST" enctype="multipart/form-data">
+            <dl>
+                {{ form.csrf_token }}
+                <div class="row" style="padding-top: 10px">
+                    <div class="col-sm-6 col-12">
+                        <label for="picture">Attorney Picture:</label>
+                        <input id="picture" class="inset-item" type="file" name="picture" accept="image/*">
+                        <progress id="progressBar" value="0" max="100" style="width: 100%"></progress>
+                        <label>Upload Status:</label>
+                        <p id="uploadStatus" class="input-field"></p>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <label>Preview:</label>
+                        <img id="picturePreview" src="{{ picture_url }}" alt="attorney picture preview">
+                    </div>
+                </div>
+                {{ form.picture_url }}
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        {{ render_field(form.name) }}
+                        {{ render_field(form.title) }}
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        {{ render_field(form.email) }}
+                        {{ render_field(form.phone_number) }}
+                    </div>
+                </div>
+
+                {{ render_field(form.about) }}
+                {{ form.professional_licenses }}
+                {{ form.professional_activities }}
+                {{ form.education }}
+                {{ form.publications }}
+                {{ form.areas_of_practice }}
+                {{ form.admissions }}
+                {{ form.memberships }}
+
+                <dt>
+                    <label for="plField">Professional Licenses</label>
+                </dt>
+                <dd>
+                    <div class="textarea-container">
+                        {% for pl in current_attorney.professional_licenses %}
+                            <div class="entry">
+                                <div>{{ pl.to_string() }}</div>
+                                <button type="button" onclick="deleteEntry()">Delete</button>
+                            </div>
+                        {% endfor %}
+                        <button type="button" class="add" onclick="showLicense()">Add</button>
+                    </div>
+                    <textarea id="plField" name="plField" placeholder="Click to add" onClick="showLicense()">
+                    </textarea>
+                </dd>
+                <dt>
+                    <label for="paField">Professional Activities</label>
+                </dt>
+                <dd>
+                    <textarea id="paField" onclick="showActivity()" name="paField" placeholder="Click to add"></textarea>
+                </dd>
+                <dt>
+                    <label for="educationField">Education</label>
+                </dt>
+                <dd>
+                    <textarea id="educationField" onclick="showEducation()" name="educationField" placeholder="Click to add"></textarea>
+                </dd>
+                <dt>
+                    <label for="publicationField">Publications</label>
+                </dt>
+                <dd>
+                    <textarea id="publicationField" onclick="showPublication()" name="publicationField" placeholder="Click to add"></textarea>
+                </dd>
+                <dt>
+                    <label for="aopField">Areas of Practice</label>
+                </dt>
+                <dd>
+                    <textarea id="aopField" onclick="showAop()" name="aopField" placeholder="Click to add"></textarea>
+                </dd>
+                <dt>
+                    <label for="admissionsField">Admissions</label>
+                </dt>
+                <dd>
+                    <textarea id="admissionsField" onclick="showAdmission()" name="admissionsField" placeholder="Click to add"></textarea>
+                </dd>
+                <dt>
+                    <label for="membershipField">Memberships</label>
+                </dt>
+                <dd>
+                    <textarea id="membershipField" onclick="showMembership()" name="membershipField" placeholder="Click to add"></textarea>
+                </dd>
+            </dl>
+
+            <button type="submit" class="btn">Create Attorney</button>
+        </form>
+    </div>
+
+    <div class="modal-container" id="plField-modal">
+        <div class="form-container">
+            <h3>Add Professional License for Attorney</h3>
+            <label for="pl-title">Title
+                <input name="pl-title" id="pl-title" type="text">
+            </label>
+            <button class="btn" onclick="function addLicense() {
+                const titleInput = document.getElementById('pl-title');
+                const plField = document.getElementById('plField');
+                const plInput = document.getElementById('professional_licenses')
+                plField.innerHTML += titleInput.value.concat('\n');
+                plInput.value += titleInput.value.concat('\n');
+                closeModal();
+            }addLicense()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="paField-modal">
+        <div class="form-container">
+            <h3>Add Professional Activity for Attorney</h3>
+            <label for="pa-title">Title
+                <input name="pa-title" id="pa-title" type="text">
+            </label>
+            <button class="btn" onclick="function addProfessionalActivity() {
+                const titleInput = document.getElementById('pa-title');
+                const paField = document.getElementById('paField');
+                const paInput = document.getElementById('professional_activities')
+                paField.innerHTML += titleInput.value.concat('\n');
+                paInput.value += titleInput.value.concat('\n');
+                closeModal();
+            }addProfessionalActivity()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="education-modal">
+        <div class="form-container">
+            <h3>Add Education for Attorney</h3>
+            <label for="degree">Degree
+                <input name="degree" id="degree" type="text">
+            </label>
+            <label for="school">School
+                <input name="school" id="school" type="text">
+            </label>
+            <label for="year">Year
+                <input name="year" id="year" type="text">
+            </label>
+            <label for="accolades">Accolades
+                <input name="accolades" id="accolades" type="text", placeholder="If no accolades, leave blank">
+            </label>
+            <button class="btn" onclick="function addEducation() {
+                const degreeInput = document.getElementById('degree');
+                const schoolInput = document.getElementById('school')
+                const yearInput = document.getElementById('year')
+                const accoladesInput = document.getElementById('accolades')
+                const educationInput = document.getElementById('education')
+                const educationField = document.getElementById('educationField')
+
+                if (accoladesInput.value === ''){
+                    educationField.innerHTML += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, '\n');
+                    educationInput.value += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, '\n');
+                }
+                else {
+                    educationField.innerHTML += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, ', ', accoladesInput.value, '\n');
+                    educationInput.value += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, ', ', accoladesInput.value, '\n');
+                }
+                closeModal();
+            }addEducation()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="publicationField-modal">
+        <div class="form-container">
+            <h3>Add Publication for Attorney</h3>
+            <label for="publication-title">Title
+                <input name="publication-title" id="publication-title" type="text">
+            </label>
+            <label for="publication-details">Details
+                <input name="publication-details" id="publication-details" type="text">
+            </label>
+            <label for="publication-publication">Publication
+                <input name="publication-publication" id="publication-publication" type="text">
+            </label>
+            <label for="publication-year">Year
+                <input name="publication-year" id="publication-year" type="text">
+            </label>
+            <button class="btn" onclick="function addPublication() {
+                const titleInput = document.getElementById('publication-title');
+                const detailsInput = document.getElementById('publication-details');
+                const publicationsInput = document.getElementById('publication-publication');
+                const yearInput = document.getElementById('publication-year');
+                const publicationField = document.getElementById('publicationField');
+                const publicationInput = document.getElementById('publications')
+                publicationField.innerHTML += titleInput.value.concat(', ', detailsInput.value, ', ', publicationsInput.value, ', ', yearInput.value, '\n');
+                publicationInput.value += titleInput.value.concat(', ', detailsInput.value, ', ', publicationsInput.value, ', ', yearInput.value, '\n');
+                closeModal();
+            }addPublication()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="aopField-modal">
+        <div class="form-container">
+            <h3>Add Area of Practice for Attorney</h3>
+            <label for="aop-title">Title
+                <input name="aop-title" id="aop-title" type="text">
+            </label>
+            <button class="btn" onclick="function addAop() {
+                const titleInput = document.getElementById('aop-title');
+                const aopField = document.getElementById('aopField');
+                const aopInput = document.getElementById('areas_of_practice')
+                aopField.innerHTML += titleInput.value.concat('\n');
+                aopInput.value += titleInput.value.concat('\n');
+                closeModal();
+            }addAop()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="admissionField-modal">
+        <div class="form-container">
+            <h3>Add Admission for Attorney</h3>
+            <label for="activity-court">Court
+                <input name="admission-court" id="admission-court" type="text">
+            </label>
+            <label for="admission-year">Year
+                <input name="admission-year" id="admission-year" type="text">
+            </label>
+            <button class="btn" onclick="function addAdmission() {
+                const courtInput = document.getElementById('admission-court');
+                const yearInput = document.getElementById('admission-year');
+                const admissionsField = document.getElementById('admissionsField');
+                const admissionsInput = document.getElementById('admissions');
+
+                admissionsField.innerHTML += courtInput.value.concat(', ', yearInput.value, '\n');
+                admissionsInput.value +=  courtInput.value.concat(', ', yearInput.value, '\n');
+
+                closeModal();
+            }addAdmission()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <div class="modal-container" id="membershipField-modal">
+        <div class="form-container">
+            <h3>Add Membership for Attorney</h3>
+            <label for="membership-name">Name
+                <input name="membership-name" id="membership-name" type="text">
+            </label>
+            <button class="btn" onclick="function addMembership() {
+                const nameInput = document.getElementById('membership-name');
+                const membershipField = document.getElementById('membershipField');
+                const membershipInput = document.getElementById('memberships')
+                membershipField.innerHTML += nameInput.value.concat('\n');
+                membershipInput.value +=  nameInput.value.concat('\n');
+                closeModal();
+            }addMembership()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+
+    <script>
+
+        function deleteEntry() {
+
+        }
+
+
+        function closeModal() {
+            console.log('close model ran');
+            $('#education-modal').hide();
+            $('#plField-modal').hide();
+            $('#paField-modal').hide();
+            $('#publicationField-modal').hide();
+            $('#aopField-modal').hide();
+            $('#admissionField-modal').hide();
+            $('#membershipField-modal').hide();
+        }
+
+        function showLicense() {
+            $('#plField-modal').show();
+            document.getElementById('pl-title').value = '';
+            document.getElementById('pl-title').focus();
+        }
+
+        function showActivity() {
+            $('#paField-modal').show();
+            document.getElementById('pa-title').value = '';
+            document.getElementById('pa-title').focus();
+        }
+
+        function showEducation() {
+            $('#education-modal').show();
+            document.getElementById('degree').value = '';
+            document.getElementById('degree').focus();
+            document.getElementById('school').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('accolades').value = '';
+        }
+
+        function showPublication() {
+            $('#publicationField-modal').show();
+            document.getElementById('publication-title').value = '';
+            document.getElementById('publication-title').focus();
+            document.getElementById('publication-details').value = '';
+            document.getElementById('publication-publication').value = '';
+            document.getElementById('publication-year').value = '';
+        }
+
+        function showAop() {
+            $('#aopField-modal').show();
+            document.getElementById('aop-title').value = '';
+            document.getElementById('aop-title').focus();
+        }
+
+        function showAdmission() {
+            $('#admissionField-modal').show();
+            document.getElementById('admission-court').value = '';
+            document.getElementById('admission-court').focus();
+            document.getElementById('admission-year').value = '';
+        }
+
+        function showMembership() {
+            $('#membershipField-modal').show();
+            document.getElementById('membership-name').value = '';
+            document.getElementById('membership-name').focus();
+        }
+    </script>
+    <script src="../static/js/ajax.js"></script>
+
+{% endblock %}

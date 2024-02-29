@@ -271,16 +271,19 @@
         function showLicense() {
             $('#plField-modal').show();
             document.getElementById('pl-title').value = '';
+            document.getElementById('pl-title').focus();
         }
 
         function showActivity() {
             $('#paField-modal').show();
             document.getElementById('pa-title').value = '';
+            document.getElementById('pa-title').focus();
         }
 
         function showEducation() {
             $('#education-modal').show();
             document.getElementById('degree').value = '';
+            document.getElementById('degree').focus();
             document.getElementById('school').value = '';
             document.getElementById('year').value = '';
             document.getElementById('accolades').value = '';
@@ -289,6 +292,7 @@
         function showPublication() {
             $('#publicationField-modal').show();
             document.getElementById('publication-title').value = '';
+            document.getElementById('publication-title').focus();
             document.getElementById('publication-details').value = '';
             document.getElementById('publication-publication').value = '';
             document.getElementById('publication-year').value = '';
@@ -297,17 +301,20 @@
         function showAop() {
             $('#aopField-modal').show();
             document.getElementById('aop-title').value = '';
+            document.getElementById('aop-title').focus();
         }
 
         function showAdmission() {
             $('#admissionField-modal').show();
             document.getElementById('admission-court').value = '';
+            document.getElementById('admission-court').focus();
             document.getElementById('admission-year').value = '';
         }
 
         function showMembership() {
             $('#membershipField-modal').show();
             document.getElementById('membership-name').value = '';
+            document.getElementById('membership-name').focus();
         }
     </script>
     <script src="../static/js/ajax.js"></script>

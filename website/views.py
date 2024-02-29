@@ -33,7 +33,18 @@ def firm_overview():
 
 @views.route('/our-team')
 def our_team():
-    return render_template("our-team.html", logged_in=current_user.is_authenticated)
+    attorneys = Attorney.query.all()
+    return render_template("our-team.html", attorneys=attorneys, logged_in=current_user.is_authenticated)
+
+
+@views.route('/employee/<int:id>', methods=['GET'])
+def employee(id):
+    employee = Attorney.query.get(id)
+    print(employee.professional_licenses)
+    print(employee.areas_of_practice)
+    print(employee.memberships)
+    print(employee.education)
+    return render_template("employee-template.html", employee=employee, logged_in=current_user.is_authenticated)
 
 
 @views.route('david-wise')
@@ -232,7 +243,7 @@ def contact_us():
     return render_template("contact-us.html", form=form, logged_in=current_user.is_authenticated)
 
 
-@views.route('/admin-portal/', methods=['GET', 'POST'])
+@views.route('/admin-portal', methods=['GET', 'POST'])
 @login_required
 def admin_portal():
     form = AdminAccountForm(request.form)
@@ -283,13 +294,15 @@ def create_attorney():
         db.session.add(new_attorney)
         db.session.commit()
 
-        list_of_licenses = professional_licenses.split('\n')
+        list_of_licenses = professional_licenses.split('\r\n')
+        list_of_licenses = list_of_licenses[:-1]
         for l in list_of_licenses:
             new_license = AttorneyProfessionalLicense(title=l, attorney=new_attorney)
             db.session.add(new_license)
         db.session.commit()
 
-        list_of_activities = professional_activities.split('\n')
+        list_of_activities = professional_activities.split('\r\n')
+        list_of_activities = list_of_activities[:-1]
         for l in list_of_activities:
             new_activity = AttorneyProfessionalActivity(title=l, attorney=new_attorney)
             db.session.add(new_activity)
@@ -316,27 +329,33 @@ def create_attorney():
             db.session.commit()
 
         if publications:
-            list_of_publications = publications.split('\n')
+            list_of_publications = publications.split('\r\n')
+            list_of_publications = list_of_publications[:-1]
+            print(f"list of publications: < {list_of_publications} >")
             for l in list_of_publications:
                 list_of_fields = l.split(', ')
+                print(f"list of fields: < {list_of_fields} >")
                 title = list_of_fields[0]
                 details = list_of_fields[1]
                 publication = list_of_fields[2]
                 year = list_of_fields[3]
                 new_publication = AttorneyPublication(title=title, details=details, publication=publication, year=year,
                                                       attorney=new_attorney)
+                print(f"toString() returns: {new_publication.to_string()}")
                 db.session.add(new_publication)
             db.session.commit()
 
         if areas_of_practice:
-            list_of_aop = areas_of_practice.split('\n')
+            list_of_aop = areas_of_practice.split('\r\n')
+            list_of_aop = list_of_aop[:-1]
             for l in list_of_aop:
                 new_aop = AttorneyAreaOfPractice(name=l, attorney=new_attorney)
                 db.session.add(new_aop)
             db.session.commit()
 
         if admissions:
-            list_of_admissions = admissions.split('\n')
+            list_of_admissions = admissions.split('\r\n')
+            list_of_admissions = list_of_admissions[:-1]
             for l in list_of_admissions:
                 list_of_fields = l.split(', ')
                 court = list_of_fields[0]
@@ -346,7 +365,8 @@ def create_attorney():
             db.session.commit()
 
         if memberships:
-            list_of_memberships = memberships.split('\n')
+            list_of_memberships = memberships.split('\r\n')
+            list_of_memberships = list_of_memberships[:-1]
             for l in list_of_memberships:
                 new_membership = AttorneyMembership(name=l, attorney=new_attorney)
                 db.session.add(new_membership)
@@ -365,6 +385,13 @@ def create_attorney():
 def edit_attorney(aId):
     form = CreateAttorneyForm(request.form)
     current_attorney = Attorney.query.get(aId)
+    form.name.data = current_attorney.name
+    form.email.data = current_attorney.email
+    form.title.data = current_attorney.title
+    form.phone_number.data = current_attorney.phone_number
+    form.about.data = current_attorney.about
+    form.picture_url.data = current_attorney.picture_url
+
     if request.method == 'POST' and form.validate():
 
         db.session.commit()

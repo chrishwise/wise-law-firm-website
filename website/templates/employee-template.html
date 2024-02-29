@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        html{
+            overflow-x: hidden;
+        }
+    </style>
+
+    <div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='nats-bg.jpg') }}">
+        <div class="parallax-flex-container d-flex flex-column" >
+            <div class="page-header-text">Our Team</div>
+        </div>
+    </div>
+
+	<div class="page-container employee-section section1 d-flex flex-column">
+
+		<div class="employee-header d-flex flex-row">
+			<img class="pic animate-fadein5" src="{{ employee.picture_url }}">
+			<div class="employee-header-text-wrapper">
+				<h1 class="employee-header-text animate-right">{{ employee.name }}</h1>
+				<h2 class="employee-header-text2 animate-up">{{ employee.title }}</h2>
+			</div>
+			<div class="attorney-contact-info d-flex flex-column">
+				<div class="d-flex align-center">
+					<img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
+					<div class="contact-text">{{ employee.email}}</div>
+				</div>
+				<div class="d-flex align-center">
+					<img height=30px width=30px src="{{url_for('static', filename='phone.jpg') }}" alt="phone icon">
+					<div class="contact-text">{{ employee.phone_number }}</div>
+				</div>
+			</div>
+            <div class="gold-bar animate-left"></div>
+		</div>
+		<div style="width:100%;">
+            {% if employee.about%}
+                <h4>About</h4>
+                <p>{{ employee.about }}</p>
+            {% endif %}
+
+            {% if employee.professional_licenses %}
+                <h4>Professional License</h4>
+                <ul>
+                {% for l in employee.professional_licenses %}
+                    <li>{{ l.to_string() }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if employee.professional_activities %}
+                <h4>Professional Activities</h4>
+                <ul>
+                {% for a in employee.professional_activities %}
+                    <li>{{ a.to_string() }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if employee.education %}
+                <h4>Education</h4>
+                <ul>
+                    {% for e in employee.education %}
+                    <li>{{ e.to_string() }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if employee.publications %}
+                <h4>Publications & Seminars</h4>
+                <ul>
+                {% for p in employee.publications %}
+                    <li>{{ p.to_string() }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+
+            {% if employee.areas_of_practice %}
+                <h4>Areas of Practice</h4>
+                <ul>
+                {% for a in employee.areas_of_practice %}
+                    <li>{{ a.to_string() }}</li>
+                {% endfor %}
+			    </ul>
+            {% endif %}
+
+            {% if employee.admissions %}
+                <h4>Bar & Court Admissions</h4>
+                <ul>
+                {% for a in employee.admissions %}
+                    <li>{{ a.to_string() }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if employee.memberships %}
+                <h4>Membership</h4>
+                <ul>
+                {% for m in employee.memberships %}
+                    <li>{{ m.to_string() }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+		</div>
+	</div>
+{% endblock %}
