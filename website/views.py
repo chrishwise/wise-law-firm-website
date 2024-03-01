@@ -515,6 +515,7 @@ def contact_submissions():
         email.html = render_template('email-response.html', email=email)
         mail.send(email)
         flash('Response email has been sent', category='success')
+        return redirect(url_for('views.contact_submissions'))
     return render_template('contact-submissions.html', logged_in=False, form=respondForm, contacts=contacts)
 
 
