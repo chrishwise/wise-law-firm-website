@@ -1239,11 +1239,16 @@ form.form-container input, form.form-container select{
     background-color: var(--gold-opaque);
     padding: 20px;
     border-radius: 15px;
+    width: 90%;
+    margin-bottom: 10px;
 }
 .opaque-bg-purple {
     background-color: var(--purple-opaque);
     padding: 20px;
     border-radius: 15px;
+    width:90%;
+    margin-bottom:10px;
+    align-self: flex-end;
 }
 
 .fullwidth {

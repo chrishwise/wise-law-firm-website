@@ -68,8 +68,7 @@
                     </div>
                     {% if contact.contact_response %}
                         {% for response in contact.contact_response %}
-                            <div class="opaque-bg-purple"
-                                 style="width: fit-content; margin:10px 0; align-self: flex-end">
+                            <div class="opaque-bg-purple">
                                 <p class="db-text">{{ response.message }}</p>
                             </div>
                         {% endfor %}
