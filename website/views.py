@@ -449,6 +449,8 @@ def edit_admin(adminId):
     form = AdminAccountForm(request.form)
     current_admin = Admin.query.get(adminId)
     form.notifications.data = current_admin.receives_notifications
+    form.first_name.data = current_admin.first_name
+    form.email.data = current_admin.email
     if request.method == 'POST' and form.validate():
         first_name = form.first_name.data
         email = form.email.data

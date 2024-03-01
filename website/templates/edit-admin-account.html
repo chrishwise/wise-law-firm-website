@@ -9,11 +9,11 @@
         <form class="form-container" id=admin method="POST">
             <dl>
                 {{ form.csrf_token }}
-                {{ render_field(form.first_name, value=current_admin.first_name) }}
-                {{ render_field(form.email, value=current_admin.email) }}
+                {{ render_field(form.first_name) }}
+                {{ render_field(form.email) }}
                 <div id="flexRow" class="flex-row-start responsive">
                     <div style="width: 30%">
-                        {{ render_field(form.notifications, value=current_user.receives_notifications) }}
+                        {{ render_field(form.notifications) }}
                     </div>
                 </div>
             </dl>

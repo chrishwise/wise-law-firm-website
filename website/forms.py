@@ -56,7 +56,11 @@ class MasterPasswordForm(FlaskForm):
     master_password = PasswordField("Master Password", [validators.InputRequired()])
 
     def validate_master_password(self, field):
-        master_password_official = Admin.query.filter_by(email="no-reply-wiselawfirm@outlook.com").first().password
+        master = Admin.query.filter_by(email="no-reply-wiselawfirm@outlook.com").first()
+        if master:
+            master_password_official = master.password
+        else:
+            raise ValidationError('Master Password does not exist. Create admin account for no-reply-wiselawfirm.com@outlook.com')
         print(master_password_official)
         print(self.master_password.data)
         print(check_password_hash(master_password_official, self.master_password.data))
