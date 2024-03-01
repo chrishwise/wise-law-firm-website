@@ -33,11 +33,11 @@
                     {{ render_field(form.message, class="inset-text-area") }}
                     {{ form.csrf_token }}
                     <input type="hidden" name="contactId" value="{{ contact.id }}">
-                    <button type="submit" class="btn purple-bg updateResponded" style="width: 100%">Send</button>
+                    <button type="submit" class="btn purple-bg updateResponded" style="width: 100%; margin:0; padding:0;">Send</button>
                 </form>
             </div>
-            <div class="form-container">
-                <div class="flex-row-baseline" style="width: 100%;">
+            <div class="form-container" style="align-items: flex-start">
+                <div class="flex-row-baseline" style="width: 100%; height: 30px; justify-content: space-between">
                     <div class="flex-row-baseline">
                         <div class="row-item">
                             <h6><b>Name: </b></h6>
@@ -46,34 +46,38 @@
                             <p>{{ contact.name }}</p>
                         </div>
                     </div>
-                    <div class="flex-row-baseline">
-                        <div class="row-item">
-                            <h6><b>Email: </b></h6>
-                        </div>
-                        <div class="row-item">
-                            <p>{{ contact.email }}</p>
-                        </div>
+                    <div class="flex-row-center">
+                        <a href="{{ url_for('views.toggle_archive', id=contact.id) }}"><img class='icon' src="{{ url_for('static', filename='archive.png') }}" alt="archive"></a>
+                        <a href="{{ url_for('views.delete_contact', id=contact.id) }}"><img class='icon' src="{{ url_for('static', filename='delete.png') }}" alt="delete"></a>
                     </div>
-                    {% if contact.responded %}
-                        <div class="row-item">
-                            <h6 class="roundLabel">Responded</h6>
-                        </div>
-                    {% endif %}
                 </div>
-                <div class="flex-column-start">
+                <div class="flex-row-baseline" style="height: 40px;">
+                    <div class="row-item">
+                        <h6><b>Email: </b></h6>
+                    </div>
+                    <div class="row-item">
+                        <p>{{ contact.email }}</p>
+                    </div>
+                </div>
+                <div class="flex-column-start" style="width: 100%;">
                     <div class="row-item">
                         <h6><b>Message: </b></h6>
                     </div>
-                    <div class="opaque-bg fullwidth">
+                    <div class="opaque-bg">
                         <p class="db-text">{{ contact.message }}</p>
                     </div>
+                    {% if contact.contact_response %}
+                        {% for response in contact.contact_response %}
+                            <div class="opaque-bg-purple"
+                                 style="width: fit-content; margin:10px 0; align-self: flex-end">
+                                <p class="db-text">{{ response.message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
-                <div class="flex-row-gap">
-                    <a href="{{ url_for('views.toggle_responded', id=contact.id) }}" class="btn">Toggle Responded</a>
-                    <button id="{{ contact.id }}" class="btn respondPopup">Respond</button>
-                    <a href="{{ url_for('views.toggle_archive', id=contact.id) }}" class="btn">Archive</a>
-                    <a href="{{ url_for('views.delete_contact', id=contact.id) }}" class="btn">Delete</a>
-                </div>
+                <button id="{{ contact.id }}" class="btn purple-bg respondPopup"
+                        style="margin: 10px 0; align-self: flex-end; padding:0 15px; border-radius: 15px"
+                        type="button">Respond</button>
             </div>
         {% endfor %}
     </div>

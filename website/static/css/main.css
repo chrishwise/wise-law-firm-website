@@ -18,7 +18,8 @@ body {
     --light-opaque: rgba(231, 225, 223, 0.38);
     --gold:  #A15A22;
     --gold-opaque: rgba(199, 134, 85, 0.22);
-    --purple: #2C1753;
+    --purple: rgba(44, 23, 83, 1);
+    --purple-opaque: rgba(44, 23, 83, 0.22);
     --dark: #282e34;
 }
 
@@ -1239,6 +1240,11 @@ form.form-container input, form.form-container select{
     padding: 20px;
     border-radius: 15px;
 }
+.opaque-bg-purple {
+    background-color: var(--purple-opaque);
+    padding: 20px;
+    border-radius: 15px;
+}
 
 .fullwidth {
     width: 100%;
@@ -1351,4 +1357,10 @@ button.purple-bg:hover {
     height: 30px;
     color:white;
     background-color: var(--gold);
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
 }

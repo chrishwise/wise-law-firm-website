@@ -199,3 +199,13 @@ class Contact(db.Model):
     responded = db.Column(db.Boolean)
     archived = db.Column(db.Boolean, default=False)
 
+
+class ContactResponse(db.Model):
+    """Helper table for contact"""
+    __tablename__ = 'contact_response'
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.Text())
+    # Many-to-one Relationships
+    contact_id = db.Column(db.Integer(), db.ForeignKey('contact.id', ondelete='CASCADE'))
+    contact = relationship('Contact', backref=backref('contact_response', passive_deletes=True))
+

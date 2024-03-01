@@ -16,7 +16,7 @@ from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswo
     CreateAttorneyForm, RespondEmailForm
 from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
     AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
-    Contact
+    Contact, ContactResponse
 
 views = Blueprint('views', __name__)
 
@@ -393,6 +393,11 @@ def edit_attorney(aId):
     form.picture_url.data = current_attorney.picture_url
 
     if request.method == 'POST' and form.validate():
+        current_attorney.name = form.name.data
+        current_attorney.title = form.title.data
+        current_attorney.email = form.email.data
+        current_attorney.phone = form.phone_number.data
+        current_attorney.about = form.about.data
 
         db.session.commit()
         flash('Attorney details saved', category='success')
@@ -486,7 +491,6 @@ def change_password():
 @login_required
 def contact_submissions():
     contacts = Contact.query.filter_by(archived=False).all()
-    print(contacts)
 
     # The following is for responding to contact submissions from within the admin portal
     respondForm = RespondEmailForm(request.form)
@@ -500,9 +504,12 @@ def contact_submissions():
         contactId = request.form.get('contactId')
         contact = Contact.query.get(contactId)
         contact.responded = True
+        # create and add contact response to database
+        contact_response = ContactResponse(message=respondForm.message.data, contact=contact)
+        db.session.add(contact_response)
         db.session.commit()
 
-        email = Message(subject="Response from your Wise Law Firm contact us submission",
+        email = Message(subject="Response to your Wise Law Firm form submission",
                         body=respondForm.message.data,
                         recipients=recipients)
         email.html = render_template('email-response.html', email=email)
