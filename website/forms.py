@@ -108,3 +108,5 @@ class CreateAttorneyForm(FlaskForm):
     admissions = HiddenField()
     memberships = HiddenField()
 
+    new_attorney_id = HiddenField()
+

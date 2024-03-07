@@ -5,8 +5,8 @@
 {% block content %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     {{ admin_navbar('employees') }}
-    <div class="page-container section1">
-        <h3>Add New Attorney</h3>
+    <div class="page-container section1" id="createAttorneyPC">
+        <h3>{{ header }}</h3>
         <form class="form-container" style="overflow-x: auto" method="POST" enctype="multipart/form-data">
             <dl>
                 {{ form.csrf_token }}
@@ -36,101 +36,177 @@
                 </div>
 
                 {{ render_field(form.about) }}
-                {{ form.professional_licenses }}
-                {{ form.professional_activities }}
-                {{ form.education }}
-                {{ form.publications }}
-                {{ form.areas_of_practice }}
-                {{ form.admissions }}
-                {{ form.memberships }}
+                {{ form.new_attorney_id }}
 
-                <dt>
+                <dt class="position-relative">
                     <label for="plField">Professional Licenses</label>
+                    <button type="button" class="add" onclick="showLicense()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="plField" name="plField" placeholder="Click to add" onClick="showLicense()"></textarea>
+                     <ul class="list-container" id="pl-list">
+                        {% for pl in current_attorney.professional_licenses %}
+                            <li id="licenseId{{ pl.id }}" class="list-entry">
+                                <div class="bullet">{{ pl.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-license onclick="showLicense('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-license onclick="deleteLicense({{ pl.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="paField">Professional Activities</label>
+                <dt class="position-relative">
+                    <label for="pa-list">Professional Activities</label>
+                    <button type="button" class="add" onclick="showActivity()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="paField" onclick="showActivity()" name="paField" placeholder="Click to add"></textarea>
+                     <ul class="list-container" id="pa-list">
+                        {% for pa in current_attorney.professional_activities %}
+                            <li id="activityId{{ pa.id }}" class="list-entry">
+                                <div class="bullet">{{ pa.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-activity onclick="showActivity('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-activity onclick="deleteActivity({{ pa.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="educationField">Education</label>
+                <dt class="position-relative">
+                    <label for="education-list">Education</label>
+                    <button type="button" class="add" onclick="showEducation()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="educationField" onclick="showEducation()" name="educationField" placeholder="Click to add"></textarea>
+                    <ul class="list-container" id="education-list">
+                        {% for e in current_attorney.education %}
+                            <li id="educationId{{ e.id }}" class="list-entry">
+                                <div class="bullet">{{ e.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-education onclick="showEducation('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-education onclick="deleteEducation({{ e.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="publicationField">Publications</label>
+                <dt class="position-relative">
+                    <label for="publication-list">Publications</label>
+                    <button type="button" class="add" onclick="showPublication()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="publicationField" onclick="showPublication()" name="publicationField" placeholder="Click to add"></textarea>
+                    <ul class="list-container" id="publication-list">
+                        {% for p in current_attorney.publications %}
+                            <li id="publicationId{{ p.id }}" class="list-entry">
+                                <div class="bullet">{{ p.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-publication onclick="showPublication('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-publication onclick="deletePublication({{ p.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="aopField">Areas of Practice</label>
+                <dt class="position-relative">
+                    <label for="aop-list">Areas of Practice</label>
+                    <button type="button" class="add" onclick="showAop()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="aopField" onclick="showAop()" name="aopField" placeholder="Click to add"></textarea>
+                    <ul class="list-container" id="aop-list">
+                        {% for aop in current_attorney.areas_of_practice %}
+                            <li id="aopId{{ aop.id }}" class="list-entry">
+                                <div class="bullet">{{ aop.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-aop onclick="showAop('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-aop onclick="deleteAop({{ aop.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="admissionsField">Admissions</label>
+                <dt class="position-relative">
+                     <label for="admission-list">Admissions</label>
+                    <button type="button" class="add" onclick="showAdmission()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="admissionsField" onclick="showAdmission()" name="admissionsField" placeholder="Click to add"></textarea>
+                    <ul class="list-container" id="admission-list">
+                        {% for admission in current_attorney.admissions %}
+                            <li id="admissionId{{ admission.id }}" class="list-entry">
+                                <div class="bullet">{{ admission.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-admission onclick="showAdmission('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-admission onclick="deleteAdmission({{ admission.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
-                <dt>
-                    <label for="membershipField">Memberships</label>
+                <dt class="position-relative">
+                    <label for="membership-list">Memberships</label>
+                    <button type="button" class="add" onclick="showMembership()">Add</button>
                 </dt>
                 <dd>
-                    <textarea id="membershipField" onclick="showMembership()" name="membershipField" placeholder="Click to add"></textarea>
+                    <ul class="list-container" id="membership-list">
+                        {% for membership in current_attorney.memberships %}
+                            <li id="membershipId{{ membership.id }}" class="list-entry">
+                                <div class="bullet">{{ membership.to_string() }}</div>
+                                <div>
+                                    <a class="button" href=# id=edit-membership onclick="showMembership('edit')">Edit</a>
+                                    <a class="button" href=# id=delete-membership onclick="deleteMembership({{ membership.id }})">Delete</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </dd>
             </dl>
-
-            <button type="submit" class="btn">Create Attorney</button>
+            <button type="submit" class="btn">{{ button }}</button>
         </form>
     </div>
 
     <div class="modal-container" id="plField-modal">
         <div class="form-container">
-            <h3>Add Professional License for Attorney</h3>
+            <h3>Add Professional License</h3>
             <label for="pl-title">Title
                 <input name="pl-title" id="pl-title" type="text">
             </label>
-            <button class="btn" onclick="function addLicense() {
-                const titleInput = document.getElementById('pl-title');
-                const plField = document.getElementById('plField');
-                const plInput = document.getElementById('professional_licenses')
-                plField.innerHTML += titleInput.value.concat('\n');
-                plInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addLicense()">Add</button>
+            <button class="btn" onclick="addLicense()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-plField-modal">
+        <div class="form-container">
+            <h3>Edit Professional License</h3>
+            <label for="pl-title-edit">Title
+                <input name="pl-title-edit" id="pl-title-edit" type="text">
+            </label>
+            <button class="btn" onclick="editLicense()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="paField-modal">
         <div class="form-container">
-            <h3>Add Professional Activity for Attorney</h3>
+            <h3>Add Professional Activity</h3>
             <label for="pa-title">Title
                 <input name="pa-title" id="pa-title" type="text">
             </label>
-            <button class="btn" onclick="function addProfessionalActivity() {
-                const titleInput = document.getElementById('pa-title');
-                const paField = document.getElementById('paField');
-                const paInput = document.getElementById('professional_activities')
-                paField.innerHTML += titleInput.value.concat('\n');
-                paInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addProfessionalActivity()">Add</button>
+            <button class="btn" onclick="addProfessionalActivity()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-paField-modal">
+        <div class="form-container">
+            <h3>Edit Professional Activity</h3>
+            <label for="pa-title-edit">Title
+                <input name="pa-title-edit" id="pa-title-edit" type="text">
+            </label>
+            <button class="btn" onclick="editActivity()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="education-modal">
         <div class="form-container">
-            <h3>Add Education for Attorney</h3>
+            <h3>Add Education</h3>
             <label for="degree">Degree
                 <input name="degree" id="degree" type="text">
             </label>
@@ -141,33 +217,35 @@
                 <input name="year" id="year" type="text">
             </label>
             <label for="accolades">Accolades
-                <input name="accolades" id="accolades" type="text", placeholder="If no accolades, leave blank">
+                <input name="accolades" id="accolades" type="text" placeholder="If no accolades, leave blank">
             </label>
-            <button class="btn" onclick="function addEducation() {
-                const degreeInput = document.getElementById('degree');
-                const schoolInput = document.getElementById('school')
-                const yearInput = document.getElementById('year')
-                const accoladesInput = document.getElementById('accolades')
-                const educationInput = document.getElementById('education')
-                const educationField = document.getElementById('educationField')
-
-                if (accoladesInput.value === ''){
-                    educationField.innerHTML += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, '\n');
-                    educationInput.value += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, '\n');
-                }
-                else {
-                    educationField.innerHTML += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, ', ', accoladesInput.value, '\n');
-                    educationInput.value += degreeInput.value.concat(', ', schoolInput.value, ', ', yearInput.value, ', ', accoladesInput.value, '\n');
-                }
-                closeModal();
-            }addEducation()">Add</button>
+            <button class="btn" onclick="addEducation()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-education-modal">
+        <div class="form-container">
+            <h3>Edit Education</h3>
+            <label for="degree-edit">Degree
+                <input name="degree-edit" id="degree-edit" type="text">
+            </label>
+            <label for="school-edit">School
+                <input name="school-edit" id="school-edit" type="text">
+            </label>
+            <label for="year-edit">Year
+                <input name="year-edit" id="year-edit" type="text">
+            </label>
+            <label for="accolades-edit">Accolades
+                <input name="accolades-edit" id="accolades-edit" type="text" placeholder="If no accolades, leave blank">
+            </label>
+            <button class="btn" onclick="editEducation()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="publicationField-modal">
         <div class="form-container">
-            <h3>Add Publication for Attorney</h3>
+            <h3>Add Publication</h3>
             <label for="publication-title">Title
                 <input name="publication-title" id="publication-title" type="text">
             </label>
@@ -180,143 +258,760 @@
             <label for="publication-year">Year
                 <input name="publication-year" id="publication-year" type="text">
             </label>
-            <button class="btn" onclick="function addPublication() {
-                const titleInput = document.getElementById('publication-title');
-                const detailsInput = document.getElementById('publication-details');
-                const publicationsInput = document.getElementById('publication-publication');
-                const yearInput = document.getElementById('publication-year');
-                const publicationField = document.getElementById('publicationField');
-                const publicationInput = document.getElementById('publications')
-                publicationField.innerHTML += titleInput.value.concat(', ', detailsInput.value, ', ', publicationsInput.value, ', ', yearInput.value, '\n');
-                publicationInput.value += titleInput.value.concat(', ', detailsInput.value, ', ', publicationsInput.value, ', ', yearInput.value, '\n');
-                closeModal();
-            }addPublication()">Add</button>
+            <button class="btn" onclick="addPublication()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-publicationField-modal">
+        <div class="form-container">
+            <h3>Edit Publication</h3>
+            <label for="publication-title-edit">Title
+                <input name="publication-title-edit" id="publication-title-edit" type="text">
+            </label>
+            <label for="publication-details-edit">Details
+                <input name="publication-details-edit" id="publication-details-edit" type="text">
+            </label>
+            <label for="publication-publication-edit">Publication
+                <input name="publication-publication-edit" id="publication-publication-edit" type="text">
+            </label>
+            <label for="publication-year-edit">Year
+                <input name="publication-year-edit" id="publication-year-edit" type="text">
+            </label>
+            <button class="btn" onclick="editPublication()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="aopField-modal">
         <div class="form-container">
-            <h3>Add Area of Practice for Attorney</h3>
-            <label for="aop-title">Title
-                <input name="aop-title" id="aop-title" type="text">
+            <h3>Add Area of Practice</h3>
+            <label for="aop-name">Title
+                <input name="aop-name" id="aop-name" type="text">
             </label>
-            <button class="btn" onclick="function addAop() {
-                const titleInput = document.getElementById('aop-title');
-                const aopField = document.getElementById('aopField');
-                const aopInput = document.getElementById('areas_of_practice')
-                aopField.innerHTML += titleInput.value.concat('\n');
-                aopInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addAop()">Add</button>
+            <button class="btn" onclick="addAop()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-aopField-modal">
+        <div class="form-container">
+            <h3>Edit Area of Practice</h3>
+            <label for="aop-name-edit">Title
+                <input name="aop-name-edit" id="aop-name-edit" type="text">
+            </label>
+            <button class="btn" onclick="editAop()">Edit</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="admissionField-modal">
         <div class="form-container">
-            <h3>Add Admission for Attorney</h3>
+            <h3>Add Admission</h3>
             <label for="activity-court">Court
                 <input name="admission-court" id="admission-court" type="text">
             </label>
             <label for="admission-year">Year
                 <input name="admission-year" id="admission-year" type="text">
             </label>
-            <button class="btn" onclick="function addAdmission() {
-                const courtInput = document.getElementById('admission-court');
-                const yearInput = document.getElementById('admission-year');
-                const admissionsField = document.getElementById('admissionsField');
-                const admissionsInput = document.getElementById('admissions');
-
-                admissionsField.innerHTML += courtInput.value.concat(', ', yearInput.value, '\n');
-                admissionsInput.value +=  courtInput.value.concat(', ', yearInput.value, '\n');
-
-                closeModal();
-            }addAdmission()">Add</button>
+            <button class="btn" onclick="addAdmission()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-admissionField-modal">
+        <div class="form-container">
+            <h3>Edit Admission</h3>
+            <label for="activity-court-edit">Court
+                <input name="admission-court-edit" id="admission-court-edit" type="text">
+            </label>
+            <label for="admission-year-edit">Year
+                <input name="admission-year-edit" id="admission-year-edit" type="text">
+            </label>
+            <button class="btn" onclick="editAdmission()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <div class="modal-container" id="membershipField-modal">
         <div class="form-container">
-            <h3>Add Membership for Attorney</h3>
+            <h3>Add Membership</h3>
             <label for="membership-name">Name
                 <input name="membership-name" id="membership-name" type="text">
             </label>
-            <button class="btn" onclick="function addMembership() {
-                const nameInput = document.getElementById('membership-name');
-                const membershipField = document.getElementById('membershipField');
-                const membershipInput = document.getElementById('memberships')
-                membershipField.innerHTML += nameInput.value.concat('\n');
-                membershipInput.value +=  nameInput.value.concat('\n');
-                closeModal();
-            }addMembership()">Add</button>
+            <button class="btn" onclick="addMembership()">Add</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </div>
+    </div>
+    <div class="modal-container" id="edit-membershipField-modal">
+        <div class="form-container">
+            <h3>Edit Membership</h3>
+            <label for="membership-name-edit">Name
+                <input name="membership-name-edit" id="membership-name-edit" type="text">
+            </label>
+            <button class="btn" onclick="editMembership()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
-    <script>
-
+    <script src="../static/js/ajax.js"></script>
+    <script>$SCRIPT_ROOT = '{{ request.script_root|tojson }}';</script>
+    <script>        //src="../static/js/employee-functions.js"
         function closeModal() {
-            console.log('close model ran');
             $('#education-modal').hide();
+            $('#edit-education-modal').hide();
             $('#plField-modal').hide();
+            $('#edit-plField-modal').hide();
             $('#paField-modal').hide();
+            $('#edit-paField-modal').hide();
             $('#publicationField-modal').hide();
+            $('#edit-publicationField-modal').hide();
             $('#aopField-modal').hide();
+            $('#edit-aopField-modal').hide();
             $('#admissionField-modal').hide();
+            $('#edit-admissionField-modal').hide();
             $('#membershipField-modal').hide();
+            $('#edit-membershipField-modal').hide();
         }
 
-        function showLicense() {
-            $('#plField-modal').show();
+        function showLicense(edit) {
+            if (edit === 'edit') {$('#edit-plField-modal').show();}
+            else {$('#plField-modal').show();}
             document.getElementById('pl-title').value = '';
             document.getElementById('pl-title').focus();
         }
+        function addLicense() {
+            const titleInput = document.getElementById('pl-title');
+            const licenseList = document.getElementById('pl-list');
 
-        function showActivity() {
-            $('#paField-modal').show();
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {title: titleInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_license",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var licenseId = results['licenseId'];
+                   // Add the new license to the list
+                   const newLicense = document.createElement('li');
+                   newLicense.classList.add('list-entry');
+                   newLicense.id = 'licenseId' + licenseId;     // unique id needed for delete functionality
+                   licenseList.appendChild(newLicense);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(titleInput.value));
+                   newLicense.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteLicense(licenseId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newLicense.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editLicense(id){
+            const server_data = [
+                {id: id},
+                {newTitle: document.getElementById('pl-title-edit').value}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_license",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteLicense(licenseId){
+            const server_data = [
+                {licenseId: licenseId}
+            ];
+            console.log(server_data);
+            $.ajax({
+               type: "POST",
+               url: "/delete_license",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted license');
+                 const listEntry = document.getElementById('licenseId' + licenseId);
+                 listEntry.remove();
+               }
+             });
+        }
+
+        function showActivity(edit) {
+            if (edit === 'edit') {$('#edit-paField-modal').show();}
+            else {$('#paField-modal').show();}
             document.getElementById('pa-title').value = '';
             document.getElementById('pa-title').focus();
         }
+        function addProfessionalActivity() {
+            const titleInput = document.getElementById('pa-title');
+            const activityList = document.getElementById('pa-list');
 
-        function showEducation() {
-            $('#education-modal').show();
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {title: titleInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_activity",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var activityId = results['activityId'];
+                   // Add the new license to the list
+                   const newActivity = document.createElement('li');
+                   newActivity.classList.add('list-entry');
+                   newActivity.id = 'activityId' + activityId;
+                   activityList.appendChild(newActivity);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(titleInput.value));
+                   newActivity.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteActivity(activityId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newActivity.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editActivity(activityId) {
+            var activityTitle = document.getElementById('pa-title-edit');
+            const server_data = [
+                {activityId: activityId},
+                {newTitle: activityTitle.value}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_activity",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteActivity(activityId) {
+            const server_data = [
+                {activityId: activityId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_activity",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted activity');
+                 const listEntry = document.getElementById('activityId' + activityId);
+                 listEntry.remove();
+               }
+             });
+        }
+
+        function showEducation(edit) {
+            if (edit === 'edit') {$('#edit-education-modal').show();}
+            else{$('#education-modal').show();}
             document.getElementById('degree').value = '';
             document.getElementById('degree').focus();
             document.getElementById('school').value = '';
             document.getElementById('year').value = '';
             document.getElementById('accolades').value = '';
         }
+        function addEducation() {
+            const degreeInput = document.getElementById('degree');
+            const schoolInput = document.getElementById('school');
+            const yearInput = document.getElementById('year');
+            const accoladesInput = document.getElementById('accolades');
+            const educationList = document.getElementById('education-list');
 
-        function showPublication() {
-            $('#publicationField-modal').show();
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {degree: degreeInput.value},
+                {school: schoolInput.value},
+                {year: yearInput.value},
+                {accolades: accoladesInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_education",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var educationId = results['educationId'];
+                   // Add the new license to the list
+                   const newEducation = document.createElement('li');
+                   newEducation.classList.add('list-entry');
+                   newEducation.id = 'educationId' + educationId;     // unique id needed for delete functionality
+                   educationList.appendChild(newEducation);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(results['toString']));
+                   newEducation.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteEducation(educationId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newEducation.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editEducation(educationId) {
+            const server_data = [
+                {educationId: educationId},
+                {degree: document.getElementById('degree-edit').value},
+                {school: document.getElementById('publication-school-edit').value},
+                {year: document.getElementById('degree-edit').value},
+                {accolades: document.getElementById('accolades-edit').value}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_activity",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteEducation(educationId) {
+            const server_data = [
+                {educationId: educationId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_education",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted education');
+                 const listEntry = document.getElementById('educationId' + educationId);
+                 listEntry.remove();
+               }
+             });
+        }
+
+        function showPublication(edit) {
+            if (edit === 'edit') {$('#edit-publicationField-modal').show();}
+            else {$('#publicationField-modal').show();}
             document.getElementById('publication-title').value = '';
             document.getElementById('publication-title').focus();
             document.getElementById('publication-details').value = '';
             document.getElementById('publication-publication').value = '';
             document.getElementById('publication-year').value = '';
         }
+        function addPublication() {
+            const titleInput = document.getElementById('publication-title');
+            const detailsInput = document.getElementById('publication-details');
+            const publicationInput = document.getElementById('publication-publication');
+            const yearInput = document.getElementById('publication-year');
+            const publicationList = document.getElementById('publication-list');
 
-        function showAop() {
-            $('#aopField-modal').show();
-            document.getElementById('aop-title').value = '';
-            document.getElementById('aop-title').focus();
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {title: titleInput.value},
+                {details: detailsInput.value},
+                {publication: publicationInput.value},
+                {year: yearInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_publication",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var publicationString = results['toString'];
+                   var publicationId = results['publicationId'];
+                   // Add the new publication to the list
+                   const newPublication = document.createElement('li');
+                   newPublication.classList.add('list-entry');
+                   newPublication.id = 'publicationId' + publicationId;     // unique id needed for delete functionality
+                   publicationList.appendChild(newPublication);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(publicationString));
+                   newPublication.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deletePublication(publicationId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newPublication.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editPublication(publicationId) {
+            const server_data = [
+                {publicationId: publicationId},
+                {title: document.getElementById('publication-title-edit').value},
+                {details: document.getElementById('publication-details-edit').value},
+                {year: document.getElementById('publication-year-edit').value},
+                {publication: document.getElementById('publication-publication-edit').value}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_activity",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deletePublication(publicationId) {
+            const server_data = [
+                {publicationId: publicationId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_publication",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted publication');
+                 const listEntry = document.getElementById('publicationId' + publicationId);
+                 listEntry.remove();
+               }
+             });
         }
 
-        function showAdmission() {
-            $('#admissionField-modal').show();
+        function showAop(edit) {
+            if (edit === 'edit') {$('#edit-aopField-modal').show();}
+            else {$('#aopField-modal').show();}
+            document.getElementById('aop-name').value = '';
+            document.getElementById('aop-name').focus();
+        }
+        function addAop() {
+            const nameInput = document.getElementById('aop-name');
+            const aopList = document.getElementById('aop-list');
+
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {name: nameInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_aop",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var aopId = results['aopId'];
+                   // Add the new license to the list
+                   const newAop = document.createElement('li');
+                   newAop.classList.add('list-entry');
+                   newAop.id = 'aopId' + aopId;     // unique id needed for delete functionality
+                   aopList.appendChild(newAop);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(nameInput.value));
+                   newAop.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteAop(aopId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newAop.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editAop(aopId) {
+             const server_data = [
+                {aopId: aopId},
+                {newName: document.getElementById('aop-name-edit').value},
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_aop",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteAop(aopId) {
+            const server_data = [
+                {aopId: aopId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_aop",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted aop');
+                 const listEntry = document.getElementById('aopId' + aopId);
+                 listEntry.remove();
+               }
+             });
+        }
+
+        function showAdmission(edit) {
+            if (edit === 'edit') {$('#edit-admissionField-modal').show();}
+            else{$('#admissionField-modal').show();}
             document.getElementById('admission-court').value = '';
             document.getElementById('admission-court').focus();
             document.getElementById('admission-year').value = '';
         }
+        function addAdmission()  {
+            const courtInput = document.getElementById('admission-court');
+            const yearInput = document.getElementById('admission-year');
+            const admissionList = document.getElementById('admission-list');
 
-        function showMembership() {
-            $('#membershipField-modal').show();
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {court: courtInput.value},
+                {year: yearInput.value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_admission",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var admissionId = results['admissionId'];
+                   var admissionString = results['toString'];
+                   // Add the new license to the list
+                   const newAdmission = document.createElement('li');
+                   newAdmission.classList.add('list-entry');
+                   newAdmission.id = 'admissionId' + admissionId;     // unique id needed for delete functionality
+                   admissionList.appendChild(newAdmission);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(admissionString));
+                   newAdmission.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteAdmission(admissionId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newAdmission.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editAdmission(admissionId) {
+            const server_data = [
+                {admissionId: admissionId},
+                {court: document.getElementById('admission-court-edit')},
+                {year: document.getElementById('admission-year-edit').value},
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_admission",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteAdmission(admissionId) {
+            const server_data = [
+                {admissionId: admissionId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_admission",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted admission');
+                 const listEntry = document.getElementById('admissionId' + admissionId);
+                 listEntry.remove();
+               }
+             });
+        }
+
+        function showMembership(edit) {
+            if (edit === 'edit') {$('#edit-membershipField-modal').show();}
+            else{$('#membershipField-modal').show();}
             document.getElementById('membership-name').value = '';
             document.getElementById('membership-name').focus();
         }
+        function addMembership() {
+            const membershipList = document.getElementById('membership-list');
+
+            // Collect data to send asynchronously
+            const server_data = [
+                {attorneyId: '{{ current_attorney.id }}'},
+                {name: document.getElementById('membership-name').value}
+            ];
+            // Send data
+            $.ajax({
+               type: 'POST',
+               url: "/add_membership",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(results) {
+                   console.log(results);
+                   var membershipId = results['membershipId'];
+                   var membershipString = results['toString'];
+                   // Add the new license to the list
+                   const newMembership = document.createElement('li');
+                   newMembership.classList.add('list-entry');
+                   newMembership.id = 'membershipId' + membershipId;     // unique id needed for delete functionality
+                   membershipList.appendChild(newMembership);
+                   const divBullet = document.createElement('div');
+                   divBullet.classList.add('bullet');
+                   divBullet.appendChild(document.createTextNode(membershipString));
+                   newMembership.appendChild(divBullet);
+                   const buttonDiv = document.createElement('div');
+                   const editA = document.createElement('a');
+                   // editA.onclick =
+                   editA.appendChild(document.createTextNode('Edit'));
+                   editA.href = '#';
+                   editA.classList.add('button');
+                   buttonDiv.appendChild(editA);
+                   const deleteA = document.createElement('a');
+                   deleteA.onclick = function() { deleteMembership(membershipId); };
+                   deleteA.appendChild(document.createTextNode('Delete'));
+                   deleteA.href = '#';
+                   deleteA.classList.add('button');
+                   buttonDiv.appendChild(deleteA);
+                   newMembership.appendChild(buttonDiv);
+               }
+             });
+            closeModal();
+        }
+        function editMembership(membershipId) {
+            const server_data = [
+                {membershipId: membershipId},
+                {name: document.getElementById('membership-name-edit').value},
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/edit_membership",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function(result) {
+                 console.log(result);
+               }
+             });
+            closeModal();
+        }
+        function deleteMembership(membershipId) {
+            const server_data = [
+                {membershipId: membershipId}
+            ];
+            $.ajax({
+               type: "POST",
+               url: "/delete_membership",
+               data: JSON.stringify(server_data),
+               contentType: "application/json",
+               dataType: 'json',
+               success: function() {
+                 console.log('deleted membership');
+                 const listEntry = document.getElementById('membershipId' + membershipId);
+                 listEntry.remove();
+               }
+             });
+        }
+
     </script>
-    <script src="../static/js/ajax.js"></script>
 
 {% endblock %}

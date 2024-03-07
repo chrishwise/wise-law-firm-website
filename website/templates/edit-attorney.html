@@ -12,15 +12,23 @@
                 {{ form.csrf_token }}
                 <div class="row" style="padding-top: 10px">
                     <div class="col-sm-6 col-12">
-                        <label for="picture">Attorney Picture:</label>
-                        <input id="picture" class="inset-item" type="file" name="picture" accept="image/*">
+                        <dt>
+                            <label for="picture">Attorney Picture:</label>
+                        </dt>
+                        <dd>
+                            <input id="picture" class="inset-item" type="file" name="picture" accept="image/*">
+                        </dd>
                         <progress id="progressBar" value="0" max="100" style="width: 100%"></progress>
-                        <label>Upload Status:</label>
-                        <p id="uploadStatus" class="input-field"></p>
+                        <dt>
+                            <label>Upload Status:</label>
+                        </dt>
+                        <dd>
+                            <p id="uploadStatus" class="input-field"></p>
+                        </dd>
                     </div>
                     <div class="col-sm-6 col-12">
-                        <label>Preview:</label>
-                        <img id="picturePreview" src="{{ picture_url }}" alt="attorney picture preview">
+                        <dt><label>Preview:</label></dt>
+                        <dd><img id="picturePreview" src="{{ picture_url }}" alt="attorney picture preview"></dd>
                     </div>
                 </div>
                 {{ form.picture_url }}
@@ -51,8 +59,9 @@
                     <div class="textarea-container">
                         {% for pl in current_attorney.professional_licenses %}
                             <div class="entry">
-                                <div>{{ pl.to_string() }}</div>
-                                <button type="button" onclick="deleteEntry()">Delete</button>
+                                <div class="pl-entry">{{ pl.to_string() }}</div>
+                                <button type="button" onclick="editEntry('{{ pl.title }}, {{ pl.id }}')">Edit</button>
+                                <a href="{{ url_for('views.delete_license', id=pl.id) }}">Delete</a>
                             </div>
                         {% endfor %}
                         <button type="button" class="add" onclick="showLicense()">Add</button>
@@ -108,16 +117,20 @@
             <label for="pl-title">Title
                 <input name="pl-title" id="pl-title" type="text">
             </label>
-            <button class="btn" onclick="function addLicense() {
-                const titleInput = document.getElementById('pl-title');
-                const plField = document.getElementById('plField');
-                const plInput = document.getElementById('professional_licenses')
-                plField.innerHTML += titleInput.value.concat('\n');
-                plInput.value += titleInput.value.concat('\n');
-                closeModal();
-            }addLicense()">Add</button>
+            <button class="btn" onclick="addLicense()">Add</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
+    </div>
+    <div class="modal-container" id="plField-modal-edit">
+        <form class="form-container" name="edit-license">
+            <h3>Edit Professional License for Attorney</h3>
+            <label for="pl-title-edit">Title
+                <input name="pl-title-edit" id="pl-title-edit" type="text">
+            </label>
+            <input type="hidden" id="license_id" name="license_id">
+            <button class="btn" type="submit">Save</button>
+            <span class="close" onclick="closeModal()">&times;</span>
+        </form>
     </div>
 
     <div class="modal-container" id="paField-modal">
@@ -265,12 +278,8 @@
         </div>
     </div>
 
+
     <script>
-
-        function deleteEntry() {
-
-        }
-
 
         function closeModal() {
             console.log('close model ran');
@@ -283,10 +292,28 @@
             $('#membershipField-modal').hide();
         }
 
+        function editEntry(existingValue, license_id) {
+            $('#plField-modal').show();
+            document.getElementById('pl-title').value = existingValue;
+            document.getElementById('pl-title').focus();
+            document.getElementById('pl-id').value= license_id;
+        }
+        function deleteEntry() {
+
+            }
+
         function showLicense() {
             $('#plField-modal').show();
             document.getElementById('pl-title').value = '';
             document.getElementById('pl-title').focus();
+        }
+        function addLicense() {
+            const titleInput = document.getElementById('pl-title');
+            const plField = document.getElementById('plField');
+            const plInput = document.getElementById('professional_licenses')
+            plField.innerHTML += titleInput.value.concat('\n');
+            plInput.value += titleInput.value.concat('\n');
+            closeModal();
         }
 
         function showActivity() {

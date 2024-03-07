@@ -161,6 +161,7 @@ p {
 .nav-link {
     border: 2px solid transparent;
     color: #2C1753;
+    padding: 5px 12px;
     transition: all 0.3s;
 }
 
@@ -173,7 +174,8 @@ p {
     background-color: #2C1753;
 }
 
-.dropdown-menu > li > a:hover {
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover{
     background-color: #2C1753;
 }
 
@@ -320,7 +322,8 @@ p {
     transition: transform 250ms ease-in-out;
 }
 
-.a-card:hover {
+.a-card:hover,
+.a-card:focus{
     transform: scale(1.1);
 }
 
@@ -365,7 +368,8 @@ p.callout, .callout{
     transition: transform 150ms ease-in-out;
 }
 
-.aof-card:hover {
+.aof-card:hover,
+.aof-card:focus{
     transform: scale(1.3);
 }
 
@@ -378,7 +382,7 @@ p.callout, .callout{
     color: white;
 }
 
-.p-a-card:hover {
+.p-a-card:hover, .p-a-card:focus {
     transform: scale(1.3);
 }
 
@@ -596,7 +600,8 @@ a.btn-outline-gold {
     border-color: #A15A22;
 }
 
-.btn-outline-gold:hover {
+.btn-outline-gold:hover,
+.btn-outline-gold:focus{
     background-color: #A15A22;
     color: #FFFFFF;
 }
@@ -803,7 +808,8 @@ select{
     border-radius: 15px;
     overflow-wrap: break-word;
 }
-    .title-card:hover {
+    .title-card:hover ,
+    .title-card:focus{
         cursor: pointer;
     }
 
@@ -815,7 +821,8 @@ select{
     border-radius: 15px;
     border: 2px solid #A15A22;
 }
-    .new-card:hover, .btn-outline-gold:hover {
+    .new-card:hover, .btn-outline-gold:hover,
+    .new-card:focus, .btn-outline-gold:focus{
         cursor: pointer;
         background-color: #A15A22 !important;
         color: #FFFFFF !important;
@@ -1033,7 +1040,8 @@ button.btn:hover, button.btn:focus,
     z-index: 1;
 }
 
-a.dropdown-toggle:hover .dropdown-menu {
+a.dropdown-toggle:hover .dropdown-menu,
+a.dropdown-toggle:focus .dropdown-menu {
     display: block;
 }
 
@@ -1072,8 +1080,11 @@ form.form-container input, form.form-container select{
 }
 
 /* The Modal (background) */
-#image-viewer, #foreground-viewer, #education-modal, #paField-modal, #plField-modal, #publicationField-modal,
-#aopField-modal, #activityField-modal, #admissionField-modal, #membershipField-modal{
+#image-viewer, #foreground-viewer,
+#education-modal, #paField-modal, #plField-modal, #publicationField-modal,
+#aopField-modal, #activityField-modal, #admissionField-modal, #membershipField-modal,
+#edit-education-modal, #edit-paField-modal, #edit-plField-modal, #edit-publicationField-modal,
+#edit-aopField-modal, #edit-activityField-modal, #edit-admissionField-modal, #edit-membershipField-modal{
     display: none;
     position: fixed;
     z-index: 100000;
@@ -1184,7 +1195,7 @@ form.form-container input, form.form-container select{
     line-height: 25px;
     cursor: pointer;
 }
-.close-btn:hover {
+.close-btn:hover, .close-btn:focus {
     color:white;
     background-color: var(--purple);
 }
@@ -1271,7 +1282,7 @@ a.abs-corner-btn{
     background-color: var(--purple);
     transition: all 0.2s;
 }
-a.abs-corner-btn:hover{
+a.abs-corner-btn:hover, a.abs-corner-btn:focus{
     background-color: white;
     border-color: var(--purple);
 }
@@ -1307,7 +1318,7 @@ button.purple-bg {
     border-color: var(--purple);
 }
 
-button.purple-bg:hover {
+button.purple-bg:hover, button.purple-bg:focus {
     color:  var(--purple);
     background-color: white;
     border-color: var(--purple);
@@ -1322,7 +1333,7 @@ button.purple-bg:hover {
     transition: all 0.2s;
 }
 
-.employee-container:hover{
+.employee-container:hover, .employee-container:focus{
     text-decoration: none;
     transform: translateY(-5px);
     box-shadow: 0 0 6px 4px var(--light-grey);
@@ -1348,24 +1359,69 @@ button.purple-bg:hover {
     box-shadow: 1px 1px 8px 6px inset var(--gold-opaque);
     padding: 10px;
 }
-.textarea-container .entry{
-    width:100%;
+.list-container{
+    border-radius: 15px;
+    box-shadow: 1px 1px 8px 6px inset var(--gold-opaque);
+    padding: 10px 20px;
+    min-height: 54px;
+}
+
+.list-container .list-entry{
+    width:95%;
+    margin-left:5%;
     padding:5px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
 }
-.textarea-container button.add{
-    bottom:0;
-    width: 100%;
-    height: 30px;
+.list-entry div.bullet{
+    list-style: disc;
+    display: list-item;
+}
+button.add{
+    position: absolute;
+    right:0;
+    top:0;
+    height:80%;
     color:white;
     background-color: var(--gold);
+    margin-right:3px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+button.add:hover, button.add:focus{
+    background-color: white;
+    color: var(--gold);
+    transform: translateY(-5px);
 }
 
 .icon{
     width: 30px;
     height: 30px;
     margin: 0 5px;
+}
+
+#createAttorneyPC dt{
+    position: relative;
+}
+
+a.button {
+    padding: 2px 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    background-color: white;
+    transform: translateY(-5px);
+}
+a.button:hover, a.button:focus{
+    background-color: var(--gold);
+    color: white;
+    transform: translateY(-5px);
+}
+
+#about {
+    min-height:120px;
 }

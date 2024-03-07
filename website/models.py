@@ -129,7 +129,7 @@ class AttorneyPublication(db.Model):
     attorney = relationship('Attorney', backref=backref('publications', passive_deletes=True))
 
     def to_string(self):
-        return self.title + ", " + self.details + ", " + self.publication + ", " + self.year
+        return '\"' + self.title + '\"' + ", " + self.details + ", " + self.publication + ", " + self.year
 
 
 class AttorneyAreaOfPractice(db.Model):
@@ -181,7 +181,15 @@ class Attorney(db.Model):
     about = db.Column(db.Text())
     picture_url = db.Column(db.String(200))
 
-    def __init__(self, name, title, email, phone, about, picture_url="../static/images/avatar-placeholder.png"):
+    def __init__(self, name='', title='', email='', phone='', about='', picture_url="../static/images/avatar-placeholder.png"):
+        self.name = name
+        self.title = title
+        self.email = email
+        self.phone_number = phone
+        self.about = about
+        self.picture_url = picture_url
+
+    def update(self, name, title, email, phone, about, picture_url="../static/images/avatar-placeholder.png"):
         self.name = name
         self.title = title
         self.email = email
