@@ -25,12 +25,12 @@
 {% macro admin_navbar(activeId) %}
     <div class="absolute-center-banner">Admin Portal</div>
     <div class="flex-align-center">
-        <a id='employees' href="{{ url_for('views.manage_employees')}}" class="btn admin-nav-link">Manage Employees</a>
-        <a id='articles' href="{{ url_for('views.manage_articles', id=0)}}" class="btn admin-nav-link">Manage Articles</a>
-        <a id='reviews' href="{{ url_for('views.manage_reviews')}}" class="btn admin-nav-link">Manage Reviews</a>
-        <a id='admins' href="{{ url_for('views.manage_admins')}}" class="btn admin-nav-link">Manage Admins</a>
-        <a id='contact' href="{{  url_for('views.contact_submissions') }}" class="btn admin-nav-link">Contact Submissions</a>
-        <a id='account' href="{{  url_for('views.admin_portal') }}" class="btn admin-nav-link">Account</a>
+        <a id='employees' href="{{ url_for('views.manage_employees')}}" class="admin-nav-link">Manage Employees</a>
+        <a id='articles' href="{{ url_for('views.manage_articles', id=0)}}" class="admin-nav-link">Manage Articles</a>
+        <a id='reviews' href="{{ url_for('views.manage_reviews')}}" class="admin-nav-link">Manage Reviews</a>
+        <a id='admins' href="{{ url_for('views.manage_admins')}}" class="admin-nav-link">Manage Admins</a>
+        <a id='contact' href="{{  url_for('views.contact_submissions') }}" class="admin-nav-link">Contact Submissions</a>
+        <a id='account' href="{{  url_for('views.admin_portal') }}" class="admin-nav-link">Account</a>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>

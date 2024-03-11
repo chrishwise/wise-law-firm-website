@@ -179,7 +179,7 @@ class Attorney(db.Model):
     email = db.Column(db.String(200))
     phone_number = db.Column(db.String(15))
     about = db.Column(db.Text())
-    picture_url = db.Column(db.String(200))
+    picture_url = db.Column(db.String(20000))
 
     def __init__(self, name='', title='', email='', phone='', about='', picture_url="../static/images/avatar-placeholder.png"):
         self.name = name

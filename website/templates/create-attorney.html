@@ -10,45 +10,45 @@
         <form class="form-container" style="overflow-x: auto" method="POST" enctype="multipart/form-data">
             <dl>
                 {{ form.csrf_token }}
-                <div class="row" style="padding-top: 10px">
-                    <div class="col-sm-6 col-12">
-                        <label for="picture">Attorney Picture:</label>
-                        <input id="picture" class="inset-item" type="file" name="picture" accept="image/*">
-                        <progress id="progressBar" value="0" max="100" style="width: 100%"></progress>
-                        <label>Upload Status:</label>
-                        <p id="uploadStatus" class="input-field"></p>
-                    </div>
-                    <div class="col-sm-6 col-12">
-                        <label>Preview:</label>
-                        <img id="picturePreview" src="{{ picture_url }}" alt="attorney picture preview">
-                    </div>
-                </div>
-                {{ form.picture_url }}
                 <div class="row">
                     <div class="col-sm-6 col-12">
                         {{ render_field(form.name) }}
                         {{ render_field(form.title) }}
                     </div>
                     <div class="col-sm-6 col-12">
+                        <dt>
+                            <label for="picture">Employee Picture:</label>
+                        </dt>
+                        <dd>
+                            <input id="picture" name='picture' class="simple-file-upload" type="hidden" data-tag='employee'
+                                   data-template="frosty" data-resize-width="300" data-resize-height=""
+                                   data-width="100%" data-height="120px" data-class="dropset2"
+                                   data-maxFileSize="5" data-accepted="image/*">
+                        </dd>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-12">
                         {{ render_field(form.email) }}
+                    </div>
+                    <div class="col-sm-6 col-12">
                         {{ render_field(form.phone_number) }}
                     </div>
                 </div>
-
                 {{ render_field(form.about) }}
                 {{ form.new_attorney_id }}
-
                 <dt class="position-relative">
                     <label for="plField">Professional Licenses</label>
                     <button type="button" class="add" onclick="showLicense()">Add</button>
                 </dt>
                 <dd>
-                     <ul class="list-container" id="pl-list">
+                    <ul class="list-container" id="pl-list">
                         {% for pl in current_attorney.professional_licenses %}
                             <li id="licenseId{{ pl.id }}" class="list-entry">
                                 <div class="bullet">{{ pl.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-license onclick="showLicense('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-license onclick="showLicense('edit', '{{ pl.title }}',
+                                            '{{ pl.id }}')">Edit</a>
                                     <a class="button" href=# id=delete-license onclick="deleteLicense({{ pl.id }})">Delete</a>
                                 </div>
                             </li>
@@ -64,8 +64,9 @@
                         {% for pa in current_attorney.professional_activities %}
                             <li id="activityId{{ pa.id }}" class="list-entry">
                                 <div class="bullet">{{ pa.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-activity onclick="showActivity('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-activity onclick="showActivity('edit',
+                                            '{{ pa.title }}', '{{ pa.id }}')">Edit</a>
                                     <a class="button" href=# id=delete-activity onclick="deleteActivity({{ pa.id }})">Delete</a>
                                 </div>
                             </li>
@@ -78,12 +79,14 @@
                 </dt>
                 <dd>
                     <ul class="list-container" id="education-list">
-                        {% for e in current_attorney.education %}
-                            <li id="educationId{{ e.id }}" class="list-entry">
-                                <div class="bullet">{{ e.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-education onclick="showEducation('edit')">Edit</a>
-                                    <a class="button" href=# id=delete-education onclick="deleteEducation({{ e.id }})">Delete</a>
+                        {% for education in current_attorney.education %}
+                            <li id="educationId{{ education.id }}" class="list-entry">
+                                <div class="bullet">{{ education.to_string() }}</div>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-education onclick="showEducation('edit',
+                                            '{{ education.degree }}', '{{ education.school }}', '{{ education.year }}',
+                                            '{{ education.accolades }}', '{{ education.id }}')">Edit</a>
+                                    <a class="button" href=# id=delete-education onclick="deleteEducation({{ education.id }})">Delete</a>
                                 </div>
                             </li>
                         {% endfor %}
@@ -98,8 +101,10 @@
                         {% for p in current_attorney.publications %}
                             <li id="publicationId{{ p.id }}" class="list-entry">
                                 <div class="bullet">{{ p.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-publication onclick="showPublication('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-publication onclick="showPublication('edit',
+                                            '{{ p.title }}', '{{ p.details }}', '{{ p.publication }}', '{{ p.year }}',
+                                            '{{ p.id }}')">Edit</a>
                                     <a class="button" href=# id=delete-publication onclick="deletePublication({{ p.id }})">Delete</a>
                                 </div>
                             </li>
@@ -115,8 +120,9 @@
                         {% for aop in current_attorney.areas_of_practice %}
                             <li id="aopId{{ aop.id }}" class="list-entry">
                                 <div class="bullet">{{ aop.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-aop onclick="showAop('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-aop onclick="showAop('edit', '{{ aop.name }}',
+                                            '{{ aop.id }}')">Edit</a>
                                     <a class="button" href=# id=delete-aop onclick="deleteAop({{ aop.id }})">Delete</a>
                                 </div>
                             </li>
@@ -132,8 +138,9 @@
                         {% for admission in current_attorney.admissions %}
                             <li id="admissionId{{ admission.id }}" class="list-entry">
                                 <div class="bullet">{{ admission.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-admission onclick="showAdmission('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-admission onclick="showAdmission('edit',
+                                            '{{ admission.court }}', '{{ admission.year }}', '{{ admission.id }}')">Edit</a>
                                     <a class="button" href=# id=delete-admission onclick="deleteAdmission({{ admission.id }})">Delete</a>
                                 </div>
                             </li>
@@ -149,8 +156,8 @@
                         {% for membership in current_attorney.memberships %}
                             <li id="membershipId{{ membership.id }}" class="list-entry">
                                 <div class="bullet">{{ membership.to_string() }}</div>
-                                <div>
-                                    <a class="button" href=# id=edit-membership onclick="showMembership('edit')">Edit</a>
+                                <div class="nowrap">
+                                    <a class="button" href=# id=edit-membership onclick="showMembership('edit', '{{ membership.name }}', {{ membership.id }} )">Edit</a>
                                     <a class="button" href=# id=delete-membership onclick="deleteMembership({{ membership.id }})">Delete</a>
                                 </div>
                             </li>
@@ -178,7 +185,8 @@
             <label for="pl-title-edit">Title
                 <input name="pl-title-edit" id="pl-title-edit" type="text">
             </label>
-            <button class="btn" onclick="editLicense()">Save</button>
+            <input type="hidden" id="licenseHiddenId">
+            <button class="btn add-button" onclick="editLicense()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
@@ -199,6 +207,7 @@
             <label for="pa-title-edit">Title
                 <input name="pa-title-edit" id="pa-title-edit" type="text">
             </label>
+            <input type="hidden" id="activityHiddenId">
             <button class="btn" onclick="editActivity()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
@@ -238,6 +247,7 @@
             <label for="accolades-edit">Accolades
                 <input name="accolades-edit" id="accolades-edit" type="text" placeholder="If no accolades, leave blank">
             </label>
+            <input type="hidden" id="educationHiddenId">
             <button class="btn" onclick="editEducation()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
@@ -277,6 +287,7 @@
             <label for="publication-year-edit">Year
                 <input name="publication-year-edit" id="publication-year-edit" type="text">
             </label>
+            <input type="hidden" id="publicationHiddenId">
             <button class="btn" onclick="editPublication()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
@@ -285,7 +296,7 @@
     <div class="modal-container" id="aopField-modal">
         <div class="form-container">
             <h3>Add Area of Practice</h3>
-            <label for="aop-name">Title
+            <label for="aop-name">Name
                 <input name="aop-name" id="aop-name" type="text">
             </label>
             <button class="btn" onclick="addAop()">Add</button>
@@ -295,10 +306,11 @@
     <div class="modal-container" id="edit-aopField-modal">
         <div class="form-container">
             <h3>Edit Area of Practice</h3>
-            <label for="aop-name-edit">Title
+            <label for="aop-name-edit">Name
                 <input name="aop-name-edit" id="aop-name-edit" type="text">
+                <input type="hidden" id="aopHiddenId">
             </label>
-            <button class="btn" onclick="editAop()">Edit</button>
+            <button class="btn" onclick="editAop()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
@@ -321,11 +333,12 @@
             <h3>Edit Admission</h3>
             <label for="activity-court-edit">Court
                 <input name="admission-court-edit" id="admission-court-edit" type="text">
+                <input type="hidden" id="admissionHiddenId">
             </label>
             <label for="admission-year-edit">Year
                 <input name="admission-year-edit" id="admission-year-edit" type="text">
             </label>
-            <button class="btn" onclick="editAdmission()">Save</button>
+            <button class="btn add-button" onclick="editAdmission()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
@@ -345,673 +358,17 @@
             <h3>Edit Membership</h3>
             <label for="membership-name-edit">Name
                 <input name="membership-name-edit" id="membership-name-edit" type="text">
+                <input type="hidden" id="membershipHiddenId">
             </label>
-            <button class="btn" onclick="editMembership()">Save</button>
+            <button class="add-btn" onclick="editMembership()">Save</button>
             <span class="close" onclick="closeModal()">&times;</span>
         </div>
     </div>
 
     <script src="../static/js/ajax.js"></script>
     <script>$SCRIPT_ROOT = '{{ request.script_root|tojson }}';</script>
-    <script>        //src="../static/js/employee-functions.js"
-        function closeModal() {
-            $('#education-modal').hide();
-            $('#edit-education-modal').hide();
-            $('#plField-modal').hide();
-            $('#edit-plField-modal').hide();
-            $('#paField-modal').hide();
-            $('#edit-paField-modal').hide();
-            $('#publicationField-modal').hide();
-            $('#edit-publicationField-modal').hide();
-            $('#aopField-modal').hide();
-            $('#edit-aopField-modal').hide();
-            $('#admissionField-modal').hide();
-            $('#edit-admissionField-modal').hide();
-            $('#membershipField-modal').hide();
-            $('#edit-membershipField-modal').hide();
-        }
-
-        function showLicense(edit) {
-            if (edit === 'edit') {$('#edit-plField-modal').show();}
-            else {$('#plField-modal').show();}
-            document.getElementById('pl-title').value = '';
-            document.getElementById('pl-title').focus();
-        }
-        function addLicense() {
-            const titleInput = document.getElementById('pl-title');
-            const licenseList = document.getElementById('pl-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {title: titleInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_license",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var licenseId = results['licenseId'];
-                   // Add the new license to the list
-                   const newLicense = document.createElement('li');
-                   newLicense.classList.add('list-entry');
-                   newLicense.id = 'licenseId' + licenseId;     // unique id needed for delete functionality
-                   licenseList.appendChild(newLicense);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(titleInput.value));
-                   newLicense.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteLicense(licenseId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newLicense.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editLicense(id){
-            const server_data = [
-                {id: id},
-                {newTitle: document.getElementById('pl-title-edit').value}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_license",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteLicense(licenseId){
-            const server_data = [
-                {licenseId: licenseId}
-            ];
-            console.log(server_data);
-            $.ajax({
-               type: "POST",
-               url: "/delete_license",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted license');
-                 const listEntry = document.getElementById('licenseId' + licenseId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showActivity(edit) {
-            if (edit === 'edit') {$('#edit-paField-modal').show();}
-            else {$('#paField-modal').show();}
-            document.getElementById('pa-title').value = '';
-            document.getElementById('pa-title').focus();
-        }
-        function addProfessionalActivity() {
-            const titleInput = document.getElementById('pa-title');
-            const activityList = document.getElementById('pa-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {title: titleInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_activity",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var activityId = results['activityId'];
-                   // Add the new license to the list
-                   const newActivity = document.createElement('li');
-                   newActivity.classList.add('list-entry');
-                   newActivity.id = 'activityId' + activityId;
-                   activityList.appendChild(newActivity);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(titleInput.value));
-                   newActivity.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteActivity(activityId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newActivity.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editActivity(activityId) {
-            var activityTitle = document.getElementById('pa-title-edit');
-            const server_data = [
-                {activityId: activityId},
-                {newTitle: activityTitle.value}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_activity",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteActivity(activityId) {
-            const server_data = [
-                {activityId: activityId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_activity",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted activity');
-                 const listEntry = document.getElementById('activityId' + activityId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showEducation(edit) {
-            if (edit === 'edit') {$('#edit-education-modal').show();}
-            else{$('#education-modal').show();}
-            document.getElementById('degree').value = '';
-            document.getElementById('degree').focus();
-            document.getElementById('school').value = '';
-            document.getElementById('year').value = '';
-            document.getElementById('accolades').value = '';
-        }
-        function addEducation() {
-            const degreeInput = document.getElementById('degree');
-            const schoolInput = document.getElementById('school');
-            const yearInput = document.getElementById('year');
-            const accoladesInput = document.getElementById('accolades');
-            const educationList = document.getElementById('education-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {degree: degreeInput.value},
-                {school: schoolInput.value},
-                {year: yearInput.value},
-                {accolades: accoladesInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_education",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var educationId = results['educationId'];
-                   // Add the new license to the list
-                   const newEducation = document.createElement('li');
-                   newEducation.classList.add('list-entry');
-                   newEducation.id = 'educationId' + educationId;     // unique id needed for delete functionality
-                   educationList.appendChild(newEducation);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(results['toString']));
-                   newEducation.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteEducation(educationId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newEducation.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editEducation(educationId) {
-            const server_data = [
-                {educationId: educationId},
-                {degree: document.getElementById('degree-edit').value},
-                {school: document.getElementById('publication-school-edit').value},
-                {year: document.getElementById('degree-edit').value},
-                {accolades: document.getElementById('accolades-edit').value}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_activity",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteEducation(educationId) {
-            const server_data = [
-                {educationId: educationId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_education",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted education');
-                 const listEntry = document.getElementById('educationId' + educationId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showPublication(edit) {
-            if (edit === 'edit') {$('#edit-publicationField-modal').show();}
-            else {$('#publicationField-modal').show();}
-            document.getElementById('publication-title').value = '';
-            document.getElementById('publication-title').focus();
-            document.getElementById('publication-details').value = '';
-            document.getElementById('publication-publication').value = '';
-            document.getElementById('publication-year').value = '';
-        }
-        function addPublication() {
-            const titleInput = document.getElementById('publication-title');
-            const detailsInput = document.getElementById('publication-details');
-            const publicationInput = document.getElementById('publication-publication');
-            const yearInput = document.getElementById('publication-year');
-            const publicationList = document.getElementById('publication-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {title: titleInput.value},
-                {details: detailsInput.value},
-                {publication: publicationInput.value},
-                {year: yearInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_publication",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var publicationString = results['toString'];
-                   var publicationId = results['publicationId'];
-                   // Add the new publication to the list
-                   const newPublication = document.createElement('li');
-                   newPublication.classList.add('list-entry');
-                   newPublication.id = 'publicationId' + publicationId;     // unique id needed for delete functionality
-                   publicationList.appendChild(newPublication);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(publicationString));
-                   newPublication.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deletePublication(publicationId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newPublication.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editPublication(publicationId) {
-            const server_data = [
-                {publicationId: publicationId},
-                {title: document.getElementById('publication-title-edit').value},
-                {details: document.getElementById('publication-details-edit').value},
-                {year: document.getElementById('publication-year-edit').value},
-                {publication: document.getElementById('publication-publication-edit').value}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_activity",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deletePublication(publicationId) {
-            const server_data = [
-                {publicationId: publicationId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_publication",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted publication');
-                 const listEntry = document.getElementById('publicationId' + publicationId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showAop(edit) {
-            if (edit === 'edit') {$('#edit-aopField-modal').show();}
-            else {$('#aopField-modal').show();}
-            document.getElementById('aop-name').value = '';
-            document.getElementById('aop-name').focus();
-        }
-        function addAop() {
-            const nameInput = document.getElementById('aop-name');
-            const aopList = document.getElementById('aop-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {name: nameInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_aop",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var aopId = results['aopId'];
-                   // Add the new license to the list
-                   const newAop = document.createElement('li');
-                   newAop.classList.add('list-entry');
-                   newAop.id = 'aopId' + aopId;     // unique id needed for delete functionality
-                   aopList.appendChild(newAop);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(nameInput.value));
-                   newAop.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteAop(aopId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newAop.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editAop(aopId) {
-             const server_data = [
-                {aopId: aopId},
-                {newName: document.getElementById('aop-name-edit').value},
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_aop",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteAop(aopId) {
-            const server_data = [
-                {aopId: aopId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_aop",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted aop');
-                 const listEntry = document.getElementById('aopId' + aopId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showAdmission(edit) {
-            if (edit === 'edit') {$('#edit-admissionField-modal').show();}
-            else{$('#admissionField-modal').show();}
-            document.getElementById('admission-court').value = '';
-            document.getElementById('admission-court').focus();
-            document.getElementById('admission-year').value = '';
-        }
-        function addAdmission()  {
-            const courtInput = document.getElementById('admission-court');
-            const yearInput = document.getElementById('admission-year');
-            const admissionList = document.getElementById('admission-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {court: courtInput.value},
-                {year: yearInput.value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_admission",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var admissionId = results['admissionId'];
-                   var admissionString = results['toString'];
-                   // Add the new license to the list
-                   const newAdmission = document.createElement('li');
-                   newAdmission.classList.add('list-entry');
-                   newAdmission.id = 'admissionId' + admissionId;     // unique id needed for delete functionality
-                   admissionList.appendChild(newAdmission);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(admissionString));
-                   newAdmission.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteAdmission(admissionId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newAdmission.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editAdmission(admissionId) {
-            const server_data = [
-                {admissionId: admissionId},
-                {court: document.getElementById('admission-court-edit')},
-                {year: document.getElementById('admission-year-edit').value},
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_admission",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteAdmission(admissionId) {
-            const server_data = [
-                {admissionId: admissionId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_admission",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted admission');
-                 const listEntry = document.getElementById('admissionId' + admissionId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-        function showMembership(edit) {
-            if (edit === 'edit') {$('#edit-membershipField-modal').show();}
-            else{$('#membershipField-modal').show();}
-            document.getElementById('membership-name').value = '';
-            document.getElementById('membership-name').focus();
-        }
-        function addMembership() {
-            const membershipList = document.getElementById('membership-list');
-
-            // Collect data to send asynchronously
-            const server_data = [
-                {attorneyId: '{{ current_attorney.id }}'},
-                {name: document.getElementById('membership-name').value}
-            ];
-            // Send data
-            $.ajax({
-               type: 'POST',
-               url: "/add_membership",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(results) {
-                   console.log(results);
-                   var membershipId = results['membershipId'];
-                   var membershipString = results['toString'];
-                   // Add the new license to the list
-                   const newMembership = document.createElement('li');
-                   newMembership.classList.add('list-entry');
-                   newMembership.id = 'membershipId' + membershipId;     // unique id needed for delete functionality
-                   membershipList.appendChild(newMembership);
-                   const divBullet = document.createElement('div');
-                   divBullet.classList.add('bullet');
-                   divBullet.appendChild(document.createTextNode(membershipString));
-                   newMembership.appendChild(divBullet);
-                   const buttonDiv = document.createElement('div');
-                   const editA = document.createElement('a');
-                   // editA.onclick =
-                   editA.appendChild(document.createTextNode('Edit'));
-                   editA.href = '#';
-                   editA.classList.add('button');
-                   buttonDiv.appendChild(editA);
-                   const deleteA = document.createElement('a');
-                   deleteA.onclick = function() { deleteMembership(membershipId); };
-                   deleteA.appendChild(document.createTextNode('Delete'));
-                   deleteA.href = '#';
-                   deleteA.classList.add('button');
-                   buttonDiv.appendChild(deleteA);
-                   newMembership.appendChild(buttonDiv);
-               }
-             });
-            closeModal();
-        }
-        function editMembership(membershipId) {
-            const server_data = [
-                {membershipId: membershipId},
-                {name: document.getElementById('membership-name-edit').value},
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/edit_membership",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function(result) {
-                 console.log(result);
-               }
-             });
-            closeModal();
-        }
-        function deleteMembership(membershipId) {
-            const server_data = [
-                {membershipId: membershipId}
-            ];
-            $.ajax({
-               type: "POST",
-               url: "/delete_membership",
-               data: JSON.stringify(server_data),
-               contentType: "application/json",
-               dataType: 'json',
-               success: function() {
-                 console.log('deleted membership');
-                 const listEntry = document.getElementById('membershipId' + membershipId);
-                 listEntry.remove();
-               }
-             });
-        }
-
-    </script>
-
+    {#  To access flask variables from an external js file, they must first be set as global variables.
+        This must be declared before the script tag containing the js file in which the variables are used. #}
+    <script>attorneyId = '{{ current_attorney.id }}'</script>
+    <script src={{ url_for('static', filename='js/employee-functions.js') }}></script>
 {% endblock %}

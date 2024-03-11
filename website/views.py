@@ -42,10 +42,6 @@ def our_team():
 @views.route('/employee/<int:id>', methods=['GET'])
 def employee(id):
     employee = Attorney.query.get(id)
-    print(employee.professional_licenses)
-    print(employee.areas_of_practice)
-    print(employee.memberships)
-    print(employee.education)
     return render_template("employee-template.html", employee=employee, logged_in=current_user.is_authenticated)
 
 
@@ -289,8 +285,9 @@ def create_employee():
             email = form.email.data
             phone = form.phone_number.data
             about = form.about.data
-
-            new_attorney.update(name=name, title=title, email=email, phone=phone, about=about)
+            picture_url = request.form.get('picture')
+            print(f"picture_url: {picture_url}")
+            new_attorney.update(name=name, title=title, email=email, phone=phone, about=about, picture_url=picture_url)
             session.commit()
             session.close()
             flash('New Attorney Has Been Created', category='success')
@@ -314,13 +311,16 @@ def create_employee():
 def add_license():
     if request.method == 'POST':
         json_data = request.get_json()
+        print(f'json object: {json_data}')
         attorney_id = int(json_data[0]['attorneyId'])
         attorney = session.query(Attorney).get(attorney_id)
+        print(f'attorneyid: {attorney_id}, \njson_object: {json_data}')
         title = json_data[1]['title']
         new_license = AttorneyProfessionalLicense(title=title, attorney=attorney)
         session.add(new_license)
         session.flush()
         results = {'title': title,
+                   'toString': new_license.to_string(),
                    'licenseId': new_license.id}
         return jsonify(results)
 
@@ -332,12 +332,14 @@ def edit_license():
         json_data = request.get_json()
         license_id = int(json_data[0]['id'])
         new_title = json_data[1]['newTitle']
-        license = AttorneyProfessionalLicense.query.get(license_id)
+        license = session.query(AttorneyProfessionalLicense).get(license_id)
         attorney_id = license.attorney_id
         license.title = new_title
-        db.session.commit()
-        flash('Professional license was successfully saved', category='success')
-        results = [{'attorneyId': attorney_id}, {'updatedLicense': license}]
+        db.session.flush()
+        results = {'attorneyId': attorney_id,
+                   'title': new_title,
+                   'toString': license.to_string(),
+                   'licenseId': license.id}
         return jsonify(results)
 
 
@@ -376,11 +378,14 @@ def edit_activity():
         json_data = request.get_json()
         activity_id = int(json_data[0]['activityId'])
         new_title = json_data[1]['newTitle']
-        activity = AttorneyProfessionalActivity.query.get(activity_id)
+        activity = session.query(AttorneyProfessionalActivity).get(activity_id)
         attorney_id = activity.attorney_id
         activity.title = new_title
-        session.commit()
-        results = [{'attorneyId': attorney_id}, {'activityTitle': activity.title}]
+        session.flush()
+        results = {'attorneyId': attorney_id,
+                   'activityId': activity_id,
+                   'toString': activity.to_string(),
+                   'activityTitle': activity.title}
         return jsonify(results)
 
 
@@ -403,14 +408,23 @@ def add_education():
     if request.method == 'POST':
         json_data = request.get_json()
         attorney_id = int(json_data[0]['attorneyId'])
-        attorney = session.query(AttorneyEducation).get(attorney_id)
+        print(attorney_id)
+        attorney = session.query(Attorney).get(attorney_id)
+        print(f'current attorney: {attorney}')
         education = AttorneyEducation(degree=json_data[1]['degree'], school=json_data[2]['school'],
                                       year=json_data[3]['year'], accolades=json_data[4]['accolades'],
                                       attorney=attorney)
+        print(education)
         session.add(education)
         session.flush()
-        results = {'toString': education.to_string(),
+        print(session.__contains__(education))
+        results = {'degree': education.school,
+                   'school': education.school,
+                   'year': education.year,
+                   'accolades': education.accolades,
+                   'toString': education.to_string(),
                    'educationId': education.id}
+        print(results)
         return jsonify(results)
 
 
@@ -419,15 +433,20 @@ def add_education():
 def edit_education():
     if request.method == 'POST':
         json_data = request.get_json()
+        print(f'jsondata: {json_data}')
         education_id = int(json_data[0]['educationId'])
-        education = AttorneyEducation.query.get(education_id)
+        education = session.query(AttorneyEducation).get(education_id)
         education.degree = json_data[1]['degree']
         education.school = json_data[2]['school']
         education.year = json_data[3]['year']
         education.accolades = json_data[4]['accolades']
-        session.commit()
-        results = [{'toString': education.to_string()},
-                   {'educationId': education_id}]
+        session.flush()
+        results = {'toString': education.to_string(),
+                   'degree': education.degree,
+                   'school': education.school,
+                   'year': education.year,
+                   'accolades:': education.accolades,
+                   'educationId': education_id}
         return jsonify(results)
 
 
@@ -460,6 +479,10 @@ def add_publication():
         session.add(new_publication)
         session.flush()
         results = {'toString': new_publication.to_string(),
+                   'title': new_publication.title,
+                   'details': new_publication.details,
+                   'publication': new_publication.publication,
+                   'year': new_publication.year,
                    'publicationId': new_publication.id}
         return jsonify(results)
 
@@ -470,14 +493,18 @@ def edit_publication():
     if request.method == 'POST':
         json_data = request.get_json()
         publication_id = int(json_data[0]['publicationId'])
-        publication = AttorneyPublication.query.get(publication_id)
+        publication = session.query(AttorneyPublication).get(publication_id)
         publication.title = json_data[1]['title']
         publication.details = json_data[2]['details']
         publication.year = json_data[3]['year']
         publication.publication = json_data[4]['publication']
-        session.commit()
-        results = [{'toString': publication.to_string()},
-                   {'publicationId': publication_id}]
+        session.flush()
+        results = {'toString': publication.to_string(),
+                   'title': publication.title,
+                   'details':publication.details,
+                   'year': publication.year,
+                   'publication': publication.publication,
+                   'publicationId': publication_id}
         return jsonify(results)
 
 
@@ -499,13 +526,18 @@ def delete_publication():
 def add_aop():
     if request.method == 'POST':
         json_data = request.get_json()
+        print(json_data)
         attorney_id = int(json_data[0]['attorneyId'])
         attorney = session.query(Attorney).get(attorney_id)
         name = json_data[1]['name']
+        print(name)
         new_aop = AttorneyAreaOfPractice(name=name, attorney=attorney)
         session.add(new_aop)
         session.flush()
+        print(f"new_aop.id: {new_aop.id}")
+        print(f"new aop tostring: {new_aop.to_string()}")
         results = {'toString': new_aop.to_string(),
+                   'aopName': name,
                    'aopId': new_aop.id}
         return jsonify(results)
 
@@ -515,13 +547,18 @@ def add_aop():
 def edit_aop():
     if request.method == 'POST':
         json_data = request.get_json()
+        print(json_data)
         aop_id = int(json_data[0]['aopId'])
         new_title = json_data[1]['newName']
-        aop = AttorneyAreaOfPractice.query.get(aop_id)
+        print(f"newName: {new_title}")
+        aop = session.query(AttorneyAreaOfPractice).get(aop_id)
         attorney_id = aop.attorney_id
         aop.title = new_title
-        session.commit()
-        results = [{'attorneyId': attorney_id}, {'aopTitle': aop.title}]
+        session.flush()
+        results = {'attorneyId': attorney_id,
+                   'aopId': aop.id,
+                   'toString': aop.to_string(),
+                   'name': aop.title}
         return jsonify(results)
 
 
@@ -563,12 +600,16 @@ def edit_admission():
         admission_id = int(json_data[0]['admissionId'])
         new_court = json_data[1]['court']
         new_year = json_data[2]['year']
-        admission = AttorneyAdmission.query.get(admission_id)
+        admission = session.query(AttorneyAdmission).get(admission_id)
         attorney_id = admission.attorney_id
         admission.court = new_court
         admission.year = new_year
-        session.commit()
-        results = [{'attorneyId': attorney_id}, {'toString': admission.to_string()}]
+        session.flush()
+        results = {'attorneyId': attorney_id,
+                   'toString': admission.to_string(),
+                   'admissionCourt': admission.court,
+                   'admissionYear': admission.year,
+                   'admissionId': admission_id}
         return jsonify(results)
 
 
@@ -608,11 +649,11 @@ def edit_membership():
         json_data = request.get_json()
         membership_id = int(json_data[0]['membershipId'])
         new_name = json_data[1]['name']
-        membership = AttorneyMembership.query.get(membership_id)
+        membership = session.query(AttorneyMembership).get(membership_id)
         attorney_id = membership.attorney_id
         membership.name = new_name
         session.flush()
-        results = [{'attorneyId': attorney_id}, {'toString': membership.to_string()}]
+        results = {'attorneyId': attorney_id, 'toString': membership.to_string()}
         return jsonify(results)
 
 
@@ -633,27 +674,40 @@ def delete_membership():
 @views.route('/edit-employee/<int:eId>', methods=['GET', 'POST'])
 @login_required
 def edit_employee(eId):
+    print(f'session is active: {session.is_active}')
+    if not session.is_active:
+        print(f'session began')
+        session.begin()
     form = CreateAttorneyForm(request.form)
     header = "Edit Employee"
     button = "Save Changes"
-    current_attorney = Attorney.query.get(eId)
-    form.name.data = current_attorney.name
-    form.email.data = current_attorney.email
-    form.title.data = current_attorney.title
-    form.phone_number.data = current_attorney.phone_number
-    form.about.data = current_attorney.about
-    form.picture_url.data = current_attorney.picture_url
+    current_attorney = session.query(Attorney).get(eId)
+    print(f'current attorney: {current_attorney}')
+    print(f'current attorneys education: {current_attorney.education}')
+    educations = db.session.query(AttorneyEducation).all();
+    print(f'educations: {educations}')
 
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST':
         current_attorney.name = form.name.data
         current_attorney.title = form.title.data
         current_attorney.email = form.email.data
-        current_attorney.phone = form.phone_number.data
+        current_attorney.phone_number = form.phone_number.data
         current_attorney.about = form.about.data
-
-        db.session.commit()
-        flash('Attorney details saved', category='success')
-        return redirect(url_for('views.manage_employees'))
+        if form.validate():
+            session.commit()
+            flash('Attorney details saved', category='success')
+            session.close()
+            print(f'session closed')
+            return redirect(url_for('views.manage_employees'))
+        else:
+            flash('Changes failed to save', category='error')
+    else:
+        form.name.data = current_attorney.name
+        form.email.data = current_attorney.email
+        form.title.data = current_attorney.title
+        form.phone_number.data = current_attorney.phone_number
+        form.about.data = current_attorney.about
+        form.picture_url.data = current_attorney.picture_url
     return render_template('create-attorney.html', logged_in=False, form=form, header=header, button=button,
                            current_user=current_user, current_attorney=current_attorney)
 

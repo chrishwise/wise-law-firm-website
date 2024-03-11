@@ -26,8 +26,15 @@ body {
 a.btn, button.btn{
     border: 2px solid var(--gold);
     background: var(--light-opaque);
-    color: var(--purple);
+    color: var(--gray-dark);
     margin: 20px 5px;
+    transition: all 0.2s;
+}
+a.btn:hover, button.btn:hover,
+a.btn:focus, button.btn:focus{
+    background-color: var(--gold)!important;
+    color: white !important;
+    transform: translateY(-5px);
 }
 
 .main {
@@ -515,21 +522,26 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     margin-bottom: 20px;
     margin-top: 20px;
-    justify-content: left;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
 
-.pic {
-    height: 240px;
-    position: relative;
-    top: 0%;
-    left: 0%;
+.employee-header img.profile {
+    width: 100%;
+    padding:0 10px 10px 0;
+    max-width: 240px;
+}
+
+.flex-row-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
 }
 
 .employee-header-text-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 45%;
-    padding-left: 20px;
+    display: flex ;
+    flex-direction: column ;
 }
 
 /*@media screen and (min-width: 422px){
@@ -555,24 +567,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .attorney-contact-info {
-    padding-top: 10px;
     padding-left: 0;
-    justify-content: flex-end;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-between;
     gap:8px;
 }
-/*@media screen and (min-width: 737px) {
+@media screen and (min-width: 737px) {
     .attorney-contact-info {
-        padding-top: 130px;
         padding-left: 0;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        justify-content: flex-end;
+        flex-direction: column;
     }
-}*/
+    .flex-row-wrap{
+        flex-wrap: nowrap;
+        width: 70%;
+    }
+    .employee-section {
+        padding: 40px 12%;
+    }
+}
 
 .employee-section {
     padding: 40px 8%;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 1000px) {
     .employee-section{
         padding: 40px 20%;
     }
@@ -730,7 +753,7 @@ span.swiper-pagination-bullet {
     max-width: 800px;
     width:100%;
     margin: 20px auto;
-    padding: 20px;
+    padding: 30px;
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 0 3px black;
@@ -761,6 +784,7 @@ select{
     border-radius: 15px;
     box-shadow: 1px 1px 8px 6px inset var(--gold-opaque);
     padding: 10px;
+    margin: 1px;
 }
 
 .g-recaptcha{
@@ -845,15 +869,14 @@ a.admin-nav-link{
     margin:2px;
     border: 2px solid transparent;
     transition: all 0.3s;
+    color: var(--gray-dark);
 }
 
 .admin-nav-link:hover, .admin-nav-link:focus,
-a.btn:hover, a.btn:focus,
-button.btn:hover, button.btn:focus,
 .admin-nav-link.active{
     border:2px solid var(--gold);
     background-color: white;
-    color: var(--purple);
+    color: var(--gray-dark);
     text-decoration: none !important;
     box-shadow: none;
 }
@@ -1077,6 +1100,7 @@ form.form-container input, form.form-container select{
     border: 1px solid var(--gold);
     box-shadow: 1px 1px 6px 6px inset var(--gold-opaque);
     padding: 10px;
+    margin:1px;
 }
 
 /* The Modal (background) */
@@ -1136,9 +1160,13 @@ form.form-container input, form.form-container select{
     border: 1px solid var(--purple);
     color: var(--purple);
     width: 50px;
-    border-radius: 15px;
+    border-radius: 5px;
     background: var(--gold-opaque);
     text-align: center;
+    transition: all 0.2s;
+}
+.add-button:hover {
+    transform: translateY(-5px);
 }
 
 .flex-wrap{
@@ -1414,7 +1442,7 @@ a.button {
     color: var(--gold);
     border: 2px solid var(--gold);
     background-color: white;
-    transform: translateY(-5px);
+    transition: all 0.2s;
 }
 a.button:hover, a.button:focus{
     background-color: var(--gold);
@@ -1424,4 +1452,37 @@ a.button:hover, a.button:focus{
 
 #about {
     min-height:120px;
+}
+
+#manageEmployees tr > td { text-align: left} /* first column */
+#manageEmployees tr > td:first-child + td { text-align: center;} /* second column */
+#manageEmployees tr > td:first-child + td + td { text-align: center;} /* third column */
+
+#manageEmployees tr > th:first-child + th { text-align: center;}  /* second header */
+#manageEmployees tr > th:first-child + th + th { text-align: center;}
+
+.nowrap{
+    display: flex;
+    flex-flow: row nowrap;
+    line-height: 1.2;
+}
+
+.dropzone {
+    background-color: #ffffff;
+    border-color: #a15a22;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 1px 1px 6px 6px inset #C7865538;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+form.form-container input:hover,
+form.form-container input:focus,
+form.form-container textarea:hover,
+form.form-container textarea:focus,
+iframe.widgetFrame:hover,
+iframe.widgetFrame:hover {
+    border: 2px solid #a15a22;
+    margin:0
 }

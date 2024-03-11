@@ -15,13 +15,15 @@
 
 	<div class="page-container employee-section section1 d-flex flex-column">
 
-		<div class="employee-header d-flex flex-row">
-			<img class="pic animate-fadein5" src="{{ employee.picture_url }}">
-			<div class="employee-header-text-wrapper">
-				<h1 class="employee-header-text animate-right">{{ employee.name }}</h1>
-				<h2 class="employee-header-text2 animate-up">{{ employee.title }}</h2>
-			</div>
-			<div class="attorney-contact-info d-flex flex-column">
+		<div class="employee-header">
+            <div class="flex-row-wrap">
+                <img class="profile" src="{{ employee.picture_url }}">
+                <div class="employee-header-text-wrapper">
+                    <h1 class="employee-header-text">{{ employee.name }}</h1>
+                    <h2 class="employee-header-text2">{{ employee.title }}</h2>
+                </div>
+            </div>
+			<div class="attorney-contact-info animate-right">
 				<div class="d-flex align-center">
 					<img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
 					<div class="contact-text">{{ employee.email}}</div>
