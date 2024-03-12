@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!--<div class="pimg3" data-parallax="scroll" data-image-src="{{ url_for('static', filename='grouppic.jpg') }}">
-	
-	<div class="parallax-flex-container d-flex flex-column" >	
-		<div class="page-header-text">Our Team</div>	
-	</div>
-</div>-->
 
-<div class="page-container section d-flex flex-column section1">
+<div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='nats-bg.jpg') }}">
+    <div class="parallax-flex-container d-flex flex-column" >
+        <div class="page-header-text">Our Team</div>
+    </div>
+</div>
+
+<div class="page-container">
 	
-	<div class="section">
-		<h1 class="animate-left">Attorneys</h1>
+	<div style="width: 80%; text-align: center">
+		<h1>Attorneys</h1>
 		<hr>
-		<section class="p-a-cards">
+		{#<section class="p-a-cards">
 			<a class="a-card" href="/david-wise">
 				<div class="a-card-image"><img src="{{ url_for('static', filename='david-wise.png') }}" alt="David Wise" height = "350" width = "240"></div>
 			</a>
@@ -29,7 +29,29 @@
             <a class="a-card" href="/dylan-graham">
 				<div class="a-card-image"><img src="{{ url_for('static', filename='dylan-graham.png') }}" alt="Dylan Graham" height = "350" width = "225"></div>
 			</a>
-		</section>
+		</section>#}
+
+        {% for a in attorneys %}
+            <a class="employee-container" href="{{ url_for('views.employee', id=a.id) }}">
+                <div class="employee-picture"><img src="{{ a.picture_url }}" alt="{{ a.name }} profile picture"></div>
+                <div style="padding: 10px 20px; width:90%; max-width: 330px" class="flex-column-start">
+                    <h3 style="width: 100%">{{ a.name }}</h3>
+                    <h5 style="width: 100%">{{ a.title }}</h5>
+                    <div class="flex-row-center">
+                        <div class="d-flex align-center">
+                            <img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
+                            <div class="contact-text">{{ a.email}}</div>
+                        </div>
+                        <div class="d-flex align-center">
+                            <img height=30px width=30px src="{{url_for('static', filename='phone.jpg') }}" alt="phone icon">
+                            <div class="contact-text">{{ a.phone_number }}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </a>
+        {% endfor %}
+
 	</div>
 </div>
 {% endblock %}

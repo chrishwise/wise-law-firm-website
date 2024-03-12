@@ -4,7 +4,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import table
+
 
 db = SQLAlchemy()
 mail = Mail()
@@ -45,7 +45,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Admin, Article, Attorney   # Employee, ProfessionalLicense, ProfessionalActivity, Education, Publication, Admission, EmployeeAreaOfPractice, Membership
+    from .models import Admin, Article   # Employee, ProfessionalLicense, ProfessionalActivity, Education, Publication, Admission, EmployeeAreaOfPractice, Membership
 
     with app.app_context():
         #drop_everything()

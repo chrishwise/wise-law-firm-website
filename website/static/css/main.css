@@ -866,7 +866,7 @@ select{
 a.admin-nav-link{
     padding:5px 10px;
     border-radius: 5px;
-    margin:2px;
+    margin: 3px;
     border: 2px solid transparent;
     transition: all 0.3s;
     color: var(--gray-dark);
@@ -1359,6 +1359,7 @@ button.purple-bg:hover, button.purple-bg:focus {
     justify-content: space-evenly;
     align-items: center;
     transition: all 0.2s;
+    margin: 15px 0;
 }
 
 .employee-container:hover, .employee-container:focus{
@@ -1485,4 +1486,10 @@ iframe.widgetFrame:hover,
 iframe.widgetFrame:hover {
     border: 2px solid #a15a22;
     margin:0
+}
+
+.employee-picture img{
+    width: 100%;
+    max-width:190px;
+
 }

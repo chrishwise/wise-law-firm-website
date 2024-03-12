@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         <script src="https://app.simplefileupload.com/buckets/f24e4363ead2237306be96823dfef1cd.js"></script>
+        <script src="{{ url_for('static', filename='node_modules/blueimp-load-image/js/load-image.all.min.js') }}"></script>
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,11 +45,9 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Our Team</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item nav-item" href="/our-team">Our Team</a>
-                        <a class="dropdown-item nav-item" href="/david-wise">David Wise</a>
-                        <a class="dropdown-item nav-item" href="/joe-langone">Joe Langone</a>
-                        <a class="dropdown-item nav-item" href="/william-evans">William Evans</a>
-                        <a class="dropdown-item nav-item" href="/dylan-graham">Dylan Graham</a>
-                        <a class="dropdown-item nav-item" href="/david-reese">David Reese</a>
+                        {% for employee in employees %}
+                            <a class="dropdown-item nav-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
+                        {% endfor %}
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -92,11 +91,9 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/our-team" role="button" aria-haspopup="true" aria-expanded="false">Our Team</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item nav-item" href="/our-team">Our Team</a>
-                        <a class="dropdown-item nav-item" href="/david-wise">David Wise</a>
-                        <a class="dropdown-item nav-item" href="/joe-langone">Joe Langone</a>
-                        <a class="dropdown-item nav-item" href="/william-evans">William Evans</a>
-                        <a class="dropdown-item nav-item" href="/dylan-graham">Dylan Graham</a>
-                        <a class="dropdown-item nav-item" href="/david-reese">David Reese</a>
+                        {% for employee in employees %}
+                            <a class="dropdown-item nav-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
+                        {% endfor %}
                     </div>
                 </li>
                 <li class="nav-item dropdown">

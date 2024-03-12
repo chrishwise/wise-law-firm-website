@@ -12,6 +12,7 @@ from sqlalchemy import desc
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 
+# from main import app
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
     CreateAttorneyForm, RespondEmailForm
@@ -263,7 +264,8 @@ def admin_portal():
 @login_required
 def manage_employees():
     form = None
-    employees = Attorney.query.all()
+    employees = Attorney.query.order_by(Attorney.id).all()
+    print(f'employees: {employees}')
     return render_template('manage-employees.html', logged_in=False, form=form, attorneys=employees,
                            current_user=current_user)
 
@@ -693,6 +695,9 @@ def edit_employee(eId):
         current_attorney.email = form.email.data
         current_attorney.phone_number = form.phone_number.data
         current_attorney.about = form.about.data
+        print(f"picture: {request.form.get('picture')}")
+        if request.form.get('picture') != '':
+            current_attorney.picture_url = request.form.get('picture')
         if form.validate():
             session.commit()
             flash('Attorney details saved', category='success')
