@@ -45,6 +45,9 @@ class Admin(db.Model, UserMixin):
     def has_master_clearance(self):
         return self.master_password_authenticated
 
+    def to_string(self):
+        return f"name: {self.first_name}, email: {self.email}, notifications: {self.receives_notifications}"
+
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -759,9 +759,6 @@ def manage_admins():
 def edit_admin(adminId):
     form = AdminAccountForm(request.form)
     current_admin = Admin.query.get(adminId)
-    form.notifications.data = current_admin.receives_notifications
-    form.first_name.data = current_admin.first_name
-    form.email.data = current_admin.email
     if request.method == 'POST' and form.validate():
         first_name = form.first_name.data
         email = form.email.data
@@ -770,9 +767,14 @@ def edit_admin(adminId):
         if email != current_admin.email:
             current_admin.replace_email(email)
         current_admin.sets_notifications(wants_notifications)
+        print(f"current admin: {current_admin.to_string()}")
         db.session.commit()
         flash('Admin details saved', category='success')
         return redirect(url_for('views.manage_admins'))
+    else:
+        form.notifications.data = current_admin.receives_notifications
+        form.first_name.data = current_admin.first_name
+        form.email.data = current_admin.email
     return render_template('edit-admin-account.html', logged_in=current_user.is_authenticated, form=form,
                            current_user=current_user, current_admin=current_admin)
 
