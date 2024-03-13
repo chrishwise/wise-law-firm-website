@@ -1,4 +1,8 @@
 {
+  "name": "wise-law-firm-website",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "postinstall": "cd static && npm install"
   }
