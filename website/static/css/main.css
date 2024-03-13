@@ -1352,28 +1352,6 @@ button.purple-bg:hover, button.purple-bg:focus {
     border-color: var(--purple);
 }
 
-.employee-container{
-    width: 100%;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-evenly;
-    align-items: center;
-    transition: all 0.2s;
-    margin: 15px 0;
-}
-
-.employee-container:hover, .employee-container:focus{
-    text-decoration: none;
-    transform: translateY(-5px);
-    box-shadow: 0 0 6px 4px var(--light-grey);
-    border-radius: 10px;
-}
-
-.contact-text{
-    color: #636363;
-    font-family: 'Roboto';
-}
-
 .text-link{
     color: black;
 }
@@ -1488,8 +1466,53 @@ iframe.widgetFrame:hover {
     margin:0
 }
 
+.employee-picture{
+    width: 35%;
+    min-width: 120px;
+    max-width: 190px;
+}
+
 .employee-picture img{
     width: 100%;
     max-width:190px;
+    min-width: 120px;
+}
 
+.employee-container{
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    margin: 15px auto;
+}
+
+.employee-container h5,
+.employee-container h3 {
+    transition: all 0.2s;
+}
+
+.employee-container:hover h3,
+.employee-container:focus h3 {
+    text-decoration: underline;
+    color: black;
+    font-size: 2rem;
+}
+
+.employee-container:hover h5,
+.employee-container:focus h5 {
+    text-decoration: none;
+}
+
+.contact-text{
+    color: #636363;
+    font-family: 'Roboto', serif;
+}
+.contact-text:hover {
+    text-decoration: none;
+}
+a.employee-container:hover{
+    text-decoration: none;
 }

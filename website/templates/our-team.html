@@ -34,9 +34,9 @@
         {% for a in attorneys %}
             <a class="employee-container" href="{{ url_for('views.employee', id=a.id) }}">
                 <div class="employee-picture"><img src="{{ a.picture_url }}" alt="{{ a.name }} profile picture"></div>
-                <div style="padding: 10px 20px; width:90%; max-width: 330px" class="flex-column-start">
-                    <h3 style="width: 100%">{{ a.name }}</h3>
-                    <h5 style="width: 100%">{{ a.title }}</h5>
+                <div style="padding: 10px 20px; width:60%; max-width: 350px;" class="flex-column-start">
+                    <h3 style="width: 100%; text-align: left">{{ a.name }}</h3>
+                    <h5 style="width: 100%; text-align: left">{{ a.title }}</h5>
                     <div class="flex-row-center">
                         <div class="d-flex align-center">
                             <img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
