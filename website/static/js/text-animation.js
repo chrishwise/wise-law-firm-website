@@ -10,9 +10,15 @@ gsap.from(".animate-left", {
 });
 
 gsap.from(".animate-up", {
-	scrollTrigger: ".animate-up",
-	y: 200,
-	duration: 0.7,
+	scrollTrigger: ".animate-down",
+	y: 100,
+	duration: 1,
+	opacity:0.2
+});
+gsap.from(".animate-down", {
+	scrollTrigger: ".animate-down",
+	y: -100,
+	duration: 1.2,
 	opacity:0
 });
 

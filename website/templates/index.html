@@ -6,9 +6,9 @@
     <div class="pimg1" data-parallax="scroll" data-image-src="{{ url_for('static', filename='banner1.jpg') }}">
         <div class="ptext">
             <div data-editable data-name="parallax-section-1">
-                <h1 class="white-text-large">
+                <h1 class="white-text-large animate-down">
                     Responsive. Experienced. Dedicated.</h1>
-                <h2 class="white-text">
+                <h2 class="white-text animate-up">
                     Construction Law Attorneys</h2>
             </div>
         </div>
@@ -98,9 +98,9 @@
             {% endfor %}`
         </div>#}{#
     </section>#}
-    <section class="section-dark section box-padding flex-column-center">
+    <section id="homeArticles" class="section-dark section box-padding flex-column-center">
         <h2 class="gold animate-right" style="margin:20px 0 50px"> News & Articles</h2>
-        <div class="swiper-container homeReviewsSwiper">
+        <div class="swiper-container homeArticlesSwiper">
             <div class="swiper-wrapper">
                 {% for article in articles %}
                     <div class="swiper-slide">
