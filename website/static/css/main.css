@@ -129,7 +129,12 @@ p {
     }
 }
 
-
+.copywrite{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    padding:10px;
+}
 
 .ptext {
     position: absolute;
@@ -496,7 +501,7 @@ p.callout, .callout{
 
 
 .footer {
-    height: 350px;
+    height: auto;
     background-color: #FFFFFF;
     display: flex;
     padding: 15px;
