@@ -193,6 +193,7 @@
                             <li> <a href="/firm-overview" class="fnav-link">Firm Overview </a></li>
                             <li> <a href="/our-team" class="fnav-link">Our Team </a></li>
                             <li> <a href="/practice-areas" class="fnav-link">Practice Areas </a></li>
+                            <li> <a href="/reviews" class="fnav-link">Reviews</a> </li>
                             <li> <a href="/articles/0" class="fnav-link">News & Articles </a></li>
                             <li> <a href="/maps" class="fnav-link">Maps & Directions </a></li>
                             <li> <a href="/contact-us" class="fnav-link">Contact Us </a></li>
@@ -258,6 +259,29 @@
                 },
               });
             </script>
+        <script>
+            var swiper = new Swiper(".homeReviewsSwiper", {
+                effect: "coverflow",
+                grabCursor: true,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                loop: true,
+                coverflowEffect: {
+                  rotate: 50,
+                  stretch: 0,
+                  depth: 100,
+                  modifier: 1,
+                  slideShadows: true,
+                },
+                pagination: {
+                  el: ".swiper-pagination",
+                },
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+              });
+        </script>
         <!-- GSAP text animation and ScrollTrigger-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js" integrity="sha512-UxP+UhJaGRWuMG2YC6LPWYpFQnsSgnor0VUF3BHdD83PS/pOpN+FYbZmrYN+ISX8jnvgVUciqP/fILOXDjZSwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>

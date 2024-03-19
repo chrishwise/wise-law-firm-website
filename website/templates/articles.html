@@ -20,8 +20,12 @@
                         <div class="article-body">
                             <div class="article-title">
                                 <h1><a class="wlfblue" href="#">{{ article.title }}</a></h1>
-                                <p class="article-date"><b>Publishing Date: </b>{{ article.published_date }}</p>
-                                <p><b>Source: </b>{{ article.url }}</p>
+                                {% if article.published_date != "None" %}
+                                    <p class="article-date"><b>Publishing Date: </b>{{ article.published_date }}</p>
+                                {% endif %}
+                                {% if article.url %}
+                                    <p><b>Source: </b>{{ article.url }}</p>
+                                {% endif %}
                                 <p><b>Date Added: </b>{{ article.date }}</p>
                             </div>
                             <div class="article-summary">

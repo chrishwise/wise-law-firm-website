@@ -25,7 +25,7 @@ class RespondEmailForm(FlaskForm):
 class ArticleForm(FlaskForm):
     title = StringField('Article Title', [validators.InputRequired()])
     text = TextAreaField('Article Content', [validators.InputRequired()])
-    publishing_date = DateField('Date of Publishing')
+    publishing_date = DateField('Date of Publishing', [validators.Optional()])
     url = StringField('Article URL')
     date_created = DateField('Date Added', default=datetime.datetime.now())
 

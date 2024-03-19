@@ -85,10 +85,10 @@
         </section>
     </div>
 
-    <section id="homeArticles" class="section-dark box-padding">
-        {#This will be an abbreviated collection of the news & articles.#}
-        <h2 class="gold animate-right"> News & Articles</h2>
-        <div class="flex-row">
+    {#<section id="homeArticles" class="section-dark box-padding">
+        #}{#This will be an abbreviated collection of the news & articles.#}{#
+
+        #}{#<div class="flex-row">
             {% for article in articles %}
             <a href="{{ url_for('views.articles', id=article.id) }}">
                 <div class="article-card">
@@ -96,9 +96,28 @@
                 </div>
             </a>
             {% endfor %}`
+        </div>#}{#
+    </section>#}
+    <section class="section-dark section box-padding flex-column-center">
+        <h2 class="gold animate-right" style="margin:20px 0 50px"> News & Articles</h2>
+        <div class="swiper-container homeReviewsSwiper">
+            <div class="swiper-wrapper">
+                {% for article in articles %}
+                    <div class="swiper-slide">
+                        <a href="{{ url_for('views.articles', id=article.id) }}">
+                            <h4>{{ article.title }}</h4></a>
+                        <h6><b>Date Added: </b>{{ article.date }}</h6>
+                        {% if article.url %}
+                            <h6><b>URL: </b>{{ article.url }}</h6>
+                            <p>{{ article.text }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}`
+            </div>
         </div>
-
-
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev gold"></div>
+        <div class="swiper-button-next gold"></div>
     </section>
 
 {% endblock %}

@@ -1530,6 +1530,7 @@ a.employee-container:hover{
     justify-content: center;
     align-items: center;
     width: 100%;
+    gap:20px;
 }
 
 #homeArticles .article-card{
@@ -1541,7 +1542,8 @@ a.employee-container:hover{
     border-radius: 5px;
     padding: 20px;
     transition: all 0.2s;
-    border: 2px solid var(--dark)
+    border: 2px solid var(--dark);
+    text-align: center;
 }
 #homeArticles .article-card:hover,
 #homeArticles .article-card:focus{
@@ -1579,4 +1581,26 @@ a.employee-container:hover{
     a.btn{
     margin: 20px auto 25px;
 }
+}
+
+.homeReviewsSwiper .swiper-slide{
+    padding:20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    color: black;
+}
+.homeReviewsSwiper h4{
+    margin-bottom: 14px;
+}
+.homeReviewsSwiper p{
+    width: 100%;
+    text-align: left;
+    line-height: 24px;
+    mso-margin-top-alt: 14px;
+}
+.homeReviewsSwiper h6{
+    text-align: left;
+    width: 100%;
 }
