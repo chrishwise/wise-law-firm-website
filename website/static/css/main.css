@@ -10,7 +10,8 @@ html,body{
 
 body {
     height: 100vh;
-    font-family: 'Source Sans Pro', 'duru-sans', sans-serif;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;;
+    /*font-family: 'Source Sans Pro', 'duru-sans', sans-serif;*/
     box-sizing: border-box;
 }
 
@@ -111,6 +112,7 @@ p {
     color: #FFFFFF;
     font-size: 44px;
     font-weight: 500;
+    margin-bottom: 0.4em;
 }
 .white-text {
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
@@ -120,10 +122,10 @@ p {
 }
 @media screen and (min-width: 1600px)  {
     .white-text-large {
-        font-size: 5rem;
+        font-size: 4.3rem;
     }
     .white-text{
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
 
@@ -131,7 +133,7 @@ p {
 
 .ptext {
     position: absolute;
-    top: 40%;
+    top: 32%;
     width: 100%;
     text-align: center;
 }
@@ -242,7 +244,7 @@ p {
 
 .pimg1 {
     /*min-height: 700px;*/
-    min-height: calc(100vh - 112px);
+    min-height: calc(100vh - 124px);
     background: transparent;
 }
 
@@ -1033,6 +1035,11 @@ a.admin-nav-link{
         font-size: 1rem;
         padding-left: 3px;
         padding-right: 3px;
+    }
+}
+@media screen and (max-width: 1600px) {
+    .nav-link{
+        font-size: 1.1rem;
     }
 }
 
