@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--  generator="Inspyder Sitemap Creator 5.1.4"  -->
+<!-- Last Updated 3/19/2024 6:58:05 PM -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<url>
+	<loc>http://www.wiselaw.pro/</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/images/menu.svg</image:loc>
+		<image:caption>menu</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/office.jpg</image:loc>
+		<image:caption>office picture</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/class-action.png</image:loc>
+		<image:caption>class actions</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/construction-law.png</image:loc>
+		<image:caption>construction law</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/construction-lit.png</image:loc>
+		<image:caption>construction litigation</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/wrongful-death.png</image:loc>
+		<image:caption>construction wrongful death and personal injury</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/commercial-lit.png</image:loc>
+		<image:caption>commercial and business litigation</image:caption>
+	</image:image>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/firm-overview</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/courtroom.jpg</image:loc>
+		<image:caption>courtroom</image:caption>
+	</image:image>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/our-team</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/email.jpg</image:loc>
+		<image:caption>email icon</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://www.wiselaw.pro/static/phone.jpg</image:loc>
+		<image:caption>phone icon</image:caption>
+	</image:image>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/employee/1</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/employee/5</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/employee/3</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/employee/2</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/class-actions</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/employee/7</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/construction-law</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/construction-litigation</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/construction-defect-litigation</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/wrongful-death</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/commercial-and-business</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/mold-and-environmental</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/government-contracts</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/insurance-coverage</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/reviews</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/articles/0</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/maps</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/careers</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/contact-us</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/articles/1</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/articles/4</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/articles/2</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/articles/5</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+<url>
+	<loc>http://www.wiselaw.pro/admin</loc>
+	<lastmod>2024-03-19</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+</url>
+</urlset>

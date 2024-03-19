@@ -4,7 +4,7 @@ import os
 import time
 
 import boto3
-from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify
+from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify, send_from_directory
 from flask_login import current_user, login_required
 from flask_mail import Message
 from flask_sqlalchemy.session import Session
@@ -12,7 +12,8 @@ from sqlalchemy import desc
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 
-# from main import app
+from flask import current_app as app
+
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
     CreateAttorneyForm, RespondEmailForm
@@ -22,6 +23,11 @@ from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfess
 
 views = Blueprint('views', __name__)
 session = Session(db)
+
+
+@views.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 @views.route('/')
