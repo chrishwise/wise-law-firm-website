@@ -302,15 +302,22 @@
         (function fixDropdowns(){
             const allDropdowns = document.getElementsByClassName('dropdown-toggle');
             for(let i=0; i < allDropdowns.length; i++){
-                const dropdown = allDropdowns.item(i);
-                dropdown.addEventListener('mouseover', (ev) => {
+                const dropdown = allDropdowns.item(i);                      {# OR allDropdowns[i] #}
+                dropdown.addEventListener('mouseenter', () => {
                     let menu = dropdown.nextElementSibling;
                     menu.classList.add('opened');
-                    menu.addEventListener('mouseleave', (ev) => {
+                    menu.addEventListener('mouseleave', () => {
                         let allOpened = document.getElementsByClassName('opened');
-                         for(let i=0; i < allOpened.length; i++){
+                        for(let i=0; i < allOpened.length; i++){
                             allOpened.item(i).classList.remove('opened');
                         }
+                    });
+                });
+                dropdown.addEventListener('mouseleave', () => {
+                    let menu = dropdown.nextElementSibling;
+                    menu.classList.remove('opened');
+                    menu.addEventListener('mouseenter', () => {
+                        menu.classList.add('opened');
                     });
                 });
             }

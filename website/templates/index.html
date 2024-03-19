@@ -63,7 +63,7 @@
             <a class="p-a-card" href="/construction-law">
                 <div class="p-a-card-image"><img src="{{ url_for('static', filename='construction-law.png') }}"
                                                  alt="construction law" height="100" width="100"></div>
-                <div class="p-a-card-title ">Constuction Law</div>
+                <div class="p-a-card-title ">Construction Law</div>
             </a>
             <a class="p-a-card" href="/construction-litigation">
                 <div class="p-a-card-image"><img src="{{ url_for('static', filename='construction-lit.png') }}"
@@ -85,13 +85,19 @@
         </section>
     </div>
 
-    <section class="container-fluid section section-dark box-padding">
+    <section id="homeArticles" class="container-fluid section section-dark box-padding">
+        {#This will be an abbreviated collection of the news & articles.#}
         <h2 class="gold animate-right"> News & Articles</h2>
-
-        <div class="callout gold">
-            {#This will be an abbreviated collection of the news & articles.#}
-            Coming Soon
+        <div class="flex-row">
+            {% for article in articles %}
+            <a href="{{ url_for('views.articles', id=article.id) }}">
+                <div class="article-card">
+                    <h4>{{ article.title }}</h4>
+                </div>
+            </a>
+            {% endfor %}`
         </div>
+
 
     </section>
 

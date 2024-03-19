@@ -26,7 +26,8 @@ session = Session(db)
 
 @views.route('/')
 def home():
-    return render_template("index.html", logged_in=current_user.is_authenticated)
+    articles = db.session.query(Article).order_by(desc(Article.date)).all()
+    return render_template("index.html", articles=articles, logged_in=current_user.is_authenticated)
 
 
 @views.route('/firm-overview')
