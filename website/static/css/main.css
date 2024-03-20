@@ -326,20 +326,19 @@ p {
 
 .office-image {
     /*background-image: url("../website/images/office.jpg");*/
-    width: 135%;
+    width: 100%;
     height: auto;
     margin:0;
 }
+@media screen and (min-width: 1300px) {
+    .inner-section{line-height: 2vw; font-size: 1.1rem}
+}
 @media screen and (min-width: 1700px) {
-    .office-image{width: 100%;}
     .inner-section{line-height: 2vw; font-size: 1.2rem}
     .box-padding{padding: 30px 15%;}
 }
 @media screen and (max-width: 1300px) {
     .office-image{width: 100%;}
-
-}
-@media screen and (min-width: 1300px) {
 
 }
 
@@ -1050,12 +1049,6 @@ a.admin-nav-link{
     text-align: center;
 }
 
-@media only screen and (max-width: 1300px) {
-    .office-image{
-        margin-top: 60px;
-    }
-}
-
 @media only screen and (max-width: 1360px) {
     .logo-link {
         width: 160px;
@@ -1631,23 +1624,15 @@ a.employee-container:hover{
     }
 }
 
-@media screen and (max-width: 991px){
-    .office-image{
-        margin-top:20px;
-    }
-}
 @media screen and (max-width: 395px) {
     .inner-section{
     padding:10px 0 0;
     line-height: 28px;
-}
-    .office-image{
-    margin-top: 0;
-}
+    }
 
     a.btn{
     margin: 20px auto 25px;
-}
+    }
 }
 
 .homeArticlesSwiper .swiper-slide{
