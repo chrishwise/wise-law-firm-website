@@ -328,6 +328,7 @@ p {
     /*background-image: url("../website/images/office.jpg");*/
     width: 135%;
     height: auto;
+    margin:0;
 }
 @media screen and (min-width: 1700px) {
     .office-image{width: 100%;}
