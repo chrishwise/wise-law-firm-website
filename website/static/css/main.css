@@ -334,8 +334,10 @@ p {
 }
 @media screen and (max-width: 1300px) {
     .office-image{width: 100%;}
-    .inner-section{}
-
+    .inner-section{margin-bottom: 5%}
+}
+@media screen and (min-width: 950px) {
+    .inner-section{margin-bottom: 0}
 }
 
 .banner-2 {
