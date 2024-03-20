@@ -311,6 +311,7 @@ p {
 .inner-section {
     padding: 10px;
     margin-bottom: 0;
+    max-width: 885px;
 }
 
 .office-image {
@@ -333,6 +334,7 @@ p {
 }
 @media screen and (max-width: 1300px) {
     .office-image{width: 100%;}
+    .inner-section{}
 
 }
 
