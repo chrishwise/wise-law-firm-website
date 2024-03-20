@@ -317,11 +317,11 @@ p {
 .office-image {
     /*background-image: url("../website/images/office.jpg");*/
     width: 100%;
-    height: auto;
+    height: 100%;
     margin:0;
     max-height: 650px;
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: left;
 }
 @media screen and (min-width: 1300px) {
     .inner-section{font-size: 1.1rem;}
@@ -329,8 +329,7 @@ p {
 @media screen and (min-width: 1700px) {
     .inner-section{line-height: 2vw; font-size: 1.2rem}
     .box-padding{padding: 30px 15%;}
-    .office-image{width: 135%; object-position: left;
-    object-fit: contain}
+    .office-image{width: 135%;}
 }
 @media screen and (max-width: 1300px) {
     .office-image{width: 100%;margin-bottom: 5%;}
