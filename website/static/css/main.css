@@ -310,8 +310,8 @@ p {
 
 .inner-section {
     padding: 10px;
-    margin-bottom: 0;
     max-width: 885px;
+    margin: 0 auto;
 }
 
 .office-image {
