@@ -1346,12 +1346,12 @@ form.form-container input, form.form-container select{
 
 a.abs-corner-btn{
     position: absolute;
-    top:20px;
-    right:20px;
+    top:45px;
+    right:5%;
     color: white;
     border-color: var(--purple);
     background-color: var(--purple);
-    transition: all 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
 }
 a.abs-corner-btn:hover, a.abs-corner-btn:focus{
     background-color: white;
@@ -1361,7 +1361,10 @@ a.abs-corner-btn:hover, a.abs-corner-btn:focus{
 @media screen and (max-width: 650px) {
     a.abs-corner-btn{
         position: relative;
-        background-color: white;
+        top:0;
+        right:0;
+        margin-top:0;
+        margin-bottom: 0;
     }
 }
 
@@ -1658,4 +1661,21 @@ a.employee-container:hover{
 #homeArticles span.swiper-pagination-bullet {
     background-color: #A15A22;
     margin-bottom: 20px;
+}
+
+.btn-container{
+
+}
+
+#manageReviews tr > td:first-child + td {
+    text-align: center;
+}
+#manageReviews tr > td:first-child + td +td {
+    text-align: center;
+}
+#manageReviews tr > th:first-child + th {
+    text-align: center;
+}
+#manageReviews tr > th:first-child + th +th {
+    text-align: center;
 }

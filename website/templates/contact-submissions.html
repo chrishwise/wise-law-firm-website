@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
 {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
-
+{% block title %}Contact Us Submissions{% endblock %}
 {% block content %}
     {{ admin_navbar('contact') }}
     <div class="page-container section1">
-        <h3 style="text-align: center">Contact Us Form Submissions</h3>
+        <h1 style="text-align: center">Contact Us Submissions</h1>
         <a href="{{ url_for('views.contact_archive')}}" class="abs-corner-btn btn">Archive</a>
         {% if not contacts %}
             <div class="callout gold">
@@ -74,8 +74,7 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                <button id="{{ contact.id }}" class="btn purple-bg respondPopup"
-                        style="margin: 10px 0; align-self: flex-end; padding:0 15px; border-radius: 15px"
+                <button id="{{ contact.id }}" class="btn purple-bg respondPopup" style="align-self: flex-end;"
                         type="button">Respond</button>
             </div>
         {% endfor %}

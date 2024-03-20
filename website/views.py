@@ -16,10 +16,10 @@ from flask import current_app as app
 
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    CreateAttorneyForm, RespondEmailForm
+    CreateAttorneyForm, RespondEmailForm, ReviewForm
 from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
     AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
-    Contact, ContactResponse
+    Contact, ContactResponse, Review
 
 views = Blueprint('views', __name__)
 session = Session(db)
@@ -51,31 +51,6 @@ def our_team():
 def employee(id):
     employee = Attorney.query.get(id)
     return render_template("employee-template.html", employee=employee, logged_in=current_user.is_authenticated)
-
-
-@views.route('david-wise')
-def david_wise():
-    return render_template("david-wise.html", logged_in=current_user.is_authenticated)
-
-
-@views.route('joe-langone')
-def joe_langone():
-    return render_template("joe-langone.html", logged_in=current_user.is_authenticated)
-
-
-@views.route('david-reese')
-def david_reese():
-    return render_template("david-reese.html", logged_in=current_user.is_authenticated)
-
-
-@views.route('william-evans')
-def evan_williams():
-    return render_template("william-evans.html", logged_in=current_user.is_authenticated)
-
-
-@views.route('dylan-graham')
-def dylan_graham():
-    return render_template("dylan-graham.html", logged_in=current_user.is_authenticated)
 
 
 @views.route('/class-actions')
@@ -125,7 +100,8 @@ def insurance_coverage():
 
 @views.route('/reviews')
 def reviews():
-    return render_template("reviews.html", logged_in=current_user.is_authenticated)
+    reviews = db.session.query(Review).order_by(Review.date).all()
+    return render_template("reviews.html", reviews=reviews, logged_in=current_user.is_authenticated)
 
 
 @views.route('/articles/<int:id>')
@@ -733,12 +709,53 @@ def delete_attorney(aId):
     return redirect(url_for('views.manage_employees'))
 
 
-@views.route('/admin-portal/manage-reviews', methods=['GET', 'POST'])
+@views.route('/admin-portal/manage-reviews', methods=['GET'])
 @login_required
 def manage_reviews():
-    form = None
-    return render_template('manage-reviews.html', logged_in=False, form=form,
+    reviews = db.session.query(Review).all()
+    return render_template('manage-reviews.html', logged_in=False, reviews=reviews,
                            current_user=current_user)
+
+
+@views.route('/add_review', methods=['GET', 'POST'])
+@login_required
+def add_review():
+    form = ReviewForm(request.form)
+    header = "New Review"
+    if request.method == 'POST' and form.validate():
+        review = Review(content=form.content.data, date=datetime.date.today(), author=form.author.data)
+        db.session.add(review)
+        db.session.commit()
+        flash('Review was successfully created', category='success')
+        return redirect(url_for('views.manage_reviews'))
+    return render_template("new-review.html", form=form, header=header, logged_in=False)
+
+
+@views.route('/edit_review/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_review(id):
+    form = ReviewForm(request.form)
+    header = "Edit Review"
+    review = db.session.query(Review).get(id)
+    if request.method == 'POST' and form.validate():
+        review.content = form.content.data
+        review.author = form.author.data
+        db.session.commit()
+        flash('Review was successfully updated', category='success')
+        return redirect(url_for('views.manage_reviews'))
+    else:
+        form.content.data = review.content
+        form.author.data = review.author
+    return render_template("new-review.html", form=form, logged_in=False, header=header)
+
+
+@views.route('/delete_review/<int:id>', methods=['GET'])
+@login_required
+def delete_review(id):
+    db.session.delete(Review.query.get(id))
+    db.session.commit()
+    flash('Review was successfully deleted', category='success')
+    return redirect(url_for('views.manage_reviews'))
 
 
 @views.route('/admin-portal/manage-admins', methods=['GET', 'POST'])

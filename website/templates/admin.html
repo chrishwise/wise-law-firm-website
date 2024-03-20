@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% from '_formhelpers.html' import render_field %}
-
+{% block title %}Admin Login{% endblock %}
 {% block content %}
     <div class="page-container section1">
         <form method="POST" class="form-container">
-            <h3 style="text-align: center">Login</h3>
+            <h1 style="text-align: center">Admin Login</h1>
             <dl>
                 {{ form.csrf_token }}
                 {{ render_field(form.email) }}

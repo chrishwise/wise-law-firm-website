@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
-{% from 'macros.html' import admin_navbar, help_dialog %}
-
+{% from 'macros.html' import admin_navbar, help_dialog, local_flashed_message %}
+{% block title %}Edit Admin Account{% endblock %}
 {% block content %}
-    {{ admin_navbar('admins') }}
+    {{ admin_navbar('account') }}
     <div class="page-container section1">
-        <h3>Edit Admin Account</h3>
+        <h1>Edit Admin Account</h1>
         <form class="form-container" id=admin method="POST">
+            {{ local_flashed_message() }}
             <dl>
                 {{ form.csrf_token }}
                 {{ render_field(form.first_name) }}

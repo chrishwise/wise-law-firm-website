@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% block title %}Manage Reviews{% endblock %}
+{% block content %}
+    {{ admin_navbar('reviews') }}
+    <div class="section1">
+        <h1 style="text-align:center">Manage Reviews</h1>
+        <div class="form-container">
+            <table id="manageReviews" style="width: 100%">
+                <tr>
+                    <th style="width: 80%">Content</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                {% for r in reviews %}
+                    <tr>
+                        <td>{{ r.content }}</td>
+                        <td><a class="btn" style="margin:2px" href={{ url_for('views.edit_review', id=r.id) }}>Edit</a></td>
+                        <td><a class="btn" style="margin:2px" href={{ url_for('views.delete_review', id=r.id) }}>Delete</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <div class="centered-abs-btn">
+                <a class='btn green-admin-btn centered-abs-btn'
+                  href="{{ url_for('views.add_review') }}">Add New Review</a></div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
 {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
-
+{% block title %}Manage Employees{% endblock %}
 {% block content %}
     {{ admin_navbar('employees') }}
     <div class="page-container section1">
-    <h3>Manage Employees</h3>
+    <h1>Manage Employees</h1>
         <div class="form-container">
             <table id="manageEmployees" style="width: 100%">
                     <tr>
-                        <th style="width: 35%">Name</th>
+                        <th style="width: 80%">Name</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>

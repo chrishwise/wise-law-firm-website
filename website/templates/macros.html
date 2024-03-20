@@ -22,7 +22,7 @@
 
 {% endmacro %}
 
-{% macro admin_navbar(activeId) %}
+{% macro admin_navbar(activeId="") %}
     <div class="absolute-center-banner">Admin Portal</div>
     <div class="flex-align-center">
         <a id='employees' href="{{ url_for('views.manage_employees')}}" class="admin-nav-link">Manage Employees</a>

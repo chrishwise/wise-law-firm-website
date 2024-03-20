@@ -30,6 +30,11 @@ class ArticleForm(FlaskForm):
     date_created = DateField('Date Added', default=datetime.datetime.now())
 
 
+class ReviewForm(FlaskForm):
+    content = TextAreaField('Review Content', [validators.InputRequired()])
+    author = StringField('Review Author', [validators.InputRequired()])
+
+
 class AdminAccountForm(FlaskForm):
     first_name = StringField("First Name", [validators.InputRequired(), validators.Length(min=2, max=20)])
     email = EmailField("Admin Email Address", [validators.InputRequired(), validators.Email()])

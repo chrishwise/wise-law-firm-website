@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
 {% from 'macros.html' import admin_navbar, local_flashed_message %}
-{% block title %}New Article{% endblock %}
+{% block title %}{{ header}}{% endblock %}
 {% block content %}
-    {{ admin_navbar('articles') }}
+    {{ admin_navbar('reviews') }}
     <div class="contact-page-container section1">
-        <h1 style="text-align:center">New Article</h1>
+        <h1 style="text-align:center">{{ header}}</h1>
         <form method="POST" class="form-container">
             {{ local_flashed_message() }}
             <dl>
-                {{ render_field(form.title) }}
-                {{ render_field(form.publishing_date) }}
-                {{ render_field(form.url) }}
-                {{ render_field(form.text) }}
+                {{ render_field(form.content) }}
+                {{ render_field(form.author) }}
                 {{ form.csrf_token }}
             </dl>
             <button type="submit" class="btn btn-outline-gold">Submit</button>

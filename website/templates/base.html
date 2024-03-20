@@ -24,15 +24,6 @@
     </head>
     <body>
         <nav>
-            <!-- Admin Toolbar -->
-            {% if logged_in %}
-            <ul class="admin-navbar nav-pills" id="adminNav">
-                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.admin_portal') }}">Admin Portal</a> </li>
-                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.contact_submissions') }}">Contact Submissions</a> </li>
-                <li class="nav-item"> <a class="admin-nav-link" href="/logout">Logout</a> </li>
-            </ul>
-            {% endif %}
-
             <!-- Nav Bar -->
             <ul class="navbar nav-pills hide-on-mobile">
                 <li class="header-logo-container">
@@ -131,6 +122,16 @@
                 </div>
             </div>
         </nav>
+        <!-- Admin Toolbar -->
+        {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
+        {% if logged_in %}
+            {{ admin_navbar() }}
+            {#<ul class="admin-navbar nav-pills" id="adminNav">
+                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.admin_portal') }}">Admin Portal</a> </li>
+                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.contact_submissions') }}">Contact Submissions</a> </li>
+                <li class="nav-item"> <a class="admin-nav-link" href="/logout">Logout</a> </li>
+            </ul>#}
+        {% endif %}
 
         <!-- Sidenav for Mobile and Small Screens -->
         <div id='backdrop' class="sidenav-backdrop" hidden></div>

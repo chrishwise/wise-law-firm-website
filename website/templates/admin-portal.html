@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
 {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
-
+{% block title %}Your Admin Account{% endblock %}
 {% block content %}
     {{ admin_navbar('account') }}
     <div class="page-container section1">
-        <h3>Your Admin Account</h3>
+        <h1>Your Admin Account</h1>
         <form class="form-container" id=admin method="POST">
             <dl>
                 {{ form.csrf_token }}
@@ -26,6 +26,7 @@
             <div id='btn-container' class="btn-container">
                 <button class='btn' id='edit' onclick="makeEditable()">Edit Info</button>
                 <a class='btn' href="{{ url_for('views.change_password') }}">Change Password</a>
+                <a class="admin-nav-link" href="/logout">Logout</a>
             </div>
         </form>
     </div>

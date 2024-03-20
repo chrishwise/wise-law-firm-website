@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import admin_navbar %}
-
+{% block title %}News & Articles{% endblock %}
 {% block content %}
     <div class="section1">
-
-        <h1 style="text-align:center">{% block title %}News & Articles{% endblock %}</h1>
-
+        <h1 style="text-align:center">News & Articles</h1>
         <div class="row">
             <div class="col-4 sidebar">
                 {% for article in articles %}

@@ -201,6 +201,13 @@ class Attorney(db.Model):
         self.picture_url = picture_url
 
 
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text())
+    author = db.Column(db.String(150))
+    date = db.Column(db.DateTime)
+
+
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_time = db.Column(db.DateTime)

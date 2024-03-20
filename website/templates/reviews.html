@@ -1,21 +1,27 @@
 {% extends "base.html" %}
-
+{% block title %}What our client's say about us:{% endblock %}
 {% block content %}
 	<section class="section1">
 		<div class="review-page-container">
-			<h2 class="review-title">What our client's say about us: </h2>
+			<h1 class="review-title">What our client's say about us:</h1>
 			<a class="btn btn-outline-gold" href="https://www.lawyers.com/clientrating/fillSurvey?firmId=28118349" role="button">Review Us!</a>
 			<div class="swiper-container mySwiper">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">
+                    {% for review in reviews %}
+                        <div class="swiper-slide">
+                            <div class="review-content">{{ review.content }}</div>
+                            <div class="review-author">- {{ review.author }}</div>
+                        </div>
+                    {% endfor %}
+					{#<div class="swiper-slide">
 						<div class="review-content">
 							If you're looking for a reliable, experienced law firm in the Fairfax area, Wise & Donahue delivers.
 						</div>
 						<div class="review-author">
 							- Google Review
 						</div>
-					</div>
-					<div class="swiper-slide">
+					</div>#}
+					{#<div class="swiper-slide">
 						<div class="review-content">
 							David is a tireless advocate and first class lawyer. His knowledge and experience are unparalleled.
 						</div>
@@ -38,7 +44,7 @@
 						<div class="review-author">
 							- Martindale Review
 						</div>
-					</div>
+					</div>#}
 				</div>
 			</div>
             <div class="swiper-pagination"></div>

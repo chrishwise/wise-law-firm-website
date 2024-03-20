@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
 {% from 'macros.html' import admin_navbar, local_flashed_message %}
-
+{% block title %}Edit Attorney{% endblock %}
 {% block content %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     {{ admin_navbar('employees') }}
     <div class="page-container section1">
-        <h3>Edit Attorney</h3>
+        <h1>Edit Attorney</h1>
         <form class="form-container" style="overflow-x: auto" method="POST" enctype="multipart/form-data">
             <dl>
                 {{ form.csrf_token }}

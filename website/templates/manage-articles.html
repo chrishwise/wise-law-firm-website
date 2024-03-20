@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 {% from 'macros.html' import admin_navbar %}
-
+{% block title %}Manage News & Articles{% endblock %}
 {% block content %}
     {{ admin_navbar('articles') }}
     <div class="section1">
-
-        <h1 style="text-align:center">{% block title %}News & Articles{% endblock %}</h1>
-
+        <h1 style="text-align:center">Manage News & Articles</h1>
         <div class="row">
             <div class="col-4 sidebar">
                 <a href="{{ url_for('views.new_article') }}"><button class="new-card">
