@@ -104,14 +104,15 @@ def reviews():
     return render_template("reviews.html", reviews=reviews, logged_in=current_user.is_authenticated)
 
 
+def get_first_article():
+    return Article.query.order_by(desc(Article.date)).first()
+
+
 @views.route('/articles/<int:id>')
-def articles(id=0):
+def articles(id=1):
     articles = Article.query.all()
     if articles:
-        if id == 0:
-            article = get_first_article()
-        else:
-            article = Article.query.get_or_404(id)
+        article = Article.query.get_or_404(id)
     else:
         print("there are no current articles")
         no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
@@ -138,9 +139,6 @@ def manage_articles(id=0):
         article = no_articles
     return render_template('manage-articles.html', logged_in=False, article=article, articles=articles)
 
-
-def get_first_article():
-    return Article.query.order_by(desc(Article.date)).first()
 
 
 @views.route('/create', methods=['GET', 'POST'])
