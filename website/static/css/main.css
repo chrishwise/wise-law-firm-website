@@ -333,11 +333,11 @@ p {
     object-fit: contain}
 }
 @media screen and (max-width: 1300px) {
-    .office-image{width: 100%;}
-    .inner-section{margin-bottom: 5%}
+    .office-image{width: 100%;margin-bottom: 5%;}
+    .inner-section{}
 }
 @media screen and (min-width: 950px) {
-    .inner-section{margin-bottom: 0}
+    .office-image{margin-bottom: 0}
 }
 
 .banner-2 {
