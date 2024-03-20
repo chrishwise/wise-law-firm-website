@@ -331,7 +331,7 @@ p {
     margin:0;
 }
 @media screen and (min-width: 1300px) {
-    .inner-section{line-height: 2vw; font-size: 1.1rem}
+    .inner-section{font-size: 1.1rem;}
 }
 @media screen and (min-width: 1700px) {
     .inner-section{line-height: 2vw; font-size: 1.2rem}
