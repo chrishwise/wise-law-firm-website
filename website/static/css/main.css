@@ -288,6 +288,17 @@ p {
     padding: 10px;
     margin-bottom: 0;
 }
+@media screen and (min-width: 1400px ) {
+    .inner-section{
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (min-width: 1700px ) {
+    .inner-section{
+        font-size: 1.2rem;
+    }
+}
 
 .page-container {
     position: relative;
@@ -315,8 +326,20 @@ p {
 
 .office-image {
     /*background-image: url("../website/images/office.jpg");*/
-    width: 100%;
+    width: 135%;
     height: auto;
+}
+@media screen and (min-width: 1700px) {
+    .office-image{width: 100%;}
+    .inner-section{line-height: 2vw; font-size: 1.2rem}
+    .box-padding{padding: 30px 15%;}
+}
+@media screen and (max-width: 1300px) {
+    .office-image{width: 100%;}
+
+}
+@media screen and (min-width: 1300px) {
+
 }
 
 .banner-2 {
