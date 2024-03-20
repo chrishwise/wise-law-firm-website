@@ -239,6 +239,9 @@ def admin_portal():
         current_user.sets_notifications(wants_notifications)
         db.session.commit()
         flash('Admin details saved', category='success')
+    else:
+        form.notifications.data = current_user.receives_notifications
+
     return render_template('admin-portal.html', logged_in=False, form=form,
                            current_user=current_user)
 
