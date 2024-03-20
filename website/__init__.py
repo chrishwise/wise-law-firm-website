@@ -35,6 +35,8 @@ def create_app():
         RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
     )
 
+    # app.app_context().push()
+
     # initialize app with database and Flask-Mail
     db.init_app(app)
     mail.init_app(app)
