@@ -1,6 +1,7 @@
 const t1 = gsap.timeline({ defaults: {ease: "power1.out"} });
 
 gsap.registerPlugin(ScrollTrigger);
+/*
 
 gsap.from(".animate-left", {
 	scrollTrigger: {
@@ -12,7 +13,6 @@ gsap.from(".animate-left", {
 	duration: 1,
 	opacity:0
 });
-
 gsap.from(".animate-up", {
 	scrollTrigger: ".animate-down",
 	y: 100,
@@ -27,30 +27,14 @@ gsap.from(".animate-down", {
 	opacity:0
 });
 
-gsap.from(".animate-right", {
-	scrollTrigger: {
-		trigger: ".animate-right",
-		start: "top 80%",
-		toggleActions: "restart none none reset"
-	},
-	x: -100,
-	duration: 1,
-	opacity:0
-});
 gsap.from(".animate-right2", {
 	scrollTrigger: {
 		trigger: ".animate-right2",
-		start: "top 80%",
-		toggleActions: "restart none none reset"
+		start: "top 50%",
+		toggleActions: "restart none none reset",
+		markers: true
 	},
 	x: -100,
-	duration: 1,
-	opacity:0
-});
-
-gsap.from(".animate-up-wr", {
-	scrollTrigger: ".animate-right",
-	y: 200,
 	duration: 1,
 	opacity:0
 });
@@ -61,43 +45,44 @@ gsap.from(".animate-up-wl", {
 	duration: 0.7,
 	opacity:0
 });
-
 gsap.from(".animate-up-wl2", {
 	scrollTrigger: ".animate-left2",
 	y: 200,
 	duration: 0.7,
 	opacity:0
 });
-
 gsap.from(".animate-left2", {
 	scrollTrigger: {
 		trigger: ".animate-left2",
-		start: "top 80%"
+		start: "top 80%",
+		toggleActions: "restart none none reverse"
 	},
 	x: 100,
 	duration: 1,
 	opacity:0
 });
-
 gsap.from(".animate-up2", {
 	scrollTrigger: ".animate-up2",
 	y: 200,
 	duration: 0.7,
 	opacity:0
 });
-
 gsap.from(".animate-up3", {
 	scrollTrigger: ".animate-up3",
 	y: 200,
 	duration: 0.7,
 	opacity:0
 });
-
 gsap.from(".animate-fadein5", {
 	scrollTrigger: ".animate-fadein5",
 	duration: 0.7,
 	opacity:0
 });
+
+*/
+
+//Home Page
+
 
 //Our Team Page
 var cards = document.getElementsByClassName("a-card");

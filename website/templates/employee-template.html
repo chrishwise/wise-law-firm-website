@@ -7,7 +7,7 @@
         }
     </style>
 
-    <div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='nats-bg.jpg') }}">
+    <div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='images/nats-bg.jpg') }}">
         <div class="parallax-flex-container d-flex flex-column" >
             <div class="page-header-text">Our Team</div>
         </div>
@@ -25,11 +25,11 @@
             </div>
 			<div class="attorney-contact-info animate-right">
 				<div class="d-flex align-center">
-					<img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
+					<img height="30px" width="30px" src="{{url_for('static', filename='images/email.svg') }}" alt="email icon">
 					<div class="contact-text">{{ employee.email}}</div>
 				</div>
 				<div class="d-flex align-center">
-					<img height=30px width=30px src="{{url_for('static', filename='phone.jpg') }}" alt="phone icon">
+					<img height=30px width=30px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">
 					<div class="contact-text">{{ employee.phone_number }}</div>
 				</div>
 			</div>

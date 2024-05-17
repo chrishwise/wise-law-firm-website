@@ -37,18 +37,13 @@
         const notificationInput = document.getElementById('notifications');
         const flexRow = document.getElementById('flexRow');
         const pCall = document.getElementById('pCall');
-        const adminNav = document.getElementById('adminNav');
-
 
         (function(){
             firstNameButton.setAttribute('disabled', '');
             emailButton.setAttribute('disabled', '');
             notificationInput.setAttribute('disabled', '');
-            adminNav.setAttribute('hidden', '')
         })();
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/ScrollTrigger.min.js"></script>
     <script>
         function makeEditable(){
             /**
@@ -84,5 +79,5 @@
             event.preventDefault(); //This prevents the page from reloading, which would revert these changes
         }
     </script>
-    </div>
+
 {% endblock %}

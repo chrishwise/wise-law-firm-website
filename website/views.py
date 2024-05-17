@@ -16,10 +16,10 @@ from flask import current_app as app
 
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    CreateAttorneyForm, RespondEmailForm, ReviewForm
+    CreateAttorneyForm, RespondEmailForm, ReviewForm, PracticeAreaForm
 from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
     AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
-    Contact, ContactResponse, Review
+    Contact, ContactResponse, Review, PracticeArea
 
 views = Blueprint('views', __name__)
 session = Session(db)
@@ -42,75 +42,82 @@ def static_from_root():
 @views.route('/')
 def home():
     articles = db.session.query(Article).order_by(desc(Article.date)).all()
-    return render_template("index.html", articles=articles, logged_in=current_user.is_authenticated)
+    return render_template("index.html", articles=articles, public_view=True)
 
 
 @views.route('/firm-overview')
 def firm_overview():
-    return render_template("firm-overview.html", logged_in=current_user.is_authenticated)
+    return render_template("firm-overview.html", public_view=True)
 
 
 @views.route('/our-team')
 def our_team():
     attorneys = Attorney.query.all()
-    return render_template("our-team.html", attorneys=attorneys, logged_in=current_user.is_authenticated)
+    return render_template("our-team.html", attorneys=attorneys, public_view=True)
 
 
 @views.route('/employee/<int:id>', methods=['GET'])
 def employee(id):
     employee = Attorney.query.get(id)
-    return render_template("employee-template.html", employee=employee, logged_in=current_user.is_authenticated)
+    return render_template("employee-template.html", employee=employee, public_view=True)
 
+
+#
+# @views.route('/practice-areas', methods=['GET'])
+# def practice_areas():
+#     practice_areas = db.session.query(PracticeArea).order_by(PracticeArea.id).all()
+#     return render_template('practice-areas.html', practice_areas=practice_areas, public_view=True)
+#
 
 @views.route('/class-actions')
 def class_actions():
-    return render_template("class-actions.html", logged_in=current_user.is_authenticated)
+    return render_template("class-actions.html", public_view=True)
 
 
 @views.route('/construction-law')
 def construction_law():
-    return render_template("construction-law.html", logged_in=current_user.is_authenticated)
+    return render_template("construction-law.html", public_view=True)
 
 
 @views.route('/construction-litigation')
 def construction_litigation():
-    return render_template("construction-litigation.html", logged_in=current_user.is_authenticated)
+    return render_template("construction-litigation.html", public_view=True)
 
 
 @views.route('/construction-defect-litigation')
 def construction_defect_litigation():
-    return render_template("construction-defect-litigation.html", logged_in=current_user.is_authenticated)
+    return render_template("construction-defect-litigation.html", public_view=True)
 
 
 @views.route('/wrongful-death')
 def wrongful_death():
-    return render_template("wrongful-death.html", logged_in=current_user.is_authenticated)
+    return render_template("wrongful-death.html", public_view=True)
 
 
 @views.route('/commercial-and-business')
 def commercial_and_business():
-    return render_template("commercial-and-business.html", logged_in=current_user.is_authenticated)
+    return render_template("commercial-and-business.html", public_view=True)
 
 
 @views.route('/mold-and-environmental')
 def mold_and_environmental():
-    return render_template("mold-and-environmental.html", logged_in=current_user.is_authenticated)
+    return render_template("mold-and-environmental.html", public_view=True)
 
 
 @views.route('/government-contracts')
 def government_contracts():
-    return render_template("government-contracts.html", logged_in=current_user.is_authenticated)
+    return render_template("government-contracts.html", public_view=True)
 
 
 @views.route('/insurance-coverage')
 def insurance_coverage():
-    return render_template("insurance-coverage.html", logged_in=current_user.is_authenticated)
+    return render_template("insurance-coverage.html", public_view=True)
 
 
 @views.route('/reviews')
 def reviews():
     reviews = db.session.query(Review).order_by(Review.date).all()
-    return render_template("reviews.html", reviews=reviews, logged_in=current_user.is_authenticated)
+    return render_template("reviews.html", reviews=reviews, public_view=True)
 
 
 def get_first_article():
@@ -128,77 +135,17 @@ def articles(id=1):
         db.session.add(no_articles)
         db.session.commit()
         article = no_articles
-    return render_template("articles.html", articles=articles, article=article, logged_in=current_user.is_authenticated)
-
-
-@views.route('/admin-portal/manage-articles/<int:id>', methods=['GET', 'POST'])
-@login_required
-def manage_articles(id=0):
-    articles = Article.query.all()
-    if articles:
-        if id == 0:
-            article = get_first_article()
-        else:
-            article = Article.query.get_or_404(id)
-    else:
-        print("there are no current articles")
-        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
-        db.session.add(no_articles)
-        db.session.commit()
-        article = no_articles
-    return render_template('manage-articles.html', logged_in=False, article=article, articles=articles)
-
-
-
-@views.route('/create', methods=['GET', 'POST'])
-@login_required
-def new_article():
-    form = ArticleForm(request.form)
-    if request.method == 'POST' and form.validate():
-        article = Article(title=form.title.data, text=form.text.data, date=datetime.date.today(),
-                          published_date=form.publishing_date.data, url=form.url.data)
-        db.session.add(article)
-        db.session.commit()
-        return redirect(url_for('views.articles', id=article.id))
-    return render_template("new-article.html", form=form, logged_in=current_user.is_authenticated)
-
-
-@views.route('/delete-article/<int:id>', methods=['GET', 'POST'])
-def delete_article(id):
-    article = Article.query.get_or_404(id)
-    db.session.delete(article)
-    db.session.commit()
-    flash("Article was successfully deleted!", category='success')
-    return redirect(url_for('views.articles', id=0))
-
-
-@views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_article(id):
-    form = ArticleForm(request.form)
-    article = Article.query.get_or_404(id)
-    if request.method == 'POST' and form.validate():
-        article.title = form.title.data
-        article.published_date = form.publishing_date.data
-        article.date = form.date_created.data
-        article.url = form.url.data
-        article.text = form.text.data
-        db.session.commit()
-        flash("Article has been updated successfully!", category='success')
-        return redirect(url_for('views.manage_articles', id=id))
-    elif request.method == 'GET':
-        form.text.data = article.text       # Using the the render field value parameter in the html template didn't work so I set the value here
-    return render_template('edit-article.html', form=form, article=article, logged_in=current_user.is_authenticated)
+    return render_template("articles.html", articles=articles, article=article, public_view=True)
 
 
 @views.route('/careers')
 def careers():
-    return render_template("careers.html", logged_in=current_user.is_authenticated)
+    return render_template("careers.html", public_view=True)
 
 
 @views.route('/maps')
 def maps():
-    return render_template("maps.html", logged_in=current_user.is_authenticated)
+    return render_template("maps.html", public_view=True)
 
 
 @views.route('/contact-us', methods=['GET', 'POST'])
@@ -230,7 +177,7 @@ def contact_us():
         db.session.commit()
 
         return redirect(url_for('views.home'))
-    return render_template("contact-us.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("contact-us.html", form=form, public_view=True)
 
 
 @views.route('/admin-portal', methods=['GET', 'POST'])
@@ -249,7 +196,7 @@ def admin_portal():
     else:
         form.notifications.data = current_user.receives_notifications
 
-    return render_template('admin-portal.html', logged_in=False, form=form,
+    return render_template('admin-portal.html', public_view=False, form=form,
                            current_user=current_user)
 
 
@@ -259,7 +206,7 @@ def manage_employees():
     form = None
     employees = Attorney.query.order_by(Attorney.id).all()
     print(f'employees: {employees}')
-    return render_template('manage-employees.html', logged_in=False, form=form, attorneys=employees,
+    return render_template('manage-employees.html', public_view=False, form=form, attorneys=employees,
                            current_user=current_user)
 
 
@@ -285,11 +232,11 @@ def create_employee():
             new_attorney.update(name=name, title=title, email=email, phone=phone, about=about, picture_url=picture_url)
             session.commit()
             session.close()
-            flash('New Attorney Has Been Created', category='success')
+            flash('New Employee Has Been Created', category='success')
             return redirect(url_for('views.manage_employees'))
         else:
             flash('Failed to Create New Attorney', category='error')
-    else:       # request != 'POST'
+    else:  # request != 'POST'
         if not session.is_active:
             session.begin()
         new_attorney = Attorney()
@@ -297,7 +244,7 @@ def create_employee():
         session.flush()  # Don't want to commit but need the attorney.id
         form.new_attorney_id.data = new_attorney.id
         print(f"new_attorney's id is: {new_attorney.id}")
-    return render_template('create-attorney.html', logged_in=False, form=form, picture_url=local_placeholder,
+    return render_template('create-attorney.html', public_view=False, form=form, picture_url=local_placeholder,
                            current_user=current_user, current_attorney=new_attorney, header=header, button=button)
 
 
@@ -496,7 +443,7 @@ def edit_publication():
         session.flush()
         results = {'toString': publication.to_string(),
                    'title': publication.title,
-                   'details':publication.details,
+                   'details': publication.details,
                    'year': publication.year,
                    'publication': publication.publication,
                    'publicationId': publication_id}
@@ -679,9 +626,8 @@ def edit_employee(eId):
     current_attorney = session.query(Attorney).get(eId)
     print(f'current attorney: {current_attorney}')
     print(f'current attorneys education: {current_attorney.education}')
-    educations = db.session.query(AttorneyEducation).all();
+    educations = db.session.query(AttorneyEducation).all()
     print(f'educations: {educations}')
-
     if request.method == 'POST':
         current_attorney.name = form.name.data
         current_attorney.title = form.title.data
@@ -706,7 +652,7 @@ def edit_employee(eId):
         form.phone_number.data = current_attorney.phone_number
         form.about.data = current_attorney.about
         form.picture_url.data = current_attorney.picture_url
-    return render_template('create-attorney.html', logged_in=False, form=form, header=header, button=button,
+    return render_template('create-attorney.html', public_view=False, form=form, header=header, button=button,
                            current_user=current_user, current_attorney=current_attorney)
 
 
@@ -719,11 +665,62 @@ def delete_attorney(aId):
     return redirect(url_for('views.manage_employees'))
 
 
+@views.route('/manage_practice_areas', methods=['GET', 'POST'])
+@login_required
+def manage_practice_areas():
+    areas = db.session.query(PracticeArea).all()
+    return render_template('manage-practice-areas.html', public_view=False, practice_areas=areas,
+                           current_user=current_user)
+
+
+@views.route('/edit_practice_area/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_practice_area(id):
+    form = PracticeAreaForm(request.form)
+    practice_area = db.session.query(PracticeArea).get(id)
+    title = 'Edit Practice Area'
+    button = 'Save'
+    if request.method == 'POST' and form.validate():
+        practice_area.name = form.title.data
+        practice_area.description = form.description.data
+        practice_area.full_text = form.full_text.data
+        practice_area.icon_url = form.icon_url.data
+        practice_area.picture_url = form.picture_url.data
+        print(practice_area.picture_url, form.picture_url.data, practice_area.icon_url, form.icon_url.data)
+        db.session.commit()
+        flash('Practice Area was successfully updated', category='success')
+        return redirect(url_for('views.manage_practice_areas'))
+    else:
+        form.title.data = practice_area.name
+        form.description.data = practice_area.description
+        form.full_text.data = practice_area.full_text
+        form.picture_url.data = practice_area.picture_url
+        form.icon_url.data = practice_area.icon_url
+        print(form, form.picture_url.data, form.icon_url.data)
+    return render_template("new-practice-area.html", form=form, public_view=False, title=title, button=button)
+
+
+@views.route('/new_practice_area', methods=['GET', 'POST'])
+@login_required
+def new_practice_area():
+    form = PracticeAreaForm(request.form)
+    title = 'New Practice Area'
+    button = 'Submit'
+    if request.method == 'POST' and form.validate():
+        practice_area = PracticeArea(name=form.title.data, description=form.description.data, full_text=form.full_text.data,
+                                     icon_url=form.icon_url.data, picture_url=form.picture_url.data)
+        db.session.add(practice_area)
+        db.session.commit()
+        flash('Practice Area was successfully created', category='success')
+        return redirect(url_for('views.manage_practice_areas'))
+    return render_template("new-practice-area.html", form=form, public_view=False, title=title, button=button)
+
+
 @views.route('/admin-portal/manage-reviews', methods=['GET'])
 @login_required
 def manage_reviews():
     reviews = db.session.query(Review).all()
-    return render_template('manage-reviews.html', logged_in=False, reviews=reviews,
+    return render_template('manage-reviews.html', public_view=False, reviews=reviews,
                            current_user=current_user)
 
 
@@ -738,7 +735,7 @@ def add_review():
         db.session.commit()
         flash('Review was successfully created', category='success')
         return redirect(url_for('views.manage_reviews'))
-    return render_template("new-review.html", form=form, header=header, logged_in=False)
+    return render_template("new-review.html", form=form, header=header, public_view=False)
 
 
 @views.route('/edit_review/<int:id>', methods=['GET', 'POST'])
@@ -756,7 +753,7 @@ def edit_review(id):
     else:
         form.content.data = review.content
         form.author.data = review.author
-    return render_template("new-review.html", form=form, logged_in=False, header=header)
+    return render_template("new-review.html", form=form, public_view=False, header=header)
 
 
 @views.route('/delete_review/<int:id>', methods=['GET'])
@@ -766,6 +763,66 @@ def delete_review(id):
     db.session.commit()
     flash('Review was successfully deleted', category='success')
     return redirect(url_for('views.manage_reviews'))
+
+
+
+@views.route('/admin-portal/manage-articles/<int:id>', methods=['GET', 'POST'])
+@login_required
+def manage_articles(id=0):
+    articles = Article.query.all()
+    if articles:
+        if id == 0:
+            article = get_first_article()
+        else:
+            article = Article.query.get_or_404(id)
+    else:
+        print("there are no current articles")
+        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
+        db.session.add(no_articles)
+        db.session.commit()
+        article = no_articles
+    return render_template('manage-articles.html', public_view=False, article=article, articles=articles)
+
+
+@views.route('/new-article', methods=['GET', 'POST'])
+@login_required
+def new_article():
+    form = ArticleForm(request.form)
+    if request.method == 'POST' and form.validate():
+        article = Article(title=form.title.data, text=form.text.data, date=datetime.date.today(),
+                          published_date=form.publishing_date.data, url=form.url.data)
+        db.session.add(article)
+        db.session.commit()
+        return redirect(url_for('views.articles', id=article.id))
+    return render_template("new-article.html", form=form, public_view=False)
+
+
+@views.route('/delete-article/<int:id>', methods=['GET', 'POST'])
+def delete_article(id):
+    article = Article.query.get_or_404(id)
+    db.session.delete(article)
+    db.session.commit()
+    flash("Article was successfully deleted!", category='success')
+    return redirect(url_for('views.articles', id=0))
+
+
+@views.route('/edit-article/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_article(id):
+    form = ArticleForm(request.form)
+    article = Article.query.get_or_404(id)
+    if request.method == 'POST' and form.validate():
+        article.title = form.title.data
+        article.published_date = form.publishing_date.data
+        article.date = form.date_created.data
+        article.url = form.url.data
+        article.text = form.text.data
+        db.session.commit()
+        flash("Article has been updated successfully!", category='success')
+        return redirect(url_for('views.manage_articles', id=id))
+    elif request.method == 'GET':
+        form.text.data = article.text  # Using the the render field value parameter in the html template didn't work so I set the value here
+    return render_template('edit-article.html', form=form, article=article, public_view=False)
 
 
 @views.route('/admin-portal/manage-admins', methods=['GET', 'POST'])
@@ -785,7 +842,7 @@ def manage_admins():
         notified_admins = notified_admins.removesuffix(', ')
 
     return render_template('manage-admins.html', admins=admins, editable=editable, notified_admins=notified_admins,
-                           logged_in=False, current_user=current_user)
+                           public_view=False, current_user=current_user)
 
 
 @views.route('/edit-admin/<int:adminId>', methods=['GET', 'POST'])
@@ -809,7 +866,7 @@ def edit_admin(adminId):
         form.notifications.data = current_admin.receives_notifications
         form.first_name.data = current_admin.first_name
         form.email.data = current_admin.email
-    return render_template('edit-admin-account.html', logged_in=current_user.is_authenticated, form=form,
+    return render_template('edit-admin-account.html', public_view=False, form=form,
                            current_user=current_user, current_admin=current_admin)
 
 
@@ -832,7 +889,7 @@ def change_password():
         db.session.commit()
         flash("Admins password has successfully been changed", category='success')
         return redirect(url_for('views.admin_portal'))
-    return render_template('change-password.html', form=form, logged_in=False,
+    return render_template('change-password.html', form=form, public_view=False,
                            current_user=current_user)
 
 
@@ -865,7 +922,7 @@ def contact_submissions():
         mail.send(email)
         flash('Response email has been sent', category='success')
         return redirect(url_for('views.contact_submissions'))
-    return render_template('contact-submissions.html', logged_in=False, form=respondForm, contacts=contacts)
+    return render_template('contact-submissions.html', public_view=False, form=respondForm, contacts=contacts)
 
 
 @views.route('/toggle-responded/<int:id>', methods=['GET'])
@@ -917,7 +974,7 @@ def master_privileges():
         flash('Master Privileges Granted', category='success')
         return redirect(url_for('views.manage_admins'))
     return render_template('master-privileges.html', form=form,
-                           logged_in=False,
+                           public_view=False,
                            current_user=current_user)
 
 
@@ -933,7 +990,7 @@ def toggle_master():
 def contact_archive():
     archived_contacts = Contact.query.filter_by(archived=True).all()
     print(archived_contacts)
-    return render_template('contact-archive.html', logged_in=False, contacts=archived_contacts,
+    return render_template('contact-archive.html', public_view=False, contacts=archived_contacts,
                            current_user=current_user)
 
 

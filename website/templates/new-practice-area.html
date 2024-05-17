@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% from '_formhelpers.html' import render_field %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    {{ admin_navbar('practiceAreas') }}
+    <div class="section1">
+        <h1 style="text-align:center">{{title}}</h1>
+        <form method="POST" class="form-container">
+            {{ local_flashed_message() }}
+            <dl>
+                {{ render_field(form.title) }}
+                {{ render_field(form.description, label_info='The description is used in the Areas of Focus section in Firm Overview.') }}
+                {{ render_field(form.full_text, label_info='The full text is the content for the Practice Area\'s individual page.') }}
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        <dt>
+                            <label for="practiceAreaPicture">Practice Area Icon:</label>
+                        </dt>
+                        <p class="label-info">The icon is used in the Area of Focus section in Firm Overview</p>
+                        <dd class="flex-between">
+                            <div class="inset-text-area uploaded-preview-container">
+                                {% if form.icon_url.data %}
+                                    <img src="{{ form.icon_url.data }}" alt="practice area icon">
+                                {% else %}
+                                    <div class="centered-text replaceAfterUpload">Click the icon to upload a picture</div>
+                                {% endif %}
+                            </div>
+                            <input id="practiceAreaIcon" name="practiceAreaIcon" class="simple-file-upload" type="hidden"
+                                   data-template="frosty" data-maxFileSize="5" data-accepted="image/*" data-tag='practice-area-icon'
+                                   data-width="49%" data-height="120px" data-preview="false">
+                            {{ form.icon_url }}
+                        </dd>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <dt>
+                            <label for="practiceAreaPicture">Practice Area Picture:</label>
+                        </dt>
+                        <p class="label-info">The picture is the header picture for the Practice Area's individual page.</p>
+                        <dd class="flex-between">
+                            <div class="inset-text-area uploaded-preview-container">
+                                {% if form.picture_url.data %}
+                                    <img src="{{ form.picture_url.data }}" alt="practice area header picture">
+                                {% else %}
+                                    <div class="centered-text replaceAfterUpload">Click the icon to upload a picture</div>
+                                {% endif %}
+                            </div>
+                            <input id="practiceAreaPicture" name="practiceAreaPicture" class="simple-file-upload" type="hidden"
+                                   data-template="frosty" data-maxFileSize="5" data-accepted="image/*" data-tag="practice-area-picture"
+                                   data-width="49%" data-height="120px" data-preview="false">
+                            {{ form.picture_url }}
+                        </dd>
+                    </div>
+                </div>
+                {{ form.csrf_token }}
+            </dl>
+            <button type="submit" class="btn btn-outline-gold">{{ button }}</button>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        function uploadPreviewHandler(inputId) {
+            const practiceAreaIconInput = document.getElementById(inputId);
+            practiceAreaIconInput.addEventListener('fileUploadStarted', function () {
+                this.parentElement.firstElementChild.firstElementChild.innerHTML = 'Upload in progress';
+            });
+            practiceAreaIconInput.addEventListener('fileUploadSuccess', function () {
+                this.parentElement.removeChild(this.parentElement.firstElementChild);
+                const newImgContainer = document.createElement('div');
+                newImgContainer.classList.add('inset-text-area', 'uploaded-preview-container');
+                const newImgElement = document.createElement('img');
+                newImgElement.src = this.value;     // The url of the uploaded picture
+                newImgElement.alt = 'practice area icon';
+                newImgElement.style.height = '100%';
+                newImgContainer.appendChild(newImgElement);
+                this.parentElement.insertBefore(newImgContainer, this);
+                // this.nextSibling.value = this.value;    // Wrong. nextSibling would be the iframe
+                this.nextElementSibling.nextElementSibling.value = this.value;
+                console.log(this.nextElementSibling.nextElementSibling, this.nextElementSibling.nextElementSibling.value);
+            });
+            practiceAreaIconInput.addEventListener('fileUploadFailed', function (ev) {
+                this.parentElement.firstElementChild.firstElementChild.innerHTML = ev.detail.error;
+            });
+        }
+        uploadPreviewHandler('practiceAreaIcon');
+        uploadPreviewHandler('practiceAreaPicture');
+
+
+       {# const practiceAreaPictureInput = document.getElementById('practiceAreaPicture');
+        practiceAreaPictureInput.addEventListener('fileUploadStarted', function () {
+            this.parentElement.firstElementChild.firstElementChild.innerHTML = 'Upload in progress';
+        });
+        practiceAreaPictureInput.addEventListener('fileUploadSuccess', function () {
+            this.parentElement.removeChild(this.parentElement.firstElementChild);
+            const newImgContainer = document.createElement('div');
+            newImgContainer.classList.add('inset-text-area');
+            newImgContainer.style.width = '49%';
+            newImgContainer.style.height = '120px';
+            newImgContainer.style.minHeight = 'unset';
+            newImgContainer.style.display = 'flex';
+            newImgContainer.style.justifyContent = 'center';
+            const newImgElement = document.createElement('img');
+            newImgElement.src = this.value;     // The url of the uploaded picture
+            newImgElement.alt = 'practice area icon';
+            newImgElement.style.height = '100%';
+            newImgContainer.appendChild(newImgElement);
+            this.parentElement.insertBefore(newImgContainer, this);
+        });
+        practiceAreaPictureInput.addEventListener('fileUploadFailed', function (ev) {
+            this.parentElement.firstElementChild.firstElementChild.innerHTML = ev.detail.error;
+        });#}
+
+    </script>
+{% endblock %}

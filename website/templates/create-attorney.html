@@ -371,5 +371,17 @@
     {#  To access flask variables from an external js file, they must first be set as global variables.
         This must be declared before the script tag containing the js file in which the variables are used. #}
     <script>attorneyId = '{{ current_attorney.id }}'</script>
+    <script>
+        const closeButtons = gsap.utils.toArray('span.close');
+        closeButtons.forEach( closeButton => {
+            closeButton.setAttribute('tabindex', 0);        // Or closeButton.tabIndex = 0
+            closeButton.addEventListener('keypress', (ev) => {
+                if (ev.key === 'Enter'){
+                    ev.preventDefault();
+                    closeButton.click();
+                }
+            })
+        });
+    </script>
     <script src={{ url_for('static', filename='js/employee-functions.js') }}></script>
 {% endblock %}

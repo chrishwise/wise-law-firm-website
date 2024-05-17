@@ -2,57 +2,37 @@
 {% block title %}Our Team{% endblock %}
 {% block content %}
 
-<div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='nats-bg.jpg') }}">
+<div class="pimg3" data-parallax="scroll" data-image-src="{{url_for('static', filename='images/nats-bg.jpg') }}">
     <div class="parallax-flex-container d-flex flex-column" >
         <h1 class="page-header-text">Our Team</h1>
     </div>
 </div>
 
 <div class="page-container">
-	
-	<div style="width: 80%; text-align: center">
-		<h1>Attorneys</h1>
-		<hr>
-		{#<section class="p-a-cards">
-			<a class="a-card" href="/david-wise">
-				<div class="a-card-image"><img src="{{ url_for('static', filename='david-wise.png') }}" alt="David Wise" height = "350" width = "240"></div>
-			</a>
-			<a class="a-card" href="/joe-langone">
-				<div class="a-card-image"><img src="{{ url_for('static', filename='joe-langone.png') }}" alt="Joe Langone" height = "350" width = "217"></div>
-			</a>
-			<a class="a-card" href="/david-reese">
-				<div class="a-card-image"><img src="{{ url_for('static', filename='david-reese.png') }}" alt="David Reese" height = "350" width = "237"></div>
-			</a>
-            <a class="a-card" href="/william-evans">
-				<div class="a-card-image"><img src="{{ url_for('static', filename='william-evans.png') }}" alt="William Evans" height = "350" width = "205"></div>
-			</a>
-            <a class="a-card" href="/dylan-graham">
-				<div class="a-card-image"><img src="{{ url_for('static', filename='dylan-graham.png') }}" alt="Dylan Graham" height = "350" width = "225"></div>
-			</a>
-		</section>#}
+    <h1>Attorneys</h1>
+    <hr>
+    {% for a in attorneys %}
+        <a class="employee-container" href="{{ url_for('views.employee', id=a.id) }}">
+            <div class="employee-picture"><img src="{{ a.picture_url }}" alt="{{ a.name }} profile picture"></div>
+            <div class="flex-column-start">
+                <header>
+                    <h2 class="employee-name">{{ a.name }}</h2>
+                    <div class="employee-title">{{ a.title }}</div>
+                </header>
 
-        {% for a in attorneys %}
-            <a class="employee-container" href="{{ url_for('views.employee', id=a.id) }}">
-                <div class="employee-picture"><img src="{{ a.picture_url }}" alt="{{ a.name }} profile picture"></div>
-                <div style="padding: 10px 20px; width:60%; max-width: 350px;" class="flex-column-start">
-                    <h3 style="width: 100%; text-align: left">{{ a.name }}</h3>
-                    <h5 style="width: 100%; text-align: left">{{ a.title }}</h5>
-                    <div class="flex-row-center">
-                        <div class="d-flex align-center">
-                            <img height="30px" width="30px" src="{{url_for('static', filename='email.jpg') }}" alt="email icon">
-                            <div class="contact-text">{{ a.email}}</div>
-                        </div>
-                        <div class="d-flex align-center">
-                            <img height=30px width=30px src="{{url_for('static', filename='phone.jpg') }}" alt="phone icon">
-                            <div class="contact-text">{{ a.phone_number }}</div>
-                        </div>
+                <div class="flex-row-center r-gap-5">
+                    <div class="d-flex align-center">
+                        <img height="30px" width="30px" src="{{url_for('static', filename='images/email.svg') }}" alt="email icon">
+                        <div class="contact-text">{{ a.email}}</div>
+                    </div>
+                    <div class="d-flex align-center">
+                        <img height=30px width=30px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">
+                        <div class="contact-text">{{ a.phone_number }}</div>
                     </div>
                 </div>
-
-            </a>
-        {% endfor %}
-
-	</div>
+            </div>
+        </a>
+    {% endfor %}
 </div>
 {% endblock %}
 

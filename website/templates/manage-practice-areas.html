@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% block title %}Manage Practice Areas{% endblock %}
+{% block content %}
+    {{ admin_navbar('practiceAreas') }}
+    <div class="section1">
+        <h1 style="text-align:center">Manage Practice Areas</h1>
+        <div class="form-container">
+            <table id="managePracticeAreas" style="width: 100%">
+                <tr>
+                    <th style="width: 20%;">Practice Area</th>
+                    <th style="width: 50%;">Description</th>
+                    <th style="width: 40px; text-align: center">Icon</th>
+                    <th style="width: 80px; text-align: center">Picture</th>
+                    <th style="width: 55px; text-align: center">Edit</th>
+                </tr>
+                {% for pa in practice_areas %}
+                    <tr style="height: 50px">
+                        <td>{{ pa.name }}</td>
+                        <td>{{ pa.description }}</td>
+                        <td class="img"><img src="{{ pa.icon_url }}" alt="icon preview"></td>
+                        <td class="img"><img src="{{ pa.picture_url }}" alt="picture preview" style="object-fit: cover"></td>
+                        <td class="cell-button"><a class="btn d-block" style="margin:2px" href={{ url_for('views.edit_practice_area', id=pa.id) }}>Edit</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="centered-abs-btn">
+                 <a class='btn green-admin-btn centered-abs-btn' id='createPracticeArea' href="{{ url_for('views.new_practice_area') }}">
+                     Create Practice Area</a>
+             </div>
+        </div>
+    </div>
+{% endblock %}

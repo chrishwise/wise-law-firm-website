@@ -6,14 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSS -->
         <link href='/../static/css/bootstrap.min.css' rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
         <link href='/../static/css/main.css' rel="stylesheet" type="text/css">
 
         <!-- Scripts -->
         <script src="https://app.simplefileupload.com/buckets/f24e4363ead2237306be96823dfef1cd.js"></script>
-        <script src="{{ url_for('static', filename='node_modules/blueimp-load-image/js/load-image.all.min.js') }}"></script>
         <!-- Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,16 +79,15 @@
                 <li class="links">
                     <div class="nav-item"> <a href="/firm-overview" class="nav-link">Firm Overview</a> </div>
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Our Team</a>
+                        <a class="nav-link dropdown-toggle" href="/our-team">Our Team</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item nav-item" href="/our-team">Our Team</a>
                             {% for employee in employees %}
                                 <a class="dropdown-item nav-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
                             {% endfor %}
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Practice Areas</a>
+                        <a class="nav-link dropdown-toggle" href="#">Practice Areas</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/class-actions">Class Actions</a>
                             <a class="dropdown-item" href="/construction-law">Construction Law</a>
@@ -104,11 +100,11 @@
                             <a class="dropdown-item" href="/insurance-coverage">Insurance Coverage</a>
                         </div>
                     </div>
-                    <div class="nav-item"> <a class="nav-link" href="/reviews">Reviews</a> </div>
-                    <div class="nav-item"> <a class="nav-link" href="/articles/1">News & Articles</a> </div>
-                    <div class="nav-item"> <a class="nav-link" href="/careers">Careers</a> </div>
-                    <div class="nav-item"> <a class="nav-link" href="/maps">Maps</a> </div>
-                    <div class="nav-item"> <a class="nav-link" href="/contact-us">Contact Us</a> </div>
+                    <div class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></div>
+                    <div class="nav-item"><a class="nav-link" href="/articles/1">News & Articles</a></div>
+                    <div class="nav-item"><a class="nav-link" href="/careers">Careers</a></div>
+                    <div class="nav-item"><a class="nav-link" href="/maps">Maps</a></div>
+                    <div class="nav-item"><a class="nav-link" href="/contact-us">Contact Us</a></div>
                 </li>
 
             </ul>
@@ -124,49 +120,63 @@
         </nav>
         <!-- Admin Toolbar -->
         {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
-        {% if logged_in %}
+        {% if current_user.is_authenticated and public_view %}
             {{ admin_navbar() }}
-            {#<ul class="admin-navbar nav-pills" id="adminNav">
-                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.admin_portal') }}">Admin Portal</a> </li>
-                <li class="nav-item"> <a class="admin-nav-link" href="{{ url_for('views.contact_submissions') }}">Contact Submissions</a> </li>
-                <li class="nav-item"> <a class="admin-nav-link" href="/logout">Logout</a> </li>
-            </ul>#}
         {% endif %}
 
         <!-- Sidenav for Mobile and Small Screens -->
-        <div id='backdrop' class="sidenav-backdrop" hidden></div>
+        <div id='backdrop' class="modal-backdrop" hidden></div>
         <div id="sidenav" class="sidenav-mobile show-on-mobile">
             <ul>
-                <li class="nav-item"> <a class="nav-link" href="/">Home</a> </li>
-                <li class="nav-item"> <a href="/firm-overview" class="nav-link">Firm Overview</a> </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/our-team" role="button" aria-haspopup="true" aria-expanded="false">Our Team</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item nav-item" href="/our-team">Our Team</a>
-                        {% for employee in employees %}
-                            <a class="dropdown-item nav-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
-                        {% endfor %}
+                <li><a class="nav-link" href="/">Home</a></li>
+                <li><a href="/firm-overview" class="nav-link">Firm Overview</a></li>
+                <li id="ourTeamTrigger" class="expandable-trigger">
+                    <div class="flex-column-start">
+                        <a href="/our-team" class="nav-link">Our Team</a>
+                        <div id="ourTeamExpandableContainer" class="expandable-container">
+                            {% for employee in employees %}
+                                <a href="{{ url_for('views.employee', id=employee.id) }}" class="expandable-item">{{ employee.name }}</a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/practice-areas" role="button" aria-haspopup="true" aria-expanded="false">Practice Areas</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/class-actions">Class Actions</a>
-                        <a class="dropdown-item" href="/construction-law">Construction Law</a>
-                        <a class="dropdown-item" href="/construction-litigation">Construction Litigation</a>
-                        <a class="dropdown-item" href="/construction-defect-litigation">Construction Defect Litigation</a>
-                        <a class="dropdown-item" href="/wrongful-death">Wrongful Death and Personal Injury Litigation</a>
-                        <a class="dropdown-item" href="/commercial-and-business">Commercial and Business Litigation</a>
-                        <a class="dropdown-item" href="/mold-and-environmental">Mold and Environmental Litigation</a>
-                        <a class="dropdown-item" href="/government-contracts">Government Contracts</a>
-                        <a class="dropdown-item" href="/insurance-coverage">Insurance Coverage</a>
+                <li id='practiceAreaTrigger' class="expandable-trigger">
+                    <div class="flex-column-start">
+                        <a class="nav-link" href="/practice-areas">Practice Areas</a>
+                        <div id="practiceAreaExpandableContainer" class="expandable-container">
+                            <a class="expandable-item" href="/class-actions">Class Actions</a>
+                            <a class="expandable-item" href="/construction-law">Construction Law</a>
+                            <a class="expandable-item" href="/construction-litigation">Construction Litigation</a>
+                            <a class="expandable-item" href="/construction-defect-litigation">Construction Defect Litigation</a>
+                            <a class="expandable-item" href="/wrongful-death">Wrongful Death/Personal Injury</a>
+                            <a class="expandable-item" href="/commercial-and-business">Commercial and Business</a>
+                            <a class="expandable-item" href="/mold-and-environmental">Mold and Environmental Litigation</a>
+                            <a class="expandable-item" href="/government-contracts">Government Contracts</a>
+                            <a class="expandable-item" href="/insurance-coverage">Insurance Coverage</a>
+                        </div>
                     </div>
                 </li>
-                <li class="nav-item"> <a class="nav-link" href="/reviews">Reviews</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/articles/1">News & Articles</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/careers">Careers</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/maps">Maps & Directions</a> </li>
-                <li class="nav-item"> <a class="nav-link" href="/contact-us">Contact Us</a> </li>
+                <li><a class="nav-link" href="/reviews">Reviews</a></li>
+                <li><a class="nav-link" href="/articles/1">News & Articles</a></li>
+                <li><a class="nav-link" href="/careers">Careers</a></li>
+                <li><a class="nav-link" href="/maps">Maps & Directions</a></li>
+                <li><a class="nav-link" href="/contact-us">Contact Us</a></li>
+                {% if current_user.is_authenticated %}
+                    <li id='adminTrigger' class="expandable-trigger">
+                        <div class="flex-column-start">
+                            <a id='adminNavLink' class="nav-link" href="/admin-portal">Admin</a>
+                            <div id="adminExpandableContainer" class="expandable-container">
+                                <a href="{{ url_for('views.manage_employees')}}" class="expandable-item">Manage Employees</a>
+                                <a href="{{ url_for('views.manage_practice_areas')}}" class="expandable-item">Manage Practice Areas</a>
+                                <a href="{{ url_for('views.manage_reviews')}}" class="expandable-item">Manage Reviews</a>
+                                <a href="{{ url_for('views.manage_articles', id=1)}}" class="expandable-item">Manage Articles</a>
+                                <a href="{{ url_for('views.manage_admins')}}" class="expandable-item">Manage Admins</a>
+                                <a href="{{ url_for('views.contact_submissions') }}" class="expandable-item">Contact Submissions</a>
+                                <a href="{{ url_for('views.admin_portal') }}" class="expandable-item">Account</a>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <!-- Message flashing -->
@@ -201,10 +211,9 @@
         <footer>
             <div class="footer">
                 <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-6">
                         <h5 class="fnav-header">Locations</h5>
                         <div class="loc-container">
-
                             <div id="accordion1" role="tablist">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="headingOne1">
@@ -238,7 +247,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-6">
                         <h5 class="fnav-header">Quick Links</h5>
                         <ul class="no-bullets">
                             <li> <a href="/" class="fnav-link">Home </a></li>
@@ -285,10 +294,22 @@
                 </div>
             </div>
             <div class="copywrite">
-                <div>©2024 Wise Law Firm, PLC. All rights reserved</div>
-                <a href="http://www.wisertech.pro" class="fnav-link">Created By WiserTech LLC</a>
+                <a id="creditsLink" href="#" class="fnav-link">Credits</a>
+                <div class="flex-grow-2">©2024 Wise Law Firm, PLC. All rights reserved</div>
+                <a href="http://www.wisertech.pro" class="fnav-link">WiserTech LLC</a>
             </div>
         </footer>
+
+        <div id="credits-modal">
+            <a href="https://www.flaticon.com/free-icons/government" title="government icons">Government icons created by Freepik - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/family" title="family icons">Family icons created by Freepik - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/failure" title="failure icons">Failure icons created by Uniconlabs - Flaticon</a>
+            <a href="https://www.flaticon.com/free-icons/covid-19" title="covid 19 icons">Covid 19 icons created by sonnycandra - Flaticon</a>
+            <a target="_blank" href="https://icons8.com/icon/2olGSGqpqGWD/phone">Phone</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+            <a target="_blank" href="https://icons8.com/icon/baRhMh2wmjbT/mail">Email</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+            <a href="#" class="close-btn">&times;</a>
+        </div>
 
         <!-- Fullscreen Image Viewer -->
         <div id="image-viewer">
@@ -296,67 +317,21 @@
             <img class="modal-content" id="full-image" alt="full screen of clicked upon image">
         </div>
 
-        <!-- Scripts -->
+    <!-- Scripts -->
 
         <!-- For Parallax -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="../static/js/parallax.min.js"></script>
-
         <!-- Swiper bundle and script for review carousel-->
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-        <script>
-              var swiper = new Swiper(".mySwiper", {
-                effect: "coverflow",
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: "auto",
-                loop: true,
-                coverflowEffect: {
-                  rotate: 50,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 1,
-                  slideShadows: true,
-                },
-                pagination: {
-                  el: ".swiper-pagination",
-                },
-                navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-                },
-              });
-            </script>
-        <script>
-            var swiper = new Swiper(".homeArticlesSwiper", {
-                effect: "coverflow",
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: "auto",
-                loop: true,
-                coverflowEffect: {
-                  rotate: 50,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 1,
-                  slideShadows: true,
-                },
-                pagination: {
-                  el: ".swiper-pagination",
-                },
-                navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-                },
-              });
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <!-- GSAP text animation and ScrollTrigger-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js" integrity="sha512-UxP+UhJaGRWuMG2YC6LPWYpFQnsSgnor0VUF3BHdD83PS/pOpN+FYbZmrYN+ISX8jnvgVUciqP/fILOXDjZSwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
-        <script src="../static/js/text-animation.js"></script>
-        <!-- Delete Article -->
-        <script src="{{ url_for('static', filename='js/delete-article.js') }}"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
+        <script src="{{ url_for('static', filename='js/text-animation.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/overlay.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/expanding-menu.js') }}"></script>
         <script>
             $(document).ready(function () {
                 setTimeout(function () {
@@ -364,20 +339,45 @@
                 }, 2000); // <-- time in milliseconds
             });
         </script>
+        <script>
+            // This is generic function for opening modal
+            const backdrop = document.getElementById('backdrop');
+            function openModal(modalId){
+                console.log('open model ran')
+                let modal = document.getElementById(modalId);
+                gsap.to(modal, {scale:1, duration:0.2, autoAlpha: 1, easing: 'power4.inOut'});
+                backdrop.removeAttribute('hidden');
+                console.log(backdrop);
+                backdrop.addEventListener('click', () =>{
+                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, easing: 'power4.out'});
+                    backdrop.setAttribute('hidden', '');
+                })
+                document.querySelector('#credits-modal .close-btn').addEventListener('click', () =>{
+                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, easing: 'power4.out'});
+                    backdrop.setAttribute('hidden', '');
+                })
+            }
 
-        <script src="../static/js/sidenav.js"></script>
+            /// This is specific for opening and closing credits modal
+            gsap.set(document.getElementById('credits-modal'), {scale:0, autoAlpha:0});
+            const creditsLink = document.getElementById("creditsLink");
+            creditsLink.addEventListener('click', () => {openModal('credits-modal')});
+
+            {#const creditsModalClose = document.querySelector('#credits-modal .close');
+            creditsModalClose.addEventListener('click', ()=> {closeModal('credits-modal')});#}
+
+        </script>
         <!-- For Responsive Navbar Mobile Dropdown -->
         <script>
             const sidenav = document.getElementById('sidenav');
-            const backdrop = document.getElementById('backdrop');
             function openSideNav(){
-                gsap.to(sidenav, {x:0, duration:0.1, easing: 'power4.in'});
+                gsap.to(sidenav, {x:0, duration:0.1, ease: 'power4.in'});
                 sidenav.classList.add('open');
                 backdrop.removeAttribute('hidden');
-                backdrop.addEventListener('click', (ev) =>{closeSideNav()});
+                backdrop.addEventListener('click', () =>{closeSideNav()});
             }
             function closeSideNav() {
-                gsap.to(sidenav, {x:-300, duration:0.1, easing: 'power4.out'});
+                gsap.to(sidenav, {x:-300, duration:0.1, ease: 'power4.out'});
                 sidenav.classList.remove('open');
                 backdrop.setAttribute('hidden', '');
             }
@@ -432,5 +432,6 @@
             $('#foreground-viewer').hide();
         });
     </script>
+    {% block scripts %}{% endblock %}
     </body>
 </html>

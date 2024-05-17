@@ -13,38 +13,6 @@
                             <div class="review-author">- {{ review.author }}</div>
                         </div>
                     {% endfor %}
-					{#<div class="swiper-slide">
-						<div class="review-content">
-							If you're looking for a reliable, experienced law firm in the Fairfax area, Wise & Donahue delivers.
-						</div>
-						<div class="review-author">
-							- Google Review
-						</div>
-					</div>#}
-					{#<div class="swiper-slide">
-						<div class="review-content">
-							David is a tireless advocate and first class lawyer. His knowledge and experience are unparalleled.
-						</div>
-						<div class="review-author">
-							- Martindale Review
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="review-content">
-							Worked with Mr. Wise on many matters through the years. Excellent in all regards. Highest ethical standards.
-						</div>
-						<div class="review-author">
-							- Martindale Review
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="review-content">
-							David Wise is an outstanding lawyer and a straight-shooter. He zealously represents his clients but is fair and gracious to opposing counsel.
-						</div>
-						<div class="review-author">
-							- Martindale Review
-						</div>
-					</div>#}
 				</div>
 			</div>
             <div class="swiper-pagination"></div>
@@ -56,33 +24,60 @@
 	<section class="section2">
 		<div class="review-page-container">
 			<h2 class="review-title" style="padding-bottom:50px">Awards and Recognition: </h2>
-			<div class="pure-g" style="row-gap: 90px">
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 award">
-				  <img src="{{ url_for('static', filename='award1.png') }}">
+			<div class="flex-awards">
+				<div class="award">
+				  <img alt='The national trial lawyers top 40 under 40' src="{{ url_for('static', filename='images/award1.png') }}">
 				</div>
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 award" style="padding-top:30px">
-				  <img src="{{ url_for('static', filename='award4.png') }}">
+				<div class="award" style="padding-top:30px">
+				  <img alt='Super Lawyers Rising Stars 2015' src="{{ url_for('static', filename='images/award4.png') }}">
 				</div>
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 award">
-				  <img src="{{ url_for('static', filename='award6.png') }}">
+				<div class="award">
+				  <img alt='2016 AV Award David Wise' src="{{ url_for('static', filename='images/award6.png') }}">
 				</div>		
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 award">
-				  <img src="{{ url_for('static', filename='award5.png') }}">
+				<div class="award">
+				  <img alt='Massachusetts Academy of Trial Attorneys' src="{{ url_for('static', filename='images/award5.png') }}">
 				</div>
-
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 award">
-				  <img src="{{ url_for('static', filename='award3.png') }}">
+				<div class="award">
+				  <img alt="Martindale-Hubbell Top Rated Lawyer" src="{{ url_for('static', filename='images/award3.png') }}">
 				</div>
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 award">
-				  <img src="{{ url_for('static', filename='award8.jpg') }}">
+				<div class="award">
+				  <img alt='Lawyers Weekly' src="{{ url_for('static', filename='images/award8.jpg') }}">
 				</div>
-				<div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3 award">
-				  <img  src="{{ url_for('static', filename='award2.png') }}">
+				<div class="award">
+				  <img alt="Baltimore and Washington DC's Top Rated Lawyers" src="{{ url_for('static', filename='images/award2.png') }}">
 				</div>
 			</div>
 		</div>
 	</section>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            coverflowEffect: {
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            },
+            pagination: {
+              el: ".swiper-pagination",
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+{% endblock %}
+
+
 
 			
 		

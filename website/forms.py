@@ -35,6 +35,14 @@ class ReviewForm(FlaskForm):
     author = StringField('Review Author', [validators.InputRequired()])
 
 
+class PracticeAreaForm(FlaskForm):
+    title = StringField('Practice Area', [validators.InputRequired()])
+    description = TextAreaField('Description', [validators.InputRequired()], id='paDescription')
+    full_text = TextAreaField('Full Text', [validators.InputRequired()], id='paFullText')
+    picture_url = HiddenField(id='practiceAreaPictureUrl')
+    icon_url = HiddenField(id='practiceAreaIconUrl')
+
+
 class AdminAccountForm(FlaskForm):
     first_name = StringField("First Name", [validators.InputRequired(), validators.Length(min=2, max=20)])
     email = EmailField("Admin Email Address", [validators.InputRequired(), validators.Email()])

@@ -1,124 +1,199 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-    <!-- Picture below navbar-->
-    <div class="pimg1" data-parallax="scroll" data-image-src="{{ url_for('static', filename='banner1-min.jpg') }}">
-        <div class="ptext">
-            <div data-editable data-name="parallax-section-1">
-                <h1 class="white-text-large animate-down">
-                    Responsive. Experienced. Dedicated.</h1>
-                <h2 class="white-text animate-up">
-                    Construction Law and Class Action Attorneys</h2>
-            </div>
-        </div>
-    </div>
-
-    <section class="section section-light box-padding">
-        <h2>More Than 100 Years Combined Experience</h2>
-        <h5>Fighting for justice. Committed to victory.</h5>
-    </section>
-
-    <div class="pimg2" data-parallax="scroll"
-         data-image-src="{{ url_for('static', filename='construction-sunset2.jpg') }}">
-    </div>
-
-    <section class="container-fluid section section-dark box-padding">
-        <div class="row" style="align-items: stretch;">
-            <div class="col-12 col-md-12 col-xl-6 text-center fo-container">
-                <h2 class="gold animate-right"> Firm Overview</h2>
-                <div data-editable data-name="firm-overview">
-                    <!-- editable firm-overview -->
-                    <p class="inner-section" style="text-align: left">
-                        At Wise Law Firm PLC, we believe that attentive, well-prepared representation is key to
-                        resolving disputes efficiently. Located in Fairfax, we have served clients throughout
-                        Virginia and across the nation since 1989, and we are proud to bring 100 combined years of
-                        experience in business law and construction law to protecting your company's interests.</p>
-                    <p class="inner-section">
-                        Our attorneys have litigated extensively before state and federal courts and have the
-                        industry knowledge and legal background to effectively prosecute or defend cases arising
-                        from contract disputes and related construction issues. In addition, we represent people
-                        seeking compensation for injuries sustained in an auto accident or other incident. No matter
-                        how complex your matter is, we maintain our commitment to helping you fulfill your
-                        objectives.
-                    </p>
-                    <a class="btn btn-outline-gold" href="/firm-overview" role="button">Read More</a>
+    <div id="homePage">
+        <!-- Picture below navbar-->
+        <div id="parallax" class="pimg1" data-parallax="scroll" data-image-src="{{ url_for('static', filename='images/banner1-min.jpg') }}">
+            <div class="ptext">
+                <div data-editable data-name="parallax-section-1">
+                    <h1 class="white-text-large animate-down">
+                        Responsive. Experienced. Dedicated.</h1>
+                    <h2 class="white-text animate-up">
+                        Construction Law and Class Action Attorneys</h2>
                 </div>
             </div>
-            <div class="col-12 col-md-12 col-xl-6">
-                <img class="office-image animate-up-wr" src="{{ url_for('static', filename='office-min.jpg') }}"
-                     alt="office picture">
-            </div>
         </div>
-    </section>
 
-    <div class="container-fluid banner-2">
-        <h2 class="center animate-left">Practice Areas </h2>
-        <hr>
-        <section class="p-a-cards">
-            <a class="p-a-card" href="/class-actions">
-                <div class="p-a-card-image"><img src="{{ url_for('static', filename='class-action.png') }}"
-                                                 alt="class actions" height="100" width="100"></div>
-                <div class="p-a-card-title ">Class Actions</div>
-            </a>
-            <a class="p-a-card" href="/construction-law">
-                <div class="p-a-card-image"><img src="{{ url_for('static', filename='construction-law.png') }}"
-                                                 alt="construction law" height="100" width="100"></div>
-                <div class="p-a-card-title ">Construction Law</div>
-            </a>
-            <a class="p-a-card" href="/construction-litigation">
-                <div class="p-a-card-image"><img src="{{ url_for('static', filename='construction-lit.png') }}"
-                                                 alt="construction litigation" height="100" width="100"></div>
-                <div class="p-a-card-title">Construction Litigation</div>
-            </a>
-            <a class="p-a-card" href="/wrongful-death">
-                <div class="p-a-card-image"><img src="{{ url_for('static', filename='wrongful-death.png') }}"
-                                                 alt="construction wrongful death and personal injury" height="100"
-                                                 width="100"></div>
-                <div class="p-a-card-title">Wrongful Death and Personal Litigation</div>
-            </a>
-            <a class="p-a-card" href="/commercial-and-business">
-                <div class="p-a-card-image"><img src="{{ url_for('static', filename='commercial-lit.png') }}"
-                                                 alt="commercial and business litigation" height="100" width="100">
+        <section class="section section-light box-padding">
+            <h2>More Than 100 Years Combined Experience</h2>
+            <h5>Fighting for justice. Committed to victory.</h5>
+        </section>
+
+        <section class="container-fluid section section-dark box-padding">
+            <div class="row fo-row">
+                <div class="col-12 col-md-12 col-xl-6 text-center fo-container">
+                    <h2 class="gold animate-right fo-title"> Firm Overview</h2>
+                    <div id="fo-content">
+                        <!-- editable firm-overview -->
+                        <p class="inner-section" style="text-align: left">
+                            At Wise Law Firm PLC, we believe that attentive, well-prepared representation is key to
+                            resolving disputes efficiently. Located in Fairfax, we have served clients throughout
+                            Virginia and across the nation since 1989, and we are proud to bring 100 combined years of
+                            experience in business law and construction law to protecting your company's interests.</p>
+                        <p class="inner-section">
+                            Our attorneys have litigated extensively before state and federal courts and have the
+                            industry knowledge and legal background to effectively prosecute or defend cases arising
+                            from contract disputes and related construction issues. In addition, we represent people
+                            seeking compensation for injuries sustained in an auto accident or other incident. No matter
+                            how complex your matter is, we maintain our commitment to helping you fulfill your
+                            objectives.
+                        </p>
+                        <a class="btn btn-outline-gold" href="/firm-overview" role="button">Read More</a>
+                    </div>
                 </div>
-                <div class="p-a-card-title">Commercial and Business Litigation</div>
-            </a>
+                <div class="col-12 col-md-12 col-xl-6">
+                    <img class="office-image animate-up-wr" src="{{ url_for('static', filename='images/office-min.jpg') }}"
+                         alt="office picture">
+                    <div class="coverup"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="banner-2">
+            <h2 class="center animate-left">Practice Areas </h2>
+            <hr>
+            <section class="p-a-cards">
+                <a class="p-a-card" href="/class-actions">
+                    <div class="p-a-card-image"><img src="{{ url_for('static', filename='images/class-action.png') }}"
+                                                     alt="class actions" height="100" width="100"></div>
+                    <div class="p-a-card-title ">Class Actions</div>
+                </a>
+                <a class="p-a-card" href="/construction-law">
+                    <div class="p-a-card-image"><img src="{{ url_for('static', filename='images/construction-law.png') }}"
+                                                     alt="construction law" height="100" width="100"></div>
+                    <div class="p-a-card-title ">Construction Law</div>
+                </a>
+                <a class="p-a-card" href="/construction-litigation">
+                    <div class="p-a-card-image"><img src="{{ url_for('static', filename='images/construction-lit.png') }}"
+                                                     alt="construction litigation" height="100" width="100"></div>
+                    <div class="p-a-card-title">Construction Litigation</div>
+                </a>
+                <a class="p-a-card" href="/wrongful-death">
+                    <div class="p-a-card-image"><img src="{{ url_for('static', filename='images/wrongful-death.png') }}"
+                                                     alt="construction wrongful death and personal injury" height="100"
+                                                     width="100"></div>
+                    <div class="p-a-card-title">Wrongful Death and Personal Litigation</div>
+                </a>
+                <a class="p-a-card" href="/commercial-and-business">
+                    <div class="p-a-card-image"><img src="{{ url_for('static', filename='images/commercial-lit.png') }}"
+                                                     alt="commercial and business litigation" height="100" width="100">
+                    </div>
+                    <div class="p-a-card-title">Commercial and Business Litigation</div>
+                </a>
+            </section>
+
+        </div>
+
+        {#<section id="homeArticles" class="section-dark box-padding">
+            #}{#This will be an abbreviated collection of the news & articles.#}{#
+
+            #}{#<div class="flex-row">
+                {% for article in articles %}
+                <a href="{{ url_for('views.articles', id=article.id) }}">
+                    <div class="article-card">
+                        <h4>{{ article.title }}</h4>
+                    </div>
+                </a>
+                {% endfor %}`
+            </div>#}{#
+        </section>#}
+        <section id="homeArticles" class="section-dark section box-padding flex-column-center">
+            <h2 class="gold animate-right2" style="margin:20px 0 50px"> News & Articles</h2>
+            <div class='margin-lr-10'>
+                <div class="swiper-container homeArticlesSwiper">
+                    <div class="swiper-wrapper">
+                        {% for article in articles %}
+                            <div class="swiper-slide">
+                                <a href="{{ url_for('views.articles', id=article.id) }}">
+                                    <h4>{{ article.title }}</h4></a>
+                                <div class="article-data"><b>Date Added: </b>{{ article.date }}</div>
+                                {% if article.url %}
+                                    <div class="article-data"><b>URL: </b>{{ article.url }}</div>
+                                    <p>{{ article.text }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev gold"></div>
+            <div class="swiper-button-next gold"></div>
         </section>
     </div>
 
-    {#<section id="homeArticles" class="section-dark box-padding">
-        #}{#This will be an abbreviated collection of the news & articles.#}{#
-
-        #}{#<div class="flex-row">
-            {% for article in articles %}
-            <a href="{{ url_for('views.articles', id=article.id) }}">
-                <div class="article-card">
-                    <h4>{{ article.title }}</h4>
-                </div>
-            </a>
-            {% endfor %}`
-        </div>#}{#
-    </section>#}
-    <section id="homeArticles" class="section-dark section box-padding flex-column-center">
-        <h2 class="gold animate-right2" style="margin:20px 0 50px"> News & Articles</h2>
-        <div class="swiper-container homeArticlesSwiper">
-            <div class="swiper-wrapper">
-                {% for article in articles %}
-                    <div class="swiper-slide">
-                        <a href="{{ url_for('views.articles', id=article.id) }}">
-                            <h4>{{ article.title }}</h4></a>
-                        <h6><b>Date Added: </b>{{ article.date }}</h6>
-                        {% if article.url %}
-                            <h6><b>URL: </b>{{ article.url }}</h6>
-                            <p>{{ article.text }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}`
-            </div>
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev gold"></div>
-        <div class="swiper-button-next gold"></div>
-    </section>
-
 {% endblock %}
+{% block scripts %}
+    <script>
+        gsap.from(".animate-right", {
+            scrollTrigger: {
+                trigger: ".animate-right",
+                start: "top 90%",
+                toggleActions: "restart none none reverse"
+            },
+            x: -100,
+            duration: 1,
+            opacity:0
+        });
+        gsap.from(".animate-up-wr", {
+            scrollTrigger: {
+                trigger: ".animate-right",
+                start: "top 90%",
+                toggleActions: "restart none none reverse",
+                markers: true
+            },
+            yPercent: 100,
+            duration: 1.5,
+            opacity:0,
+            ease: "expo.out"
+        });
+    </script>
+    <script>
+        var swiper = new Swiper(".homeArticlesSwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            coverflowEffect: {
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            },
+            pagination: {
+              el: ".swiper-pagination",
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }{#,
+            mousewheel: true{
+                eventsTarget: "homeArticlesSwiper",
+                releaseOnEdges: true
+            }#}
+          });
+    </script>
+    <script>
+        (function() {
+            // Add event listener
+            document.addEventListener("mousemove", parallax);
+            const elem = document.querySelector("#parallax");
+            // Magic happens here
+            function parallax(e) {
+                let _w = window.innerWidth/2;
+                let _h = window.innerHeight/2;
+                let _mouseX = e.clientX;
+                let _mouseY = e.clientY;
+                let _depth1 = `${50 - (_mouseX - _w) * 0.01}% ${50 - (_mouseY - _h) * 0.01}%`;
+                let _depth2 = `${50 - (_mouseX - _w) * 0.02}% ${50 - (_mouseY - _h) * 0.02}%`;
+                let _depth3 = `${50 - (_mouseX - _w) * 0.06}% ${50 - (_mouseY - _h) * 0.06}%`;
+                let x = `${_depth3}, ${_depth2}, ${_depth1}`;
+                {#console.log(x);#}
+                elem.style.backgroundPosition = x;
+            }
+        } )();
+    </script>
+
+    {% endblock %}

@@ -227,3 +227,15 @@ class ContactResponse(db.Model):
     contact_id = db.Column(db.Integer(), db.ForeignKey('contact.id', ondelete='CASCADE'))
     contact = relationship('Contact', backref=backref('contact_response', passive_deletes=True))
 
+
+class PracticeArea(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150))
+    description = db.Column(db.Text())
+    full_text = db.Column(db.Text())
+    icon_url = db.Column(db.String(500))
+    picture_url = db.Column(db.String(500))
+
+
+
+
