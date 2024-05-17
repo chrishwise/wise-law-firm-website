@@ -2049,4 +2049,5 @@ td a.btn{
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 14px;
+    max-width: 300px;
 }

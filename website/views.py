@@ -47,7 +47,8 @@ def home():
 
 @views.route('/firm-overview')
 def firm_overview():
-    return render_template("firm-overview.html", public_view=True)
+    practice_areas = PracticeArea.query.all()
+    return render_template("firm-overview.html", practice_areas=practice_areas, public_view=True)
 
 
 @views.route('/our-team')

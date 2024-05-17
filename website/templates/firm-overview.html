@@ -32,37 +32,28 @@
             <div class="flex-row">
                 <div id="aofGrid" class="aof-grid col-12 col-md-6">
                     <div class="flex-row">
-                        <button class="aof-card" id="classAction">
-                            <img src="{{ url_for('static', filename='images/class-action.png') }}" alt="class action icon">
-                        </button>
-                        <button class="aof-card" id="constructionLaw">
-                            <img src="{{ url_for('static', filename='images/construction-law.png') }}" alt="construction law icon">
-                        </button>
-                        <button class="aof-card" id="constructionLit">
-                            <img src="{{ url_for('static', filename='images/construction-lit.png') }}" alt="construction litigation icon">
-                        </button>
+                        {% for pa in practice_areas[0:3] %}
+                            <button class="aof-card" id="{{ to_camel_case(pa.name) }}" data-title="{{ pa.name }}"
+                                    data-description="{{ pa.description }}">
+                                <img src="{{ pa.icon_url }}" alt="{{ pa.name }} icon">
+                            </button>
+                        {% endfor %}
                     </div>
                     <div class="flex-row">
-                        <button class="aof-card" id="constructionDefect">
-                            <img src="{{ url_for('static', filename='images/defects.png') }}" alt="construction defect icon">
-                        </button>
-                        <button class="aof-card" id="wrongfulDeath">
-                            <img src="{{ url_for('static', filename='images/wrongful-death.png') }}" alt="wrongful death icon">
-                        </button>
-                        <button class="aof-card" id="commercialLit">
-                            <img src="{{ url_for('static', filename='images/commercial-lit.png') }}" alt="commercial litigation icon">
-                        </button>
+                        {% for pa in practice_areas[3:6] %}
+                            <button class="aof-card" id="{{ to_camel_case(pa.name) }}" data-title="{{ pa.name }}"
+                                    data-description="{{ pa.description }}">
+                                <img src="{{ pa.icon_url }}" alt="{{ pa.name }} icon">
+                            </button>
+                        {% endfor %}
                     </div>
                     <div class="flex-row">
-                        <button class="aof-card" id="moldLit">
-                            <img src="{{ url_for('static', filename='images/mold.png') }}" alt="mold and environmental litigation icon">
-                        </button>
-                        <button class="aof-card" id="governmentContracts">
-                            <img src="{{ url_for('static', filename='images/government.png') }}" alt="government contracts icon">
-                        </button>
-                        <button class="aof-card" id="insuranceCoverage">
-                            <img src="{{ url_for('static', filename='images/insurance.png') }}" alt="insurance coverage icon">
-                        </button>
+                        {% for pa in practice_areas[6:9] %}
+                            <button class="aof-card" id="{{ to_camel_case(pa.name) }}" data-title="{{ pa.name }}"
+                                    data-description="{{ pa.description }}">
+                                <img src="{{ pa.icon_url }}" alt="{{ pa.name }} icon">
+                            </button>
+                        {% endfor %}
                     </div>
                 </div>
                 <div id="aofRight" class="col-12 col-md-6">
@@ -154,42 +145,9 @@
 
             function selectAof(aofCard) {
                 const aofId = aofCard.id;
-                let aofTitle, aofDescription;
-                switch (aofId){
-                    case 'classAction':
-                        aofTitle = 'Class Action';
-                        aofDescription = 'When a collective group of individuals have been wronged or harmed, class ' +
-                            'action lawsuits allow for the entire party to come together and seek compensation. This can ' +
-                            'be beneficial in cases where no one person has enough economic incentive to bring suit on ' +
-                            'his or her own.'
-                        break;
-                    case 'constructionLaw':
-                        aofTitle = 'Construction Law';
-                        break;
-                    case 'constructionLit':
-                        aofTitle = "Construction Litigation"
-                        break;
-                    case 'constructionDefect':
-                        aofTitle = "Construction Defects"
-                        break;
-                    case 'wrongfulDeath':
-                        aofTitle = "Wrongful Death and Personal Injury Litigation"
-                        break;
-                    case 'commercialLit':
-                        aofTitle = "Commercial and Business Litigation"
-                        break;
-                    case 'moldLit':
-                        aofTitle = "Mold and Environmental Litigation"
-                        break;
-                    case 'governmentContracts':
-                        aofTitle = "Government Contracts"
-                        break;
-                    case 'insuranceCoverage':
-                        aofTitle = "Insurance Coverage"
-                        break;
-                    default:
-                        aofTitle = "Area of Focus Title"
-                }
+                const aofTitle = aofCard.dataset.title;
+                const aofDescription = aofCard.dataset.description;
+
                 contentTitle.innerHTML = aofTitle;
                 contentDescription.innerHTML = aofDescription;
                 console.log({aofId: aofId, aofTitle:aofTitle});
