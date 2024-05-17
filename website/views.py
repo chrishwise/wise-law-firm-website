@@ -70,6 +70,13 @@ def employee(id):
 #     return render_template('practice-areas.html', practice_areas=practice_areas, public_view=True)
 #
 
+@views.route('/practice-area/<int:id>')
+def practice_area(id):
+    practice_area = PracticeArea.query.get_or_404(id, 'No Practice Area exists in the database '
+                                                      'with an id of {id}'.format(id=id))
+    return render_template('practice-area.html', practice_area=practice_area, public_view=True)
+
+
 @views.route('/class-actions')
 def class_actions():
     return render_template("class-actions.html", public_view=True)

@@ -1,17 +1,25 @@
 from website import db
-from website.models import Attorney
+from website.models import Attorney, PracticeArea
 from flask import current_app as app
 
 
 @app.context_processor
 def inject_employees():
     """
-    :return: dict object containing all employees from database in {id: employee,...} format
+    :return: dict object containing all employees from the database, to be included in the template context
     """
     # employees = db.session.query(Attorney).all()
     employees = Attorney.query.order_by(Attorney.id).all()
-
     return dict(employees=employees)
+
+
+@app.context_processor
+def inject_practice_areas():
+    """
+    :return: dict object containing all practice areas from the database, to be included in the template context
+    """
+    practice_areas = PracticeArea.query.order_by(PracticeArea.id).all()
+    return dict(practice_areas=practice_areas)
 
 
 @app.context_processor

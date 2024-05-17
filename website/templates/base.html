@@ -77,36 +77,29 @@
                     </a>
                 </li>
                 <li class="links">
-                    <div class="nav-item"> <a href="/firm-overview" class="nav-link">Firm Overview</a> </div>
-                    <div class="nav-item dropdown">
+                    <div><a href="/firm-overview" class="nav-link">Firm Overview</a></div>
+                    <div class="dropdown">
                         <a class="nav-link dropdown-toggle" href="/our-team">Our Team</a>
                         <div class="dropdown-menu">
                             {% for employee in employees %}
-                                <a class="dropdown-item nav-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
+                                <a class="dropdown-item" href="{{ url_for('views.employee', id=employee.id) }}">{{ employee.name }}</a>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="nav-item dropdown">
+                    <div class="dropdown">
                         <a class="nav-link dropdown-toggle" href="#">Practice Areas</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/class-actions">Class Actions</a>
-                            <a class="dropdown-item" href="/construction-law">Construction Law</a>
-                            <a class="dropdown-item" href="/construction-litigation">Construction Litigation</a>
-                            <a class="dropdown-item" href="/construction-defect-litigation">Construction Defect Litigation</a>
-                            <a class="dropdown-item" href="/wrongful-death">Wrongful Death and Personal Injury Litigation</a>
-                            <a class="dropdown-item" href="/commercial-and-business">Commercial and Business Litigation</a>
-                            <a class="dropdown-item" href="/mold-and-environmental">Mold and Environmental Litigation</a>
-                            <a class="dropdown-item" href="/government-contracts">Government Contracts</a>
-                            <a class="dropdown-item" href="/insurance-coverage">Insurance Coverage</a>
+                            {% for pa in practice_areas %}
+                                <a class="dropdown-item" href="{{ url_for('views.practice_area', id=pa.id) }}">{{ pa.name }}</a>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></div>
-                    <div class="nav-item"><a class="nav-link" href="/articles/1">News & Articles</a></div>
-                    <div class="nav-item"><a class="nav-link" href="/careers">Careers</a></div>
-                    <div class="nav-item"><a class="nav-link" href="/maps">Maps</a></div>
-                    <div class="nav-item"><a class="nav-link" href="/contact-us">Contact Us</a></div>
+                    <div><a class="nav-link" href="/reviews">Reviews</a></div>
+                    <div><a class="nav-link" href="/articles/1">News & Articles</a></div>
+                    <div><a class="nav-link" href="/careers">Careers</a></div>
+                    <div><a class="nav-link" href="/maps">Maps</a></div>
+                    <div><a class="nav-link" href="/contact-us">Contact Us</a></div>
                 </li>
-
             </ul>
 
             <div class="adjusted-navbar">

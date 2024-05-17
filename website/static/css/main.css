@@ -2051,3 +2051,8 @@ td a.btn{
     font-size: 14px;
     max-width: 300px;
 }
+
+.full-text{
+    max-width: 900px;
+    white-space: pre-wrap;
+}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{{ practice_area.name }}{% endblock %}
+{% block content %}
+    <div class="pimg3" data-parallax="scroll" data-image-src="{{ practice_area.picture_url }}">
+		<div class="parallax-flex-container d-flex flex-column" >
+			<h2 class="page-header-text">{{ practice_area.name }}</h2>
+		</div>
+	</div>
+	<div class="page-container section1">
+		<div class="full-text">{{ practice_area.full_text }}</div>
+	</div>
+{% endblock %}
