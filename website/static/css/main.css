@@ -2034,10 +2034,19 @@ td.img img{
     height: 100%;
     object-fit: contain;
 }
-td.cell-button{
-    display: block;
-}
+
 table{
     border-collapse: separate;
     border-spacing: 10px;
+}
+td a.btn{
+    margin:2px;
+
+}
+
+.overflow-ellipsis{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
 }

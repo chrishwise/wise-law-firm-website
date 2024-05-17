@@ -716,6 +716,16 @@ def new_practice_area():
     return render_template("new-practice-area.html", form=form, public_view=False, title=title, button=button)
 
 
+@views.route('/delete-practice-area', methods=['GET'])
+@login_required
+def delete_practice_area(id):
+    db.session.delete(PracticeArea.query.get_or_404(id))
+    db.session.commit()
+    flash('Practice Area was successfully deleted', category='success')
+    return redirect(url_for('views.manage_practice_areas'))
+
+
+
 @views.route('/admin-portal/manage-reviews', methods=['GET'])
 @login_required
 def manage_reviews():

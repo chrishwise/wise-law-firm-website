@@ -8,19 +8,21 @@
         <div class="form-container">
             <table id="managePracticeAreas" style="width: 100%">
                 <tr>
-                    <th style="width: 20%;">Practice Area</th>
-                    <th style="width: 50%;">Description</th>
-                    <th style="width: 40px; text-align: center">Icon</th>
-                    <th style="width: 80px; text-align: center">Picture</th>
+                    <th>Practice Area</th>
+                    {#<th style="width: 50%;">Description</th>#}
+                    <th style="text-align: center">Icon</th>
+                    <th style="text-align: center">Picture</th>
                     <th style="width: 55px; text-align: center">Edit</th>
+                    <th style="width: 75px; text-align: center">Delete</th>
                 </tr>
                 {% for pa in practice_areas %}
                     <tr style="height: 50px">
                         <td>{{ pa.name }}</td>
-                        <td>{{ pa.description }}</td>
+                        {#<td><div class="overflow-ellipsis">{{ pa.description }}</div></td>#}
                         <td class="img"><img src="{{ pa.icon_url }}" alt="icon preview"></td>
                         <td class="img"><img src="{{ pa.picture_url }}" alt="picture preview" style="object-fit: cover"></td>
-                        <td class="cell-button"><a class="btn d-block" style="margin:2px" href={{ url_for('views.edit_practice_area', id=pa.id) }}>Edit</a></td>
+                        <td><a class="btn" href={{ url_for('views.edit_practice_area', id=pa.id) }}>Edit</a></td>
+                        <td><a class="btn" href={{ url_for('views.delete_practice_area', id=pa.id) }}>Delete</a></td>
                     </tr>
                 {% endfor %}
             </table>
