@@ -47,8 +47,8 @@ def home():
 
 @views.route('/firm-overview')
 def firm_overview():
-    practice_areas = PracticeArea.query.all()
-    return render_template("firm-overview.html", practice_areas=practice_areas, public_view=True)
+    # practice_areas = PracticeArea.query.all()                              # Don't need this because context processor
+    return render_template("firm-overview.html", public_view=True)  # practice_areas=practice_areas ^
 
 
 @views.route('/our-team')
@@ -676,8 +676,8 @@ def delete_attorney(aId):
 @views.route('/manage_practice_areas', methods=['GET', 'POST'])
 @login_required
 def manage_practice_areas():
-    areas = db.session.query(PracticeArea).all()
-    return render_template('manage-practice-areas.html', public_view=False, practice_areas=areas,
+    # I don't need to pass practice_areas to the render_template function because of context processors
+    return render_template('manage-practice-areas.html', public_view=False,
                            current_user=current_user)
 
 

@@ -30,7 +30,7 @@ class expandingMenu{
         this.expandableContainer = document.getElementById(expandableContainerId);
         this.containerItems = gsap.utils.toArray(this.expandableContainer.children);
         // Determine container height and create hover animation for containerItems
-        let totalHeightOfChildren = getAbsoluteHeight(this.containerItems[0]);     // WHY! Cant figure this out
+        let totalHeightOfChildren = 0;
         this.containerItems.forEach(child => {
             totalHeightOfChildren += getAbsoluteHeight(child);
             const hover = gsap.fromTo(child,
@@ -41,7 +41,7 @@ class expandingMenu{
             child.addEventListener('mouseleave', () => hover.reverse());
             child.addEventListener('focusout', () => hover.reverse());
             child.tabIndex = 0;     // Make the container items accessible via tab
-        })
+        });
         // Initialize animation and attach listeners
         this.#t1 = gsap.timeline({paused: true, defaults: {duration: 0.3, ease: 'power3.out'},
             onComplete: () => {
