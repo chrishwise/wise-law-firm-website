@@ -160,7 +160,7 @@ def maps():
 def contact_us():
     form = ContactForm(request.form)
     if request.method == 'POST' and form.validate():
-        body = "Contact Email: " + form.email.data + "\n\nMessage: \n\n" + form.message.data
+        body = "Contact Email: " + form.email.data + "\n\n<br>Message: \n\n<br>" + form.message.data
         title = "WLF website: New Message from " + request.form.get('name')
         admins_receiving_notifications = Admin.query.filter_by(receives_notifications=True).all()
         recipient_list = []
