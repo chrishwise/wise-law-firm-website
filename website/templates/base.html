@@ -204,43 +204,25 @@
         <footer>
             <div class="footer">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <h5 class="fnav-header">Locations</h5>
-                        <div class="loc-container">
-                            <div id="accordion1" role="tablist">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingOne1">
-                                        <h6 class="mb-0"> <a class="fnav-link" data-toggle="collapse" href="#collapseOne1" role="button" aria-expanded="true" aria-controls="collapseOne1"> Fairfax, Virginia </a> </h6>
-                                    </div>
-                                    <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordion1">
-                                        <div class="card-body">
-                                            <h4 class="loc-text">Address</h4>
-                                            <h6 class="loc-text2">
-                                            10640 Page Avenue, Suite 320 <br> Fairfax, Virginia 22030</h6>
-                                            <h4 class="loc-text">Phone</h4>
-                                            <h6 class="loc-text2">
-                                            703-934-6377</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingTwo1">
-                                        <h6 class="mb-0"> <a class="fnav-link collapsed" data-toggle="collapse" href="#collapseTwo1" role="button" aria-expanded="false" aria-controls="collapseTwo1"> Reno, Nevada </a> </h6>
-                                    </div>
-                                    <div id="collapseTwo1" class="collapse show" role="tabpanel" aria-labelledby="headingTwo1" data-parent="#accordion1">
-                                        <div class="card-body">
-                                            <h4 class="loc-text">Address</h4>
-                                            <h6 class="loc-text2">
-                                            421 Court Street <br> Reno, Nevada 89501</h6>
-                                            <h4 class="loc-text">Phone</h4>
-                                            <h6 class="loc-text2">775-329-1766</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('views.maps') }}"><h5 class="fnav-header">Locations</h5></a>
+                        <div class="location-container">
+                            <ul>
+                                <li id="fairfaxOffice" class="active" tabindex="0">
+                                    Fairfax, Virginia
+                                    <p><img height=20px width=20px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">703-934-6377</p>
+                                </li>
+                                <li id="renoOffice" tabindex="0">
+                                    Reno, Nevada
+                                    <p><img height=20px width=20px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">775-329-1766</p>
+                                </li>
+                            </ul>
+                            <iframe id="locationIframe" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9773.029441855377!2d-77.3142164777882!3d38.847539916713174!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b64eeda038b051%3A0xa7001e533791e963!2s10640%20Page%20Ave%20%23320%2C%20Fairfax%2C%20VA%2022030!5e0!3m2!1sen!2sus!4v1610394028105!5m2!1sen!2sus"
+                                    width="100%" height="440" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+                            </iframe>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-md-6">
                         <h5 class="fnav-header">Quick Links</h5>
                         <ul class="no-bullets">
                             <li> <a href="/" class="fnav-link">Home </a></li>
@@ -266,24 +248,6 @@
                             <li> <a href="/admin" class="fnav-link">Admin </a></li>
                         </ul>
                     </div>
-                    <div class="col-lg-4" style="margin-bottom:15px">
-                        <h5 class="fnav-header">Contact Us</h5>
-                        <form >
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input name="name" class="form-control" id="name" placeholder="Enter first and last name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message:</label>
-                                <textarea type="message" class="form-control" id="message" placeholder="Enter message"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-outline-gold">Submit</button>
-                        </form>
-                    </div>
                 </div>
             </div>
             <div class="copywrite">
@@ -293,7 +257,7 @@
             </div>
         </footer>
 
-        <div id="credits-modal">
+        <div id="credits-modal" hidden>
             <a href="https://www.flaticon.com/free-icons/government" title="government icons">Government icons created by Freepik - Flaticon</a>
             <a href="https://www.flaticon.com/free-icons/family" title="family icons">Family icons created by Freepik - Flaticon</a>
             <a href="https://www.flaticon.com/free-icons/failure" title="failure icons">Failure icons created by Uniconlabs - Flaticon</a>
@@ -325,6 +289,7 @@
         <script src="{{ url_for('static', filename='js/text-animation.js') }}"></script>
         <script src="{{ url_for('static', filename='js/overlay.js') }}"></script>
         <script src="{{ url_for('static', filename='js/expanding-menu.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/enterOnFocusClick.js') }}"></script>
         <script>
             $(document).ready(function () {
                 setTimeout(function () {
@@ -333,21 +298,40 @@
             });
         </script>
         <script>
-            // This is generic function for opening modal
+            // This is for location selector in the footer
+            const fairfaxSelector = document.getElementById('fairfaxOffice');
+            const renoSelector = document.getElementById('renoOffice');
+            focusHandler(fairfaxSelector, selectFairfax);
+            focusHandler(renoSelector, selectReno);
+
+            function selectFairfax() {
+                document.getElementById('renoOffice').classList.remove('active');
+                document.getElementById('fairfaxOffice').classList.add('active');
+                document.getElementById('locationIframe').src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9773.029441855377!2d-77.3142164777882!3d38.847539916713174!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b64eeda038b051%3A0xa7001e533791e963!2s10640%20Page%20Ave%20%23320%2C%20Fairfax%2C%20VA%2022030!5e0!3m2!1sen!2sus!4v1610394028105!5m2!1sen!2sus';
+            }
+            function selectReno() {
+                document.getElementById('fairfaxOffice').classList.remove('active');
+                document.getElementById('renoOffice').classList.add('active');
+                document.getElementById('locationIframe').src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3077.6283677197175!2d-119.81899068497695!3d39.522876579479025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809940cb9bd16801%3A0x5f724974f6d31f4e!2s421%20Court%20St%2C%20Reno%2C%20NV%2089501!5e0!3m2!1sen!2sus!4v1650484328849!5m2!1sen!2sus';
+            }
+        </script>
+        <script>
+            // This is generic function for opening a modal
             const backdrop = document.getElementById('backdrop');
             function openModal(modalId){
                 console.log('open model ran')
                 let modal = document.getElementById(modalId);
-                gsap.to(modal, {scale:1, duration:0.2, autoAlpha: 1, easing: 'power4.inOut'});
-                backdrop.removeAttribute('hidden');
-                console.log(backdrop);
+                modal.hidden = false;
+                backdrop.hidden = false;    // OR backdrop.removeAttribute('hidden');
+                gsap.to(modal, {scale:1, duration:0.2, autoAlpha: 1, ease: 'power4.inOut'});
+
                 backdrop.addEventListener('click', () =>{
-                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, easing: 'power4.out'});
-                    backdrop.setAttribute('hidden', '');
+                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, ease: 'power4.out'});
+                    backdrop.hidden = true;    // backdrop.setAttribute('hidden', '');
                 })
                 document.querySelector('#credits-modal .close-btn').addEventListener('click', () =>{
-                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, easing: 'power4.out'});
-                    backdrop.setAttribute('hidden', '');
+                    gsap.to(modal, {scale: 0, duration:0.2, autoAlpha: 0, ease: 'power4.out'});
+                    backdrop.hidden = true;     // backdrop.setAttribute('hidden', '');
                 })
             }
 
@@ -355,22 +339,18 @@
             gsap.set(document.getElementById('credits-modal'), {scale:0, autoAlpha:0});
             const creditsLink = document.getElementById("creditsLink");
             creditsLink.addEventListener('click', () => {openModal('credits-modal')});
-
-            {#const creditsModalClose = document.querySelector('#credits-modal .close');
-            creditsModalClose.addEventListener('click', ()=> {closeModal('credits-modal')});#}
-
         </script>
         <!-- For Responsive Navbar Mobile Dropdown -->
         <script>
             const sidenav = document.getElementById('sidenav');
             function openSideNav(){
-                gsap.to(sidenav, {x:0, duration:0.1, ease: 'power4.in'});
+                gsap.to(sidenav, {x:0, autoAlpha:1, duration:0.1, ease: 'power4.in'});
                 sidenav.classList.add('open');
                 backdrop.removeAttribute('hidden');
                 backdrop.addEventListener('click', () =>{closeSideNav()});
             }
             function closeSideNav() {
-                gsap.to(sidenav, {x:-300, duration:0.1, ease: 'power4.out'});
+                gsap.to(sidenav, {x:-300, autoAlpha:0, duration:0.1, ease: 'power4.out'});
                 sidenav.classList.remove('open');
                 backdrop.setAttribute('hidden', '');
             }
