@@ -268,13 +268,7 @@
             <a href="#" class="close-btn">&times;</a>
         </div>
 
-        <!-- Fullscreen Image Viewer -->
-        <div id="image-viewer">
-            <span class="close">&times;</span>
-            <img class="modal-content" id="full-image" alt="full screen of clicked upon image">
-        </div>
-
-    <!-- Scripts -->
+    <!-- Scripts --------------------------------------------------------------------------------------------->
 
         <!-- For Parallax -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -288,7 +282,23 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/EasePack.min.js"></script>
         <script src="{{ url_for('static', filename='js/text-animation.js') }}"></script>
         <script src="{{ url_for('static', filename='js/overlay.js') }}"></script>
+        <!-- For Expanding Menus -->
         <script src="{{ url_for('static', filename='js/expanding-menu.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log({'Event Triggered': 'DOMContentLoaded'});
+                const ourTeamMenu = new expandingMenu('ourTeamTrigger', 'ourTeamExpandableContainer');
+                const practiceAreaMenu = new expandingMenu('practiceAreaTrigger', 'practiceAreaExpandableContainer');
+                const adminMenu = new expandingMenu('adminTrigger', 'adminExpandableContainer');
+                window.dispatchEvent(new Event('resize'));  // Bug workaround to fix expandableMenu height
+            })
+            window.addEventListener('resize', () => {
+                console.log({'Event Triggered': 'Window Resized'});
+                const ourTeamMenu = new expandingMenu('ourTeamTrigger', 'ourTeamExpandableContainer');
+                const practiceAreaMenu = new expandingMenu('practiceAreaTrigger', 'practiceAreaExpandableContainer');
+                const adminMenu = new expandingMenu('adminTrigger', 'adminExpandableContainer');
+            })
+        </script>
         <script src="{{ url_for('static', filename='js/enterOnFocusClick.js') }}"></script>
         <script>
             $(document).ready(function () {
@@ -301,8 +311,8 @@
             // This is for location selector in the footer
             const fairfaxSelector = document.getElementById('fairfaxOffice');
             const renoSelector = document.getElementById('renoOffice');
-            focusHandler(fairfaxSelector, selectFairfax);
-            focusHandler(renoSelector, selectReno);
+            selectionHandler(fairfaxSelector, selectFairfax);
+            selectionHandler(renoSelector, selectReno);
 
             function selectFairfax() {
                 document.getElementById('renoOffice').classList.remove('active');
@@ -362,49 +372,38 @@
                 }
             }
         </script>
-    <script>
-        {# This fixed the dropdowns by attaching listeners #}
-        (function fixDropdowns(){
-            const allDropdowns = document.getElementsByClassName('dropdown-toggle');
-            for(let i=0; i < allDropdowns.length; i++){
-                const dropdown = allDropdowns.item(i);                      {# OR allDropdowns[i] #}
-                dropdown.addEventListener('mouseenter', () => {
-                    let menu = dropdown.nextElementSibling;
-                    menu.classList.add('opened');
-                    menu.addEventListener('mouseleave', () => {
-                        let allOpened = document.getElementsByClassName('opened');
-                        for(let i=0; i < allOpened.length; i++){
-                            allOpened.item(i).classList.remove('opened');
+        <script>
+            {# This fixed the dropdowns by attaching listeners #}
+            (function fixDropdowns(){
+                const allDropdowns = document.getElementsByClassName('dropdown-toggle');
+                for(let i=0; i < allDropdowns.length; i++){
+                    const dropdown = allDropdowns.item(i);                      {# OR allDropdowns[i] #}
+                    dropdown.addEventListener('mouseenter', () => {
+                        let menu = dropdown.nextElementSibling;
+                        menu.classList.add('opened');
+                        menu.addEventListener('mouseleave', () => {
+                            let allOpened = document.getElementsByClassName('opened');
+                            for(let i=0; i < allOpened.length; i++){
+                                allOpened.item(i).classList.remove('opened');
+                            }
+                        });
+                    });
+                    dropdown.addEventListener('mouseleave', (e) => {
+                        let menu = dropdown.nextElementSibling;
+                        let bottom = dropdown.offsetHeight + dropdown.getBoundingClientRect().top;
+                        {#console.log("outerheight: " + dropdown.offsetHeight);
+                        console.log("dropdown.getbounding.top: " + dropdown.getBoundingClientRect().top);
+                        console.log("bottom: " + bottom);
+                        console.log("left through bottom border: " + (e.pageY >= bottom));#}
+                        if(!(e.pageY >= bottom)){       // Mouse left through bottom border of dropdown toggle
+                            menu.classList.remove('opened');
                         }
                     });
-                });
-                dropdown.addEventListener('mouseleave', (e) => {
-                    let menu = dropdown.nextElementSibling;
-                    let bottom = dropdown.offsetHeight + dropdown.getBoundingClientRect().top;
-                    {#console.log("outerheight: " + dropdown.offsetHeight);
-                    console.log("dropdown.getbounding.top: " + dropdown.getBoundingClientRect().top);
-                    console.log("bottom: " + bottom);
-                    console.log("left through bottom border: " + (e.pageY >= bottom));#}
-                    if(!(e.pageY >= bottom)){       // Mouse left through bottom border of dropdown toggle
-                        menu.classList.remove('opened');
-                    }
-                });
-            }
-        })();
-    </script>
-    <script>
-        $(".picture-holder img").click(function () {
-            $("#full-image").attr("src", $(this).attr("src"));
-            $('#image-viewer').show();
-        });
+                }
+            })();
+        </script>
 
-        $("#image-viewer .close").click(function () {
-            $('#image-viewer').hide();
-        });
-        $("#foreground-viewer .close").click(function () {
-            $('#foreground-viewer').hide();
-        });
-    </script>
-    {% block scripts %}{% endblock %}
+        {% block scripts %}{% endblock %}
+
     </body>
 </html>

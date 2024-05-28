@@ -116,16 +116,3 @@ class expandingMenu{
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    console.log({'Event Triggered': 'DOMContentLoaded'});
-    const ourTeamMenu = new expandingMenu('ourTeamTrigger', 'ourTeamExpandableContainer');
-    const practiceAreaMenu = new expandingMenu('practiceAreaTrigger', 'practiceAreaExpandableContainer');
-    const adminMenu = new expandingMenu('adminTrigger', 'adminExpandableContainer');
-})
-window.addEventListener('resize', () => {
-    console.log({'Event Triggered': 'Window Resized'});
-    const ourTeamMenu = new expandingMenu('ourTeamTrigger', 'ourTeamExpandableContainer');
-    const practiceAreaMenu = new expandingMenu('practiceAreaTrigger', 'practiceAreaExpandableContainer');
-    const adminMenu = new expandingMenu('adminTrigger', 'adminExpandableContainer');
-})
