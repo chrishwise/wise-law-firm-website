@@ -914,7 +914,7 @@ def change_password():
 @views.route('/contact-submissions', methods=['GET', 'POST'])
 @login_required
 def contact_submissions():
-    contacts = Contact.query.filter_by(archived=False).all()
+    contacts = Contact.query.filter_by(archived=False).order_by(Contact.date_time.desc()).all()
 
     # The following is for responding to contact submissions from within the admin portal
     respondForm = RespondEmailForm(request.form)
