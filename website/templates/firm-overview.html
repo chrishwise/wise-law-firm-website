@@ -81,6 +81,7 @@
                 <div class="flex-column-center col-12">
                     <h2 class="animate-right"> Our Areas of Focus </h2>
                     <hr>
+
                     <p class="inner-section">Our firm has nine attorneys, a legal support team, and administrative
                         staff. We focus our practice on Construction Law, Construction Litigation,
                         Construction Defect Litigation, Wrongful Death and Personal Injury Litigation, Commercial and
@@ -150,7 +151,7 @@
             // Initialize carousel for small displays
             if (window.innerWidth < 800){
                 let radius = 100 + window.innerWidth / 5;
-                practiceAreaCarousel = new carousel3d('carousel-root', radius);
+                practiceAreaCarousel = new carousel3d('carousel-root', 'paContent', radius);
             }
         });
         window.addEventListener('resize', () => {

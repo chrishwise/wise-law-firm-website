@@ -512,19 +512,19 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', serif;
 }
 h1{
-    font-size: 2em;
+    font-size: 2.25em;
 }
 h2{
-    font-size: 1.75em;
+    font-size: 2em;
 }
 h3{
-    font-size: 1.6em;
+    font-size: 1.75em;
 }
 h4{
     font-size: 1.5em;
 }
 h5{
-    font-size: 1.4em;
+    font-size: 1.35em;
 }
 h6{
     font-size: 1.2em;
@@ -2099,33 +2099,16 @@ a:focus{
 }
 
 #mobilePracticeAreas{
-    min-height: 400px;
-    height: 520px;
+    /* height is set with javascript */
     width:100%;
     position: relative;
 }
 #mobilePracticeAreas button.btn{
     border-color: transparent;
 }
-.dynamic-list-container{
-    overflow: clip;
-    height: 100px;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap:10px;
-}
-
-.practice-area{
-    height: 100%;
-}
 #mobilePracticeAreas .practice-area img{
-    height: 100%;
     width: 100%;
     object-fit: contain;
-}
-#paContent{
-    height: 250px;
 }
 
 .carousel-3d-scene{
@@ -2167,5 +2150,4 @@ a:focus{
     top:0;
     left:0;
     width: 100%;
-    height: 100%;
 }
