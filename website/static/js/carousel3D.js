@@ -26,6 +26,7 @@ class carousel3d{
     radius;
 
     constructor(rootId, textContainerId, radius, withButtons=true) {
+        gsap.registerPlugin(Draggable);
         this.carouselRoot = document.getElementById(rootId);
         this.radius = radius;
         this.carouselRoot.style.transform = `translateZ(-${this.radius}px)`;
