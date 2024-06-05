@@ -2116,8 +2116,8 @@ a:focus{
     width: 100px;
     height: 100px;
     perspective: 800px;
-    perspective-origin: 50% 20%;
-    margin:30px auto 10px auto;
+    perspective-origin: 50% -60%;
+    margin:50px auto 20px auto;
 }
 .carousel-3d-scene .carousel-3d{
     width: 100%;
