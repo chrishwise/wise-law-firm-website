@@ -57,47 +57,36 @@
                     </div>
                 </div>
                 <div id="aofRight" class="col-12 col-md-6">
-                    <h2 class="animate-right"> Our Areas of Focus </h2>
+                    <h2> Our Areas of Focus </h2>
                     <hr>
                     <p class="inner-section">Our firm has nine attorneys, a legal support team, and administrative
-                        staff. We focus our practice on Construction Law, Construction Litigation,
-                        Construction Defect Litigation, Wrongful Death and Personal Injury Litigation, Commercial and
-                        Business Litigation, Mold and Environmental Litigation, Government Contracts, Insurance Coverage,
-                        and Class Actions. We represent clients before state and federal courts along with local, state,
-                        and federal agencies throughout Virginia, Maryland, the District of Columbia, and across the
-                        United States.</p>
+                        staff. We focus our practice on Construction Law, Construction Defect Litigation, Wrongful Death
+                        and Personal Injury Litigation, Commercial and Business Litigation, Mold and Environmental Litigation,
+                        Insurance Coverage, and Class Actions. We represent clients before state and federal courts along
+                        with local, state, and federal agencies throughout Virginia, Maryland, the District of Columbia,
+                        and across the United States.</p>
                 </div>
                 <div id="aofDetail">
                     <button class="img-container">
-                        <img />
+                        <img src="" alt="practice area icon">
                     </button>
                     <div class="content">
                         <h3 class="title">Placeholder Title</h3>
-                        <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam animi aut consequatur deserunt eum, harum illum magnam maiores minima, nobis possimus quam quod repellendus sed sequi sit veritatis, vero?</div>
+                        <div class="description">Placeholder Description</div>
                     </div>
                 </div>
             </div>
             <div class="small-display-only">
                 <div class="flex-column-center col-12">
-                    <h2 class="animate-right"> Our Areas of Focus </h2>
+                    <h2> Our Areas of Focus </h2>
                     <hr>
-
                     <p class="inner-section">Our firm has nine attorneys, a legal support team, and administrative
-                        staff. We focus our practice on Construction Law, Construction Litigation,
-                        Construction Defect Litigation, Wrongful Death and Personal Injury Litigation, Commercial and
-                        Business Litigation, Mold and Environmental Litigation, Government Contracts, Insurance
-                        Coverage,
-                        and Class Actions. We represent clients before state and federal courts along with local, state,
-                        and federal agencies throughout Virginia, Maryland, the District of Columbia, and across the
-                        United States.</p>
+                        staff. We focus our practice on Construction Law, Construction Defect Litigation, Wrongful Death
+                        and Personal Injury Litigation, Commercial and Business Litigation, Mold and Environmental Litigation,
+                        Insurance Coverage, and Class Actions. We represent clients before state and federal courts along
+                        with local, state, and federal agencies throughout Virginia, Maryland, the District of Columbia,
+                        and across the United States.</p>
                     <div id="mobilePracticeAreas">
-                        {#<div class="dynamic-list-container">
-                            {% for pa in practice_areas %}
-                                <div class="practice-area">
-                                    <img src="{{ pa.icon_url }}" alt="{{ pa.name }} icon">
-                                </div>
-                            {% endfor %}
-                        </div>#}
                         <div class="carousel-3d-scene">
                             <div id="carousel-root" class="carousel-3d">
                                 {% for pa in practice_areas %}
@@ -108,9 +97,7 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div id="paContent">
-
-                        </div>
+                        <div id="paContent"></div>
                     </div>
                 </div>
             </div>
@@ -157,7 +144,10 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth < 800){
                 let radius = 100 + window.innerWidth / 5;
-                practiceAreaCarousel.updateSize(radius);
+                if (practiceAreaCarousel) { practiceAreaCarousel.updateSize(radius); }
+                else { practiceAreaCarousel = new carousel3d('carousel-root', 'paContent', radius, false); }
+            } else {
+                initializeCardReveal();
             }
         });
 

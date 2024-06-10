@@ -2,6 +2,7 @@ import datetime
 import threading
 import os
 import time
+from typing import List, Any
 
 import boto3
 from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify, send_from_directory
@@ -783,11 +784,10 @@ def delete_review(id):
     return redirect(url_for('views.manage_reviews'))
 
 
-
 @views.route('/admin-portal/manage-articles/<int:id>', methods=['GET', 'POST'])
 @login_required
 def manage_articles(id=0):
-    articles = Article.query.all()
+    articles: List[Any] = Article.query.all()
     if articles:
         if id == 0:
             article = get_first_article()
@@ -798,7 +798,9 @@ def manage_articles(id=0):
         no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
         db.session.add(no_articles)
         db.session.commit()
-        article = no_articles
+        articles = [no_articles]
+        article = articles[0]
+        print('articles: ', articles)
     return render_template('manage-articles.html', public_view=False, article=article, articles=articles)
 
 

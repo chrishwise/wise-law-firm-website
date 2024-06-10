@@ -855,6 +855,7 @@ select{
 
 .new-card {
     padding:10px;
+    margin-bottom:10px;
     width: 100%;
     color: #A15A22;
     background-color: white;
@@ -1618,6 +1619,7 @@ a.employee-container:hover{
     justify-content: flex-start;
     align-items: center;
     color: black;
+    overflow-y:scroll;
 }
 .homeArticlesSwiper h4{
     font-size: 1.3em;
@@ -2150,4 +2152,16 @@ a:focus{
     top:0;
     left:0;
     width: 100%;
+}
+
+
+.page{
+    position:relative;
+    width:100%;
+    margin:0;
+    height:100%;
+    background-color: var(--light-grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
