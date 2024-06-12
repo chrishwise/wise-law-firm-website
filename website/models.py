@@ -57,12 +57,18 @@ class Article(db.Model):
     published_date = db.Column(db.Date)
     url = db.Column(db.String())
 
-    def __init__(self, title, text, date=datetime.datetime.now(), published_date=None, url="No Source Provided"):
+    def __init__(self, title, text, date, published_date=None, url=""):
         self.title = title
         self.text = text
         self.date = date
         self.published_date = published_date
         self.url = url
+
+    def hasURL(self):
+        if (self.url == '') or (self.url is None) or (self.url.lower() == 'not available'):
+            return False
+        else:
+            return True
 
 
 class AttorneyProfessionalLicense(db.Model):

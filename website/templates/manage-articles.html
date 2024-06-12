@@ -3,46 +3,44 @@
 {% block title %}Manage News & Articles{% endblock %}
 {% block content %}
     {{ admin_navbar('articles') }}
-    <div class="section1">
-        <h1 style="text-align:center">Manage News & Articles</h1>
-        <div class="row">
-            <div class="col-4 sidebar">
-                <a href="{{ url_for('views.new_article') }}"><button class="new-card">
-                    New Article
-                </button></a>
-
-                {% for article in articles %}
-                <div class="title-card">
-                    <h6><a class="wlfblue" href="{{ url_for('views.manage_articles', id=article.id ) }}">{{ article.title }}</a></h6>
-                    <a class="action btn btn-outline-gold delete-button" href="{{ url_for('views.delete_article', id=article.id) }}" style="margin:0;">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
+    <div class="page">
+        <h1>Manage News & Articles</h1>
+        <div class="form-container" style="height: 100%">
+            <div class="display-inset">
+                <div class="top-bar">
+                    <div class="button-container">
+                        <div id="grid" class="button">
+                            <img class="icon overlay" data-overlay='Grid' src="{{ url_for('static', filename='/images/grid.png') }}" alt="grid icon">
+                        </div>
+                        <div id="list" class="button">
+                            <img class="icon overlay" data-overlay="List" src="{{ url_for('static', filename='/images/list.png') }}" alt="list icon">
+                        </div>
+                    </div>
                 </div>
-                {% endfor %}
-
-            </div>
-            <div id="content" class="col-8">
-                <!-- Content goes here -->
-                    <div class="article-container">
-                        <div class="article-body">
-                            <div class="article-title">
-                                <h1><a class="wlfblue" href="#">{{ article.title }}</a></h1>
-                                <p class="article-date"><b>Publishing Date: </b>{{ article.published_date }}</p>
-                                <p><b>Source: </b>{{ article.url }}</p>
-                                <p><b>Date Added: </b>{{ article.date }}</p>
+                <div class="display">
+                    {% for article in articles %}
+                        <div class="flex-row-nowrap">
+                            <a href="{{ url_for('views.articles', id=article.id) }}" class="link-wrapper">
+                                <div class="article" data-id="{{ article.id }}" data-title="{{ article.title }}"
+                                     data-text="{{ article.text }}" data-date="{{ article.date }}"
+                                     data-published="{{ article.published_date }}">
+                                    <div class="article-date">{{ article.date }}</div>
+                                    <h5>{{ article.title }}</h5>
+                                </div>
+                            </a>
+                            <div class="button-container">
+                                <div class="button" style="margin-right:2px">
+                                    <a href="{{ url_for('views.edit_article', id=article.id) }}">Edit</a>
+                                </div>
+                                <div class="button" style="margin-left:2px">
+                                    <a href="{{ url_for('views.delete_article', id=article.id) }}">Delete</a>
+                                </div>
                             </div>
-
-                            <span>
-                                <a class="action btn btn-outline-gold" href="{{ url_for('views.edit_article', id=article.id) }}">Edit</a>
-                            </span>
-
-                            <span>
-                                <a href="{{ url_for('views.delete_article', id=article.id) }}" role="button" class="btn btn-outline-gold" >Delete</a>
-                            </span>
-
-                            <div class="article-summary">
-                                <p class="article-body">{{ article.text }}</p>
-                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="button-container">
+                        <div class="button">
+                            <a href="{{ url_for('views.new_article') }}">New Article</a>
                         </div>
                     </div>
                 </div>
@@ -50,10 +48,5 @@
         </div>
     </div>
 
+{% endblock %}
 
-{% endblock %}
-{% block scripts %}
-    <script>
-        {{ url_for('static', filename='js/delete-article.js') }}
-    </script>
-{% endblock %}
