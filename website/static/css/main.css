@@ -1181,6 +1181,7 @@ form.form-container input, form.form-container select{
     padding: 3px 5px;
     opacity: 1;
     transition: all 0.2s;
+    text-align: center;
 }
 .modal-container .form-container .close:hover,
 .modal-container .form-container .close:focus{
@@ -1434,6 +1435,7 @@ button.add{
     right:0;
     top:0;
     height:80%;
+    line-height:80%;
     color:white;
     background-color: var(--gold);
     margin-right:3px;
