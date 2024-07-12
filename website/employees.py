@@ -94,7 +94,7 @@ def edit_employee(eId):
             flash('Attorney details saved', category='success')
             session.close()
             print(f'session closed')
-            return redirect(url_for('employees.manage_employees'))
+            return redirect(url_for('views.manage_employees'))
         else:
             flash('Changes failed to save', category='error')
     else:

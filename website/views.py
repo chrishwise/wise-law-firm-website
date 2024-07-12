@@ -45,7 +45,7 @@ def home():
     articles = db.session.query(Article).order_by(desc(Article.date)).all()
     return render_template("index.html", articles=articles, public_view=True)
 
-
+mana
 @views.route('/firm-overview')
 def firm_overview():
     # practice_areas = PracticeArea.query.all()                              # Don't need this because context processor
