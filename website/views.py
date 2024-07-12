@@ -32,14 +32,6 @@ def static_from_root():
     return send_from_directory(app.static_folder, request.path[1:])
 
 
-# @app.before_request
-# def before_request():
-#     if not request.is_secure:
-#         url = request.url.replace('http://', 'https://', 1)
-#         code = 301
-#         return redirect(url, code=code)
-
-
 @views.route('/')
 def home():
     articles = db.session.query(Article).order_by(desc(Article.date)).all()
