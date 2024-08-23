@@ -1,27 +1,12 @@
-import datetime
-import threading
-import os
-import time
-from typing import List, Any
-
-import boto3
-from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify, send_from_directory
+from flask import Blueprint, render_template, request, flash, url_for, jsonify
 from flask_login import current_user, login_required
-from flask_mail import Message
 from flask_sqlalchemy.session import Session
-from sqlalchemy import desc
-from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 
-from flask import current_app as app
-
-from . import db, mail
-from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    CreateAttorneyForm, RespondEmailForm, ReviewForm, PracticeAreaForm
-from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
-    AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
-    Contact, ContactResponse, Review, PracticeArea
-from .views import views
+from . import db
+from .forms import CreateAttorneyForm
+from .models import Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
+    AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice
 
 employees = Blueprint('employees', __name__)
 session = Session(db)
@@ -50,9 +35,9 @@ def create_employee():
             session.commit()
             session.close()
             flash('New Employee Has Been Created', category='success')
-            return redirect(url_for('employees.manage_employees'))
+            return redirect(url_for('views.manage_employees'))
         else:
-            flash('Failed to Create New Attorney', category='error')
+            flash('Failed to Create New Employee', category='error')
     else:  # request != 'POST'
         if not session.is_active:
             session.begin()
@@ -76,10 +61,6 @@ def edit_employee(eId):
     header = "Edit Employee"
     button = "Save Changes"
     current_attorney = session.query(Attorney).get(eId)
-    print(f'current attorney: {current_attorney}')
-    print(f'current attorneys education: {current_attorney.education}')
-    educations = db.session.query(AttorneyEducation).all()
-    print(f'educations: {educations}')
     if request.method == 'POST':
         current_attorney.name = form.name.data
         current_attorney.title = form.title.data
@@ -479,5 +460,5 @@ def delete_attorney(aId):
     db.session.delete(Attorney.query.get(aId))
     db.session.commit()
     flash('Attorney was successfully deleted', category='success')
-    return redirect(url_for('employees.manage_employees'))
+    return redirect(url_for('views.manage_employees'))
 
