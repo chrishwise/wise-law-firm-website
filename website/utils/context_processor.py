@@ -8,7 +8,6 @@ def inject_employees():
     """
     :return: dict object containing all employees from the database, to be included in the template context
     """
-    # employees = db.session.query(Attorney).all()
     employees = Attorney.query.order_by(Attorney.id).all()
     return dict(employees=employees)
 
