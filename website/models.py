@@ -1,10 +1,8 @@
-import datetime
-
 from sqlalchemy.orm import relationship, backref
 
 from . import db
-from flask_login import UserMixin, current_user
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 
 
 class Admin(db.Model, UserMixin):
@@ -27,7 +25,7 @@ class Admin(db.Model, UserMixin):
     def change_password(self, new_password):
         self.password = new_password
 
-    def replace_name(self,new_name):
+    def replace_name(self, new_name):
         self.first_name = new_name
 
     def replace_email(self, new_email):
@@ -64,7 +62,7 @@ class Article(db.Model):
         self.published_date = published_date
         self.url = url
 
-    def hasURL(self):
+    def has_url(self):
         if (self.url == '') or (self.url is None) or (self.url.lower() == 'not available'):
             return False
         else:
@@ -178,6 +176,15 @@ class AttorneyMembership(db.Model):
 
     def to_string(self):
         return self.name
+
+
+#class Paralegal(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    name = db.Column(db.String(200))
+#    email = db.Column(db.String(200))
+#    phone_number = db.Column(db.String(15))
+#    about = db.Column(db.Text())
+#    picture_url = db.Column(db.String(20000))
 
 
 class Attorney(db.Model):
