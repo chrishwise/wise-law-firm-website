@@ -20,10 +20,17 @@
                         <dt>
                             <label for="picture">Employee Picture:</label>
                         </dt>
-                        <dd>
+                        <dd class="flex-between">
+                            <div class="inset-text-area uploaded-preview-container">
+                                {% if form.picture_url.data %}
+                                    <img src="{{ form.picture_url.data }}" alt="employee's current picture">
+                                {% else %}
+                                    <div class="centered-text replaceAfterUpload">Click the icon to upload a picture</div>
+                                {% endif %}
+                            </div>
                             <input id="picture" name='picture' class="simple-file-upload" type="hidden" data-tag='employee'
                                    data-template="frosty" data-resize-width="300" data-resize-height=""
-                                   data-width="100%" data-height="120px"
+                                   data-width="50%" data-height="120px" data-preview="false"
                                    data-maxFileSize="5" data-accepted="image/*">
                         </dd>
                     </div>
@@ -384,4 +391,30 @@
         });
     </script>
     <script src={{ url_for('static', filename='js/employee-functions.js') }}></script>
+    <script>
+        function uploadPreviewHandler(inputId) {
+            const employeePictureInput = document.getElementById(inputId);
+            employeePictureInput.addEventListener('fileUploadStarted', function () {
+                this.parentElement.firstElementChild.firstElementChild.innerHTML = 'Upload in progress';
+            });
+            employeePictureInput.addEventListener('fileUploadSuccess', function () {
+                this.parentElement.removeChild(this.parentElement.firstElementChild);
+                const newImgContainer = document.createElement('div');
+                newImgContainer.classList.add('inset-text-area', 'uploaded-preview-container');
+                const newImgElement = document.createElement('img');
+                newImgElement.src = this.value;     // The url of the uploaded picture
+                newImgElement.alt = 'practice area icon';
+                newImgElement.style.height = '100%';
+                newImgContainer.appendChild(newImgElement);
+                this.parentElement.insertBefore(newImgContainer, this);
+                // this.nextSibling.value = this.value;    // Wrong. nextSibling would be the iframe
+                this.nextElementSibling.nextElementSibling.value = this.value;
+                console.log(this.nextElementSibling.nextElementSibling, this.nextElementSibling.nextElementSibling.value);
+            });
+            employeePictureInput.addEventListener('fileUploadFailed', function (ev) {
+                this.parentElement.firstElementChild.firstElementChild.innerHTML = ev.detail.error;
+            });
+        }
+        uploadPreviewHandler('picture');
+    </script>
 {% endblock %}
