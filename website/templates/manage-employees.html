@@ -7,17 +7,18 @@
     <div class="page-container section1">
     <h1>Manage Employees</h1>
         <div class="form-container">
-            <table id="manageEmployees" style="width: 100%">
+            <table id="manageEmployees">
                     <tr>
-                        <th style="width: 80%">Name</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Name</th>
+                        <th>Picture</th>
+                        <th>Action</th>
                     </tr>
                     {% for a in attorneys %}
-                    <tr>
+                    <tr class="table-rows">
                         <td><a class='text-link' href="{{ url_for('views.employee', id=a.id) }}">{{ a.name }}</a></td>
-                        <td><a class="btn" style="margin:2px" href={{ url_for('employees.edit_employee', eId=a.id) }}>Edit</a></td>
-                        <td><a class="btn" style="margin:2px" href={{ url_for('employees.delete_attorney', aId=a.id) }}>Delete</a></td>
+                        <td class="img"><img src="{{ a.picture_url }}" alt="picture preview"></td>
+                        <td class="button-container" style="width: 100%"><a class="btn" style="margin:2px" href={{ url_for('employees.edit_employee', eId=a.id) }}>Edit</a>
+                            <a class="btn" style="margin:2px" href={{ url_for('employees.delete_attorney', aId=a.id) }}>Delete</a></td>
                     </tr>
                     {% endfor %}
                 </table>
