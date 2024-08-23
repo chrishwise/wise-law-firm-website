@@ -69,52 +69,6 @@ def practice_area(id):
                                                       'with an id of {id}'.format(id=id))
     return render_template('practice-area.html', practice_area=practice_area, public_view=True)
 
-
-@views.route('/class-actions')
-def class_actions():
-    return render_template("class-actions.html", public_view=True)
-
-
-@views.route('/construction-law')
-def construction_law():
-    return render_template("construction-law.html", public_view=True)
-
-
-@views.route('/construction-litigation')
-def construction_litigation():
-    return render_template("construction-litigation.html", public_view=True)
-
-
-@views.route('/construction-defect-litigation')
-def construction_defect_litigation():
-    return render_template("construction-defect-litigation.html", public_view=True)
-
-
-@views.route('/wrongful-death')
-def wrongful_death():
-    return render_template("wrongful-death.html", public_view=True)
-
-
-@views.route('/commercial-and-business')
-def commercial_and_business():
-    return render_template("commercial-and-business.html", public_view=True)
-
-
-@views.route('/mold-and-environmental')
-def mold_and_environmental():
-    return render_template("mold-and-environmental.html", public_view=True)
-
-
-@views.route('/government-contracts')
-def government_contracts():
-    return render_template("government-contracts.html", public_view=True)
-
-
-@views.route('/insurance-coverage')
-def insurance_coverage():
-    return render_template("insurance-coverage.html", public_view=True)
-
-
 @views.route('/reviews')
 def reviews():
     reviews = db.session.query(Review).order_by(Review.date).all()
@@ -153,7 +107,7 @@ def maps():
 def contact_us():
     form = ContactForm(request.form)
     if request.method == 'POST' and form.validate():
-        body = "Contact Email: " + form.email.data + "\n\n<br>Message: \n\n<br>" + form.message.data
+        body = "Contact Email: " + form.email.data + "\n\nMessage: \n\n" + form.message.data
         title = "WLF website: New Message from " + request.form.get('name')
         admins_receiving_notifications = Admin.query.filter_by(receives_notifications=True).all()
         recipient_list = []
@@ -206,7 +160,6 @@ def admin_portal():
 def manage_employees():
     form = None
     employees = Attorney.query.order_by(Attorney.id).all()
-    print(f'employees: {employees}')
     return render_template('manage-employees.html', public_view=False, form=form, attorneys=employees,
                            current_user=current_user)
 
