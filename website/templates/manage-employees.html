@@ -14,11 +14,13 @@
                         <th>Action</th>
                     </tr>
                     {% for a in attorneys %}
-                    <tr class="table-rows">
+                    <tr class="table-row">
                         <td><a class='text-link' href="{{ url_for('views.employee', id=a.id) }}">{{ a.name }}</a></td>
                         <td class="img"><img src="{{ a.picture_url }}" alt="picture preview"></td>
-                        <td class="button-container" style="width: 100%"><a class="btn" style="margin:2px" href={{ url_for('employees.edit_employee', eId=a.id) }}>Edit</a>
-                            <a class="btn" style="margin:2px" href={{ url_for('employees.delete_attorney', aId=a.id) }}>Delete</a></td>
+                        <td class="button-container">
+                            <a class="btn" href={{ url_for('employees.edit_employee', eId=a.id) }}>Edit</a>
+                            <a class="btn" href={{ url_for('employees.delete_attorney', aId=a.id) }}>Delete</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
