@@ -2014,9 +2014,6 @@ td.img img{
     height: 100%;
     object-fit: contain;
 }
-#manageEmployees tr th{
-    padding-left:10px;
-}
 
 table{
     border-collapse: separate;
