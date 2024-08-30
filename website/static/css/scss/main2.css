@@ -1,0 +1,33 @@
+#manageEmployees {
+  width: 100%;
+}
+#manageEmployees tr {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+#manageEmployees tr .table-row {
+  height: 100px;
+}
+#manageEmployees tr:first-child {
+  height: 30px;
+  background-color: var(--gold-opaque);
+}
+#manageEmployees tr:nth-of-type(2n + 0) {
+  /* Even numbered rows */
+}
+#manageEmployees tr td:first-of-type {
+  flex-grow: 1;
+}
+#manageEmployees tr .img {
+  width: 100px;
+}
+#manageEmployees tr .button-container {
+  width: auto;
+}
+#manageEmployees tr .button-container .btn {
+  margin: 2px;
+}
+
+/*# sourceMappingURL=main2.css.map */

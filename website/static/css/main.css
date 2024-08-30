@@ -1479,24 +1479,6 @@ a.button:hover, a.button:focus{
     min-height:120px;
 }
 
-#manageEmployees{
-    width:100%;
-}
-#manageEmployees tr{
-    height:100px;
-}
-#manageEmployees tr:first-child{
-    height:30px;
-    background-color: var(--gold-opaque);
-}
-#manageEmployees tr > td { text-align: left;width:60%;padding-left:10px} /* first column */
-#manageEmployees tr > td:first-child + td { text-align: center;} /* second column */
-#manageEmployees tr > td:first-child + td + td { text-align: center;} /* third column */
-
-#manageEmployees tr > th:first-child + th { text-align: center;}  /* second header */
-#manageEmployees tr > th:first-child + th + th { text-align: center;}
-#manageEmployees tr > th:first-child + th + th +th { text-align: center;} /* Fourth.. */
-
 .nowrap{
     display: flex;
     flex-flow: row nowrap;
@@ -2032,9 +2014,6 @@ td.img img{
     height: 100%;
     object-fit: contain;
 }
-#manageEmployees tr th{
-    padding-left:10px;
-}
 
 table{
     border-collapse: separate;
@@ -2294,10 +2273,3 @@ form textarea{
     text-decoration: none;
 }
 
-#manageEmployees .table-rows .button-container{
-
-}
-#manageEmployees tr td:first-child{
-    min-width: 50%;
-
-}
