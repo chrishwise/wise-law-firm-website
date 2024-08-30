@@ -62,3 +62,16 @@
     {% endwith %}
     <!-- This concludes the local message flashing -->
 {% endmacro %}
+
+{% macro contact_info(contact) %}
+    <div class="contact-container">
+        <div class="icon-row">
+            <img height="30px" width="30px" src="{{ url_for('static', filename='images/email.svg') }}" alt="email icon">
+            <div class="contact-text">{{ contact.email }}</div>
+        </div>
+        <div class="icon-row">
+            <img height="30px" width="30px" src="{{ url_for('static', filename='images/phone.svg') }}" alt="phone icon">
+            <div class="contact-text">{{ contact.phone_number }}</div>
+        </div>
+    </div>
+{% endmacro %}
