@@ -1,11 +1,11 @@
 import datetime
-import threading
 import os
-import time
+import threading
 from typing import List, Any
 
 import boto3
-from flask import Blueprint, render_template, abort, request, flash, g, url_for, json, jsonify, send_from_directory
+from flask import Blueprint, render_template, request, flash, url_for, json, send_from_directory
+from flask import current_app as app
 from flask_login import current_user, login_required
 from flask_mail import Message
 from flask_sqlalchemy.session import Session
@@ -13,14 +13,10 @@ from sqlalchemy import desc
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import redirect
 
-from flask import current_app as app
-
 from . import db, mail
 from .forms import ContactForm, ArticleForm, AdminAccountForm, AdminChangePasswordForm, MasterPasswordForm, \
-    CreateAttorneyForm, RespondEmailForm, ReviewForm, PracticeAreaForm
-from .models import Article, Admin, Attorney, AttorneyEducation, AttorneyProfessionalLicense, \
-    AttorneyProfessionalActivity, AttorneyAdmission, AttorneyMembership, AttorneyPublication, AttorneyAreaOfPractice, \
-    Contact, ContactResponse, Review, PracticeArea
+    RespondEmailForm, ReviewForm, PracticeAreaForm
+from .models import Article, Admin, Attorney, Contact, ContactResponse, Review, PracticeArea
 
 views = Blueprint('views', __name__)
 session = Session(db)
@@ -154,6 +150,7 @@ def admin_portal():
     return render_template('admin-portal.html', public_view=False, form=form,
                            current_user=current_user)
 
+
 # I moved all the view functions related to new employees/attorneys to employees.py
 @views.route('/admin-portal/manage-employees', methods=['GET', 'POST'])
 @login_required
@@ -285,7 +282,8 @@ def manage_articles(id=0):
             article = Article.query.get_or_404(id)
     else:
         print("there are no current articles")
-        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
+        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!",
+                              date=datetime.date.today())
         db.session.add(no_articles)
         db.session.commit()
         articles = [no_articles]
@@ -412,30 +410,30 @@ def contact_submissions():
     contacts = Contact.query.filter_by(archived=False).order_by(Contact.date_time.desc()).all()
 
     # The following is for responding to contact submissions from within the admin portal
-    respondForm = RespondEmailForm(request.form)
-    if request.method == 'POST' and respondForm.validate():
-        recipients = respondForm.recipients.data
+    respond_form = RespondEmailForm(request.form)
+    if request.method == 'POST' and respond_form.validate():
+        recipients = respond_form.recipients.data
         # This ensures that recipients is a list
         if type(recipients) is not list:
             recipients = recipients.split()
 
         # get contact by id from hidden input in form
-        contactId = request.form.get('contactId')
-        contact = Contact.query.get(contactId)
+        contact_id = request.form.get('contactId')
+        contact = Contact.query.get(contact_id)
         contact.responded = True
         # create and add contact response to database
-        contact_response = ContactResponse(message=respondForm.message.data, contact=contact)
+        contact_response = ContactResponse(message=respond_form.message.data, contact=contact)
         db.session.add(contact_response)
         db.session.commit()
 
         email = Message(subject="Response to your Wise Law Firm form submission",
-                        body=respondForm.message.data,
+                        body=respond_form.message.data,
                         recipients=recipients)
         email.html = render_template('email-response.html', email=email)
         mail.send(email)
         flash('Response email has been sent', category='success')
         return redirect(url_for('views.contact_submissions'))
-    return render_template('contact-submissions.html', public_view=False, form=respondForm, contacts=contacts)
+    return render_template('contact-submissions.html', public_view=False, form=respond_form, contacts=contacts)
 
 
 @views.route('/toggle-responded/<int:id>', methods=['GET'])
