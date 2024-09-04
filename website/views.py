@@ -47,7 +47,10 @@ def firm_overview():
 @views.route('/our-team')
 def our_team():
     attorneys = Attorney.query.all()
-    return render_template("our-team.html", attorneys=attorneys, public_view=True)
+    paralegals = [attorneys.pop()]
+    print(paralegals)
+    return render_template("our-team.html", attorneys=attorneys, paralegals=paralegals,
+                           public_view=True)
 
 
 @views.route('/employee/<int:id>', methods=['GET'])

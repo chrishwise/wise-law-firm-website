@@ -7,7 +7,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (wise-law-firm-website)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="purecss" level="application" />
     <orderEntry type="library" name="swiper" level="application" />
@@ -18,6 +18,8 @@
     <orderEntry type="library" name="swiper" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="f24e4363ead2237306be96823dfef1cd" level="application" />
+    <orderEntry type="library" name="f24e4363ead2237306be96823dfef1cd" level="application" />
+    <orderEntry type="library" name="swiper" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

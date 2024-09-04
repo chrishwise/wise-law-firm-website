@@ -241,7 +241,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* padding: 20px 5% 40px;*/
+    padding: 50px clamp(20px, 5%, 100px);
     align-items: center;
 }
 .page-container section{
@@ -1513,7 +1513,7 @@ form.form-container textarea:focus{
     flex-flow: row wrap;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.2s;
+    transition: none;
     margin: 15px auto;
 }
 
@@ -1745,8 +1745,8 @@ hr {
     height: 12px;
     border: 0;
     box-shadow: inset 6px 9px 6px -8px rgba(0, 0, 0, 0.5);
-    width: calc(100% - 20px);
-    max-width: 865px;
+    width: 100%;
+    max-width: 500px;
     margin: 10px auto;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 2px;

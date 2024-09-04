@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'macros.html' import contact_info %}
 {% block title %}Our Team{% endblock %}
 {% block content %}
 
@@ -9,30 +10,60 @@
 </div>
 
 <div class="page-container">
-    <h1>Attorneys</h1>
-    <hr>
-    {% for a in attorneys %}
-        <a class="employee-container" href="{{ url_for('views.employee', id=a.id) }}">
-            <div class="employee-picture"><img src="{{ a.picture_url }}" alt="{{ a.name }} profile picture"></div>
-            <div class="flex-column-start">
-                <header>
-                    <h2 class="employee-name">{{ a.name }}</h2>
-                    <div class="employee-title">{{ a.title }}</div>
-                </header>
-
-                <div class="flex-row-center r-gap-5">
-                    <div class="d-flex align-center">
-                        <img height="30px" width="30px" src="{{url_for('static', filename='images/email.svg') }}" alt="email icon">
-                        <div class="contact-text">{{ a.email}}</div>
-                    </div>
-                    <div class="d-flex align-center">
-                        <img height=30px width=30px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">
-                        <div class="contact-text">{{ a.phone_number }}</div>
-                    </div>
-                </div>
+    <div class="collection-container">
+        <form class="filter-bar">
+            <h2>Our Employees</h2>
+            <div class="button-group">
+                <button id="view1">List View</button>
+                <button id="view2">Gallery View</button>
             </div>
-        </a>
-    {% endfor %}
+            <div class="input-group">
+                <h5>Display:</h5>
+                <label>
+                    <input type="checkbox" name="attorney" value="1" checked>
+                    Attorney
+                </label>
+                <label>
+                    <input type="checkbox" name="paralegal" value="1" checked>
+                    Paralegal
+                </label>
+                <label>
+                    <input type="checkbox" name="manager" value="1" checked>
+                    Office Manager
+                </label>
+            </div>
+        </form>
+        <div class="sub-collection">
+            <h5>Attorneys</h5>
+            <div class="card-container">
+                {% for a in attorneys %}
+                    {{ employee_card(a) }}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="sub-collection">
+            <h5>Paralegals</h5>
+            <div class="card-container">
+                {% for p in paralegals %}
+                    {{ employee_card(p) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
+
+{% macro employee_card(e) %}
+    <a class="employee-container" href="{{ url_for('views.employee', id=e.id) }}">
+        <div class="employee-picture"><img src="{{ e.picture_url }}" alt="{{ e.name }} profile picture"></div>
+        <div class="flex-column-start">
+            <header>
+                <h3 class="employee-name">{{ e.name }}</h3>
+                <div class="employee-title">{{ e.title }}</div>
+            </header>
+            {{ contact_info(e) }}
+        </div>
+    </a>
+{% endmacro %}
 
