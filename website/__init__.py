@@ -5,7 +5,6 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
 mail = Mail()
 
@@ -13,12 +12,12 @@ mail = Mail()
 def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
-    # Programatically create database_url from env variables for AWS RDS database
-    # database_url = f"postgresql://{os.environ.get('RDS_USERNAME')}:{os.environ.get('RDS_PASSWORD')}@{os.environ.get('RDS_HOSTNAME')}:{os.environ.get('RDS_PORT')}/{os.environ.get('RDS_DB_NAME')}"  #ebdb is RDS_DB_NAME environ variable in AWS environment
+
     heroku_url = os.environ.get('DATABASE_URL')
     # postgres:// in the heroku_url should be "postgresql://"
     heroku_fixed_url = str(heroku_url).replace("postgres://", "postgresql://", 1)
     database_url = heroku_fixed_url
+    # print(f"The fixed databaseURL is {database_url}")
 
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -28,9 +27,9 @@ def create_app():
         MAIL_PORT='587',
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
-        MAIL_USERNAME="no-reply-wiselawfirm@outlook.com",
-        MAIL_DEFAULT_SENDER="no-reply-wiselawfirm@outlook.com",
-        MAIL_PASSWORD="MwWGAMsnRY8!",
+        MAIL_USERNAME="info@wiselaw.pro",
+        MAIL_DEFAULT_SENDER="info@wiselaw.pro",
+        MAIL_PASSWORD="pbcdhtfkkjqknyjd",   # new app-password created in Microsoft 365 security settings
         RECAPTCHA_PUBLIC_KEY=os.environ.get('RECAPTCHA_PUBLIC_KEY'),
         RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
     )

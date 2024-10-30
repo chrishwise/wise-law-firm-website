@@ -1,6 +1,6 @@
-from website import db
-from website.models import Attorney, PracticeArea
 from flask import current_app as app
+
+from website.models import Attorney, PracticeArea
 
 
 @app.context_processor

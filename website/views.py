@@ -21,7 +21,6 @@ from .models import Article, Admin, Attorney, Contact, ContactResponse, Review, 
 views = Blueprint('views', __name__)
 session = Session(db)
 
-
 @views.route('/sitemap.xml')
 @views.route('/robots.txt')
 def static_from_root():
@@ -82,7 +81,7 @@ def articles(id=1):
         article = Article.query.get_or_404(id)
     else:
         print("there are no current articles")
-        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!")
+        no_articles = Article(title="There are no new articles posted at the moment", text="Come back soon!", date=datetime.date.today())
         db.session.add(no_articles)
         db.session.commit()
         article = no_articles
@@ -112,7 +111,6 @@ def contact_us():
         print('recipient list: ', recipient_list)
         msg = Message(subject=title,
                       body=body,
-                      sender="no-reply-wiselawfirm@outlook.com",
                       recipients=recipient_list)
         msg.html = render_template("email.html", email=msg)
         mail.send(msg)

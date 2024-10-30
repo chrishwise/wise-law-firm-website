@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_user, login_required, logout_user, current_user
 from flask_mail import Message
+from werkzeug.security import check_password_hash
 
+from . import db, mail
 from .forms import AdminSignUpForm, AdminLoginForm
 from .models import Admin
-from werkzeug.security import generate_password_hash, check_password_hash
-from . import db, mail
-from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
