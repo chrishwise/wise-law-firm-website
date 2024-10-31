@@ -72,6 +72,7 @@ def practice_area(id):
                                                       'with an id of {id}'.format(id=id))
     return render_template('practice-area.html', practice_area=practice_area, public_view=True)
 
+
 @views.route('/reviews')
 def reviews():
     reviews = db.session.query(Review).order_by(Review.date).all()
@@ -119,7 +120,7 @@ def contact_us():
         print('recipient list: ', recipient_list)
         msg = Message(subject=title,
                       body=body,
-                      sender="no-reply-wiselawfirm@outlook.com",
+                      sender="info@wiselaw.pro",
                       recipients=recipient_list)
         msg.html = render_template("email.html", email=msg)
         mail.send(msg)

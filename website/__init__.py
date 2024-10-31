@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 from flask_login import LoginManager
-from flask_mail import Mail
+from flask_mail import Mail, email_dispatched
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -28,18 +28,23 @@ def create_app():
         MAIL_PORT='587',
         MAIL_USE_TLS=True,
         MAIL_USE_SSL=False,
-        MAIL_USERNAME="no-reply-wiselawfirm@outlook.com",
-        MAIL_DEFAULT_SENDER="no-reply-wiselawfirm@outlook.com",
-        MAIL_PASSWORD="MwWGAMsnRY8!",
+        MAIL_USERNAME="info@wiselaw.pro",
+        MAIL_DEFAULT_SENDER="info@wiselaw.pro",
+        MAIL_PASSWORD="IwWGAMsnRY8!11",
         RECAPTCHA_PUBLIC_KEY=os.environ.get('RECAPTCHA_PUBLIC_KEY'),
         RECAPTCHA_PRIVATE_KEY=os.environ.get('RECAPTCHA_PRIVATE_KEY')
     )
+
 
     # app.app_context().push()
 
     # initialize app with database and Flask-Mail
     db.init_app(app)
     mail.init_app(app)
+
+    def log_message(app, message):
+        app.logger.debug(message.subject)
+    email_dispatched.connect(log_message)
 
     from .views import views
     from .auth import auth
