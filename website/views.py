@@ -21,6 +21,7 @@ from .models import Article, Admin, Attorney, Contact, ContactResponse, Review, 
 views = Blueprint('views', __name__)
 session = Session(db)
 
+
 @views.route('/sitemap.xml')
 @views.route('/robots.txt')
 def static_from_root():
@@ -63,6 +64,7 @@ def practice_area(id):
     practice_area = PracticeArea.query.get_or_404(id, 'No Practice Area exists in the database '
                                                       'with an id of {id}'.format(id=id))
     return render_template('practice-area.html', practice_area=practice_area, public_view=True)
+
 
 @views.route('/reviews')
 def reviews():

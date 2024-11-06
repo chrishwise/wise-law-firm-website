@@ -9,19 +9,18 @@ db = SQLAlchemy()
 mail = Mail()
 
 
+def fix_heroku_url(database_url):
+    """Add the missing 'ql' to 'postgresql://' in the DATABASE_URL environment variable"""
+    return database_url.replace("postgres://", "postgresql://", 1)
+
+
 def create_app():
     """Creates the Flask application object and defines its configuration"""
     app = Flask(__name__, instance_relative_config=True)
 
-    heroku_url = os.environ.get('DATABASE_URL')
-    # postgres:// in the heroku_url should be "postgresql://"
-    heroku_fixed_url = str(heroku_url).replace("postgres://", "postgresql://", 1)
-    database_url = heroku_fixed_url
-    # print(f"The fixed databaseURL is {database_url}")
-
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI=database_url,
+        SQLALCHEMY_DATABASE_URI=fix_heroku_url(os.environ.get('DATABASE_URL')),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         MAIL_SERVER='smtp.office365.com',
         MAIL_PORT='587',
