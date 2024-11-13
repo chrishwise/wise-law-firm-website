@@ -116,7 +116,7 @@
             </div>
         </nav>
         <!-- Admin Toolbar -->
-        {% from 'macros.html' import admin_navbar, local_flashed_message, help_dialog %}
+        {% from 'macros.html' import admin_navbar, help_dialog %}
         {% if current_user.is_authenticated and public_view %}
             {{ admin_navbar() }}
         {% endif %}

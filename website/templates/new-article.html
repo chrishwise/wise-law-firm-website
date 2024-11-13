@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
-{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% from 'macros.html' import admin_navbar %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
     {{ admin_navbar('articles') }}
     <div class="page-container section1">
         <h1>{{ title }}</h1>
         <form method="POST" class="form-container">
-            {{ local_flashed_message() }}
             <dl>
                 {{ render_field(form.title) }}
                 {{ render_field(form.publishing_date) }}

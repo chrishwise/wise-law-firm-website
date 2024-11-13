@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% from 'macros.html' import admin_navbar %}
 {% from '_formhelpers.html' import render_field %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
@@ -7,7 +7,6 @@
     <div class="section1">
         <h1 style="text-align:center">{{title}}</h1>
         <form method="POST" class="form-container">
-            {{ local_flashed_message() }}
             <dl>
                 {{ render_field(form.title) }}
                 {{ render_field(form.description, label_info='The description is used in the Areas of Focus section in Firm Overview.') }}

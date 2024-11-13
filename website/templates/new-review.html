@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% from '_formhelpers.html' import render_field %}
-{% from 'macros.html' import admin_navbar, local_flashed_message %}
+{% from 'macros.html' import admin_navbar %}
 {% block title %}{{ header}}{% endblock %}
 {% block content %}
     {{ admin_navbar('reviews') }}
     <div class="contact-page-container section1">
         <h1 style="text-align:center">{{ header}}</h1>
         <form method="POST" class="form-container">
-            {{ local_flashed_message() }}
             <dl>
                 {{ render_field(form.content) }}
                 {{ render_field(form.author) }}
