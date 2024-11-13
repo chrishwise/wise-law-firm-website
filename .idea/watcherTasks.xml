@@ -14,7 +14,7 @@
         <array />
       </option>
       <option name="outputFromStdout" value="false" />
-      <option name="program" value="$PROJECT_DIR$/../../../../Program Files/dart-sass-1.77.8/lib/sass.dart" />
+      <option name="program" value="$PROJECT_DIR$/../../../../Program Files/dart-sass-1.80.7-windows-x64/dart-sass/sass" />
       <option name="runOnExternalChanges" value="true" />
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="true" />
