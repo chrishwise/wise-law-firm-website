@@ -73,7 +73,7 @@ function uploadFile(file, s3Data, url) {
                 appendStatus(file.name + ': Upload Failed - status text: ' + xhr.statusText)
             }
         }
-        ;
+
     }
     xhr.send(postData);
-};
+}
