@@ -221,7 +221,6 @@ def delete_practice_area(id):
     return redirect(url_for('views.manage_practice_areas'))
 
 
-
 @views.route('/admin-portal/manage-reviews', methods=['GET'])
 @login_required
 def manage_reviews():

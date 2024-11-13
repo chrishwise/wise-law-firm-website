@@ -1,3 +1,5 @@
+import datetime
+
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship, backref
 from werkzeug.security import generate_password_hash
@@ -236,6 +238,7 @@ class ContactResponse(db.Model):
     __tablename__ = 'contact_response'
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.Text())
+    time_sent = datetime.datetime.now()
     # Many-to-one Relationships
     contact_id = db.Column(db.Integer(), db.ForeignKey('contact.id', ondelete='CASCADE'))
     contact = relationship('Contact', backref=backref('contact_response', passive_deletes=True))
