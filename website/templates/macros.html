@@ -44,25 +44,6 @@
     </script>
 {% endmacro %}
 
-{% macro local_flashed_message() %}
-     <!-- Small local message flashing that doesn't interfere with the admin navbar. It should be called under a form !-->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-            {% if category == 'local' %}
-                <div class="alert alert-local alter-dismissable show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close close-btn" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <!-- This concludes the local message flashing -->
-{% endmacro %}
-
 {% macro contact_info(contact) %}
     <div class="contact-container">
         <div class="icon-row">
