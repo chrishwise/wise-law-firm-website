@@ -75,7 +75,7 @@
                                 {% if response.time_sent %}
                                     <div class="time-sent">{{ response.time_sent.strftime("%A, %B %d %I:%M %p") }}></div>
                                 {% else %}
-                                    <div class="time-sent no-time"><em>{{ contact.date_time.strftime("%A, %B %d: no time information available") }}</em></div>
+                                    <div class="time-sent no-time">{{ contact.date_time.strftime("%A, %B %d: no time information available") }}</div>
                                 {% endif %}
                                 <div class="opaque-bg-purple">
                                     <p class="db-text">{{ response.message }}</p>
