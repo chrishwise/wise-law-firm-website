@@ -1,25 +1,3 @@
-{% macro help_dialog(message, alreadyVisible=False) %}
-    <div class="dialog-container" id="help">
-        <div id="dialogTrigger">?</div>
-        <div id=helpContent class="dialog-content">
-            {{ message }}
-        </div>
-    </div>
-    {% if alreadyVisible %}
-        <script>
-        (function(){
-           document.getElementById('help').style.visibility = 'visible';
-           gsap.from( document.getElementById('help'), {opacity:0, duration:0.5});
-        }())
-        </script>
-    {% else %}
-        <script>
-            const trigger = document.getElementById('dialogTrigger');
-            trigger.addEventListener('click', (ev) => document.getElementsByClassName('dialog-container')[0].classList.add('active'));
-        </script>
-    {% endif %}
-{% endmacro %}
-
 {% macro admin_navbar(activeId="") %}
     <div id="adminNav">
         <div class="absolute-center-banner">Admin Portal</div>
@@ -57,9 +35,22 @@
     </div>
 {% endmacro %}
 
-{% macro changelog_alert(message) %}
+{% macro changelog_alert(message, date) %}
     <div class="changelog">
-        <div class="date"></div>
-        div.
+        <div class="changelog-date">{{ date }}</div>
+        <div class="changelog-text">{{ message }}</div>
+        <span class="changelog-close">&times;</span>
     </div>
+    <script>
+        let changelogAlerts = gsap.utils.toArray(document.getElementsByClassName("changelog"));
+        changelogAlerts.forEach(changelog => {
+            let closeButton = changelog.getElementsByClassName('changelog-close')[0];
+            closeButton.addEventListener('click', () => {
+                gsap.to(changelog, {autoAlpha: 0, height:0, duration: 0.5, ease: 'power4.out'});
+                gsap.to(changelog, {borderWidth:0, padding:0, duration:0.2});
+            })
+
+        })
+
+    </script>
 {% endmacro %}

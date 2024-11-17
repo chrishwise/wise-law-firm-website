@@ -504,45 +504,5 @@ def contact_archive():
                            current_user=current_user)
 
 
-# This is for uploading pictures to Amazon S3 Bucket
 
 
-boto3_client_lock = threading.Lock()
-
-
-def create_client():
-    '''Uses a threading Lock to prevent multi-threading related errors'''
-    with boto3_client_lock:
-        return boto3.client('s3', aws_access_key_id=os.environ.get('AWS_ACCESS_KEY_ID'),
-                            aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'))
-
-
-@views.route('/sign_s3/')
-def sign_s3():
-    S3_BUCKET = os.environ.get('S3_BUCKET_NAME')
-    file_name = request.args.get('file_name')
-    file_type = request.args.get('file_type')
-
-    s3 = create_client()
-
-    presigned_post = s3.generate_presigned_post(
-        Bucket=S3_BUCKET,
-        Key=file_name,
-        Fields={"acl": "public-read", "Content-Type": file_type},
-        Conditions=[
-            {"acl": "public-read"},
-            {"Content-Type": file_type}
-        ],
-        ExpiresIn=3600
-    )
-
-    json_output = json.dumps({
-        'data': presigned_post,
-        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-    })
-    print("when signing s3 request: ", json_output)
-
-    return json.dumps({
-        'data': presigned_post,
-        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-    })

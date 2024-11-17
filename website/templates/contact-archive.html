@@ -24,8 +24,8 @@
                         </div>
                     </div>
                     <div class="flex-row-center">
-                        <a href="{{ url_for('views.toggle_archive', id=contact.id) }}"><img class='icon' src="{{ url_for('static', filename='archive.png') }}" alt="archive"></a>
-                        <a href="{{ url_for('views.delete_contact', id=contact.id) }}"><img class='icon' src="{{ url_for('static', filename='delete.png') }}" alt="delete"></a>
+                        <a href="{{ url_for('views.toggle_archive', id=contact.id) }}"><img class='icon active' src="{{ url_for('static', filename='images/archive.png') }}" alt="archive"></a>
+                        <a href="{{ url_for('views.delete_contact', id=contact.id) }}"><img class='icon' src="{{ url_for('static', filename='images/delete.png') }}" alt="delete"></a>
                     </div>
                 </div>
                 <div class="flex-row-baseline" style="height: 40px;">

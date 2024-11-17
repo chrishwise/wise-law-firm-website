@@ -41,11 +41,56 @@
 
 
 .contact-response{
+
+  .opaque-bg-purple {
+    justify-self: flex-end;
+  }
+
   .time-sent{
     color: #9C9C9C;
     width: fit-content;
     margin: 10px 10% 0 auto;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 300;
   }
 }
+
+.changelog{
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  padding: 20px;
+  background-color: var(--purple-opaque);
+  border: 2px solid var(--purple);
+  border-radius:15px;
+  box-shadow: 0 0 8px 0 #acacac;
+
+
+  .changelog-date{
+    color: var(--purple);
+    font-weight: 700;
+  }
+
+  .changelog-text{
+    color: var(--purple);
+  }
+
+  .changelog-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--purple);
+    color: #eeeeee;
+    height: 24px;
+    width: 24px;
+    border-radius: 25%;
+    line-height: 18px;
+    font-size: 26px;
+    padding: 2px 2px 2px 3px;
+    display: block;
+  }
+
+}
+
