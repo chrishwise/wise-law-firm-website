@@ -11,7 +11,11 @@ mail = Mail()
 
 def fix_heroku_url(database_url):
     """Add the missing 'ql' to 'postgresql://' in the DATABASE_URL environment variable"""
-    return database_url.replace("postgres://", "postgresql://", 1)
+    if database_url:
+        return database_url.replace("postgres://", "postgresql://", 1)
+    else:
+        return None
+
 
 
 def create_app():

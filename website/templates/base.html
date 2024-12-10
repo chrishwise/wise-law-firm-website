@@ -217,7 +217,7 @@
                                 </li>
                                 <li id="renoOffice" tabindex="0">
                                     Reno, Nevada
-                                    <p><img height=20px width=20px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon">775-329-1766</p>
+                                    <p><img height=20px width=20px src="{{url_for('static', filename='images/phone.svg') }}" alt="phone icon"></p>
                                 </li>
                             </ul>
                             <iframe id="locationIframe" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9773.029441855377!2d-77.3142164777882!3d38.847539916713174!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b64eeda038b051%3A0xa7001e533791e963!2s10640%20Page%20Ave%20%23320%2C%20Fairfax%2C%20VA%2022030!5e0!3m2!1sen!2sus!4v1610394028105!5m2!1sen!2sus"
@@ -327,9 +327,10 @@
             function selectReno() {
                 document.getElementById('fairfaxOffice').classList.remove('active');
                 document.getElementById('renoOffice').classList.add('active');
-                document.getElementById('locationIframe').src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3077.6283677197175!2d-119.81899068497695!3d39.522876579479025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809940cb9bd16801%3A0x5f724974f6d31f4e!2s421%20Court%20St%2C%20Reno%2C%20NV%2089501!5e0!3m2!1sen!2sus!4v1650484328849!5m2!1sen!2sus';
+                document.getElementById('locationIframe').src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6155.067527449046!2d-119.82255881080226!3d39.525011336204834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809940cb56580129%3A0xe1d575bff3a580e4!2s335%20W%201st%20St%2C%20Reno%2C%20NV%2089503!5e0!3m2!1sen!2sus!4v1733856864183!5m2!1sen!2sus'
             }
         </script>
+        <iframe src= width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <script>
             // This is generic function for opening a modal
             const backdrop = document.getElementById('backdrop');
